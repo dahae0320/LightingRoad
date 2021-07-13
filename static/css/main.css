@@ -1,0 +1,32 @@
+html, body {
+  margin: 0;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+}
+
+/* 거리표시 팝업*/
+.mPop{
+  border: 1px;
+  background-color: #FFF;
+  font-size: 12px;
+  border-color: #FF0000;
+  border-style: solid;
+  text-align: center;
+}
+/*공통사용 클래스*/
+.mPopStyle {
+  border: 1px;
+  background-color: #FFF;
+  font-size: 12px;
+  border-color: #FF0000;
+  border-style: solid;
+  text-align:left;
+}
+
+#map_div {
+  width: 350px;
+  height: 800px;
+}
