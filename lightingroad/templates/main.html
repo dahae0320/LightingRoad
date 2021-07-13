@@ -8,6 +8,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LightingRoad</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css"
+    integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
   <link rel="stylesheet" href="{% static 'css/main.css' %}">
   <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=l7xx277bb41e41d345caae019ce5a6c7b6cb"></script>
   <script type="text/javascript">
@@ -25,6 +30,43 @@
 
 <body onload="initTmap()">
   <div id="map_div"></div>
+
+  <form class="search-box">
+    <div class="search">
+      <i class="fas fa-map-marked-alt"></i>
+      <input type="text" placeholder="진주시 가좌동">
+    </div>
+    <i class="fas fa-search"></i>
+  </form>
+
+  <footer class="bottom-sheet">
+    <div class="info-summary">
+      <span class="loca">경상남도 진주시 개양터미널 128-123</span>
+      <div class="eval-avg">
+        <i class="fas fa-lightbulb"></i>
+        <span class="num">4.2</span>
+      </div>
+    </div>
+    <div class="info-detail">
+      <div class="management">
+        <div class="management__info">
+          <span class="management__name">관리기관</span>
+          <span class="management__detail">부산광역시 사상구청 / 051-310-4675 </span>
+        </div>
+        <i class="fas fa-phone-square"></i>
+      </div>
+      <div class="eval">
+        <span class="guide">가로등의 밝기를 평가해주세요</span>
+        <div class="icons">
+          <i class="fas fa-lightbulb selected"></i>
+          <i class="fas fa-lightbulb selected"></i>
+          <i class="fas fa-lightbulb selected"></i>
+          <i class="fas fa-lightbulb selected"></i>
+          <i class="fas fa-lightbulb"></i>
+        </div>
+      </div>
+    </div>
+  </footer>
 </body>
 
 </html>
