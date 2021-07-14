@@ -21,12 +21,12 @@ function markerEvent() {
 
 function bottomSheetEvent() {
   bottomSheet.classList.remove('init');
-  bottomSheet.classList.toggle('up');
   bottomSheet.classList.toggle('down');
+  bottomSheet.classList.toggle('up');
 
   report.classList.remove('init');
-  report.classList.toggle('up');
   report.classList.toggle('down');
+  report.classList.toggle('up');
 }
 
 function initTmap() {
@@ -65,18 +65,14 @@ function initTmap() {
   //Marker에 클릭이벤트 등록.
   markers.forEach(marker => marker.addListener("click", (evt) => {
     markerEvent();
-  }))
+  }));
 
   //Marker에 터치이벤트 등록.
   markers.forEach(marker => marker.addListener("touchstart", (evt) => {
     markerEvent();
-  }))  
+  })); 
 }
 
 infoSummary.addEventListener('click', () => {
-  bottomSheetEvent();
-});
-
-infoSummary.addEventListener('touchstart', () => {
   bottomSheetEvent();
 });
