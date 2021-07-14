@@ -4,6 +4,31 @@ const bottomSheet = document.querySelector('.bottom-sheet');
 const report = document.querySelector('.bottom-sheet .report');
 const infoSummary = document.querySelector('.bottom-sheet .info-summary');
 
+function markerEvent() {
+  bottomSheet.classList.remove('init');
+  report.classList.remove('init');
+
+  if(bottomSheet.classList.contains('up')) {
+    console.log("데이터 변경");
+  } else {
+    console.log("데이터 변경");
+    bottomSheet.classList.remove('down');
+    bottomSheet.classList.add('up');
+    report.classList.remove('down');
+    report.classList.add('up');
+  }
+}
+
+function bottomSheetEvent() {
+  bottomSheet.classList.remove('init');
+  bottomSheet.classList.toggle('up');
+  bottomSheet.classList.toggle('down');
+
+  report.classList.remove('init');
+  report.classList.toggle('up');
+  report.classList.toggle('down');
+}
+
 function initTmap() {
   var map = new Tmapv2.Map("map_div",
     {
@@ -38,27 +63,20 @@ function initTmap() {
   markers.push(marker);
 
   //Marker에 클릭이벤트 등록.
-  markers.forEach(marker => marker.addListener("touchstart", function(evt) {
-    bottomSheet.classList.remove('init');
-    report.classList.remove('init');
-
-    if(bottomSheet.classList.contains('up')) {
-      console.log("데이터 변경");
-    } else {
-      bottomSheet.classList.remove('down');
-      bottomSheet.classList.add('up');
-      report.classList.remove('down');
-      report.classList.add('up');
-    }
+  markers.forEach(marker => marker.addListener("click", (evt) => {
+    markerEvent();
   }))
+
+  //Marker에 터치이벤트 등록.
+  markers.forEach(marker => marker.addListener("touchstart", (evt) => {
+    markerEvent();
+  }))  
 }
 
-infoSummary.addEventListener('touchstart', () => {
-  bottomSheet.classList.remove('init');
-  bottomSheet.classList.toggle('up');
-  bottomSheet.classList.toggle('down');
+infoSummary.addEventListener('click', () => {
+  bottomSheetEvent();
+});
 
-  report.classList.remove('init');
-  report.classList.toggle('up');
-  report.classList.toggle('down');
+infoSummary.addEventListener('touchstart', () => {
+  bottomSheetEvent();
 });
