@@ -1,5 +1,8 @@
-// bottom-sheet.js와 공유를 위한 배열(전역변수)
 var markers = [];
+
+const bottomSheet = document.querySelector('.bottom-sheet');
+const report = document.querySelector('.bottom-sheet .report');
+const infoSummary = document.querySelector('.bottom-sheet .info-summary');
 
 function initTmap() {
   var map = new Tmapv2.Map("map_div",
@@ -17,8 +20,6 @@ function initTmap() {
     map: map //Marker가 표시될 Map 설정.
   });
   markers.push(marker);
-  console.log(markers);
-  console.log(markers[0]);
 
   //Marker 객체 생성.
   var marker = new Tmapv2.Marker({
@@ -27,8 +28,6 @@ function initTmap() {
     map: map //Marker가 표시될 Map 설정..
   });
   markers.push(marker);
-  console.log(markers);
-  console.log(markers[1]);
 
   //Marker 객체 생성.
   var marker = new Tmapv2.Marker({
@@ -37,11 +36,29 @@ function initTmap() {
     map: map //Marker가 표시될 Map 설정.
   });
   markers.push(marker);
-  console.log(markers);
-  console.log(markers[2]);
+
+  //Marker에 클릭이벤트 등록.
+  markers.forEach(marker => marker.addListener("touchstart", function(evt) {
+    bottomSheet.classList.remove('init');
+    report.classList.remove('init');
+
+    if(bottomSheet.classList.contains('up')) {
+      console.log("데이터 변경");
+    } else {
+      bottomSheet.classList.remove('down');
+      bottomSheet.classList.add('up');
+      report.classList.remove('down');
+      report.classList.add('up');
+    }
+  }))
 }
 
-console.log(markers);
-  console.log(markers[0]);
-  console.log(markers[1]);
-  console.log(markers[2]);
+infoSummary.addEventListener('touchstart', () => {
+  bottomSheet.classList.remove('init');
+  bottomSheet.classList.toggle('up');
+  bottomSheet.classList.toggle('down');
+
+  report.classList.remove('init');
+  report.classList.toggle('up');
+  report.classList.toggle('down');
+});
