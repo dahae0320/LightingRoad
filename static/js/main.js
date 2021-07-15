@@ -38,19 +38,16 @@ function initTmap() {
       zoom: 15
     });
 
-  var positions = [//다중 마커 저장 배열
-    {
-      lonlat: new Tmapv2.LatLng(35.154092733693304, 128.0951165242879)//좌표 지정
-    },
-    {
-      lonlat: new Tmapv2.LatLng(35.154092733693304,128.0981165242879)
-    },
-    {
-      lonlat: new Tmapv2.LatLng(35.154092733693304,128.101165242879)
-    }
-  ];
+  // 지도 옵션 줌컨트롤 표출 비활성화
+  map.setOptions({zoomControl:false});
+
+  var positions = [];
+
+  for(let i=0; i<resultData.length; i++) {
+    positions.push({lonlat: new Tmapv2.LatLng(resultData[i].latitude, resultData[i].longitude)});
+  }
    
-  for (var i = 0; i< positions.length; i++){//for문을 통하여 배열 안에 있는 값을 마커 생성
+  for (var i = 0; i< positions.length; i++){ //for문을 통하여 배열 안에 있는 값을 마커 생성
     var lonlat = positions[i].lonlat;
     //Marker 객체 생성.
     marker = new Tmapv2.Marker({
