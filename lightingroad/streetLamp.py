@@ -1,6 +1,5 @@
 from urllib.request import urlopen, Request
 from urllib.parse import urlencode, quote_plus, unquote
-from django.http import request
 
 url = 'http://api.data.go.kr/openapi/tn_pubr_public_scrty_lmp_api'
 
