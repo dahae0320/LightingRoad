@@ -30,7 +30,9 @@ def mapcenter(request):
 
 def main(request):
   data = streetLampData()
-  # print(data)
+  if request.is_ajax and request.method == 'GET':
+    print('이것도 잘 되네용')
+    return render(request, 'main.html', {'data':data})
   return render(request, 'main.html', {'data':data})
 
 def main2(request):

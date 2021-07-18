@@ -104,6 +104,12 @@ function latLngDataToViews(lat, lng) {
     data: { lat: lat, lng: lng },
     success: function (response) {
       console.log(response);
+      $.ajax({
+        type: 'GET',
+        url: '',
+        data: {response: response},
+        success: console.log('성공~~'),
+      });
     },
     error: function (response) {
       console.log('실패-!');
