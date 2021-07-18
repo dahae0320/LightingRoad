@@ -72,3 +72,4 @@ function initTmap() {
 infoSummary.addEventListener('click', () => {
   bottomSheetEvent();
 });
+

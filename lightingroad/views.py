@@ -1,4 +1,5 @@
 from django.http import request
+from django.http.response import HttpResponse
 from django.shortcuts import render
 
 from urllib.request import urlopen, Request
@@ -20,6 +21,12 @@ def streetLampData():
   decode_data = response_body.decode('utf-8')
   # print(decode_data)
   return decode_data
+
+def mapcenter(request):
+  if request.is_ajax and request.method == 'GET':
+    x = request.GET['map_x']
+    y = request.GET['map_y']
+    return HttpResponse([x, y])
 
 
 def main(request):
