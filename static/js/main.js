@@ -78,10 +78,11 @@ function initTmap() {
   );
 
   let center = map.getCenter();
-  console.log(center);
-  console.log(center._lat);
-  console.log(center._lng);
-  console.log(typeof center);
+  // console.log(center);
+  // console.log(center._lat);
+  // console.log(center._lng);
+  // console.log(typeof center);
+  latLngDataToViews(center._lat, center._lng);
 
   map.addListener('dragend', onDragend);
   map.addListener('touchend', onTouchend);
@@ -94,28 +95,24 @@ function initTmap() {
   }
 }
 
-let lat = 35.154092733693304;
-let lng = 128.0981165242879;
+// let lat = 35.154092733693304;
+// let lng = 128.0981165242879;
 
 function latLngDataToViews(lat, lng) {
   $.ajax({
-    type: 'GET',
-    url: 'mapcenter/',
-    data: { lat: lat, lng: lng },
+    type: 'POST',
+    url: '',
+    data: { lat: lat, lng: lng},
     success: function (response) {
-      console.log(response);
-      $.ajax({
-        type: 'GET',
-        url: '',
-        data: {response: response},
-        success: console.log('성공~~'),
-      });
+      console.log(response)
     },
-    error: function (response) {
+    error: function () {
       console.log('실패-!');
     },
   });
 }
+
+
 
 infoSummary.addEventListener('click', () => {
   bottomSheetEvent();
