@@ -8,10 +8,10 @@ function markerEvent() {
   bottomSheet.classList.remove('init');
   report.classList.remove('init');
 
-  if(bottomSheet.classList.contains('up')) {
-    console.log("데이터 변경");
+  if (bottomSheet.classList.contains('up')) {
+    console.log('데이터 변경');
   } else {
-    console.log("데이터 변경");
+    console.log('데이터 변경');
     bottomSheet.classList.remove('down');
     bottomSheet.classList.add('up');
     report.classList.remove('down');
@@ -30,43 +30,85 @@ function bottomSheetEvent() {
 }
 
 function initTmap() {
-  var map = new Tmapv2.Map("map_div",
-    {
-      center: new Tmapv2.LatLng(35.154092733693304, 128.0981165242879), // 지도 초기 좌표
-      width: "100%",
-      height: "100%",
-      zoom: 15
-    });
+  var map = new Tmapv2.Map('map_div', {
+    center: new Tmapv2.LatLng(35.154092733693304, 128.0981165242879), // 지도 초기 좌표
+    width: '100%',
+    height: '100%',
+    zoom: 15,
+  });
 
   // 지도 옵션 줌컨트롤 표출 비활성화
-  map.setOptions({zoomControl:false});
+  map.setOptions({ zoomControl: false });
 
   var positions = [];
 
-  for(let i=0; i<resultData.length; i++) {
-    positions.push({lonlat: new Tmapv2.LatLng(resultData[i].latitude, resultData[i].longitude)});
+  for (let i = 0; i < resultData.length; i++) {
+    positions.push({
+      lonlat: new Tmapv2.LatLng(
+        resultData[i].latitude,
+        resultData[i].longitude
+      ),
+    });
   }
-   
-  for (var i = 0; i< positions.length; i++){ //for문을 통하여 배열 안에 있는 값을 마커 생성
+
+  for (var i = 0; i < positions.length; i++) {
+    //for문을 통하여 배열 안에 있는 값을 마커 생성
     var lonlat = positions[i].lonlat;
     //Marker 객체 생성.
     marker = new Tmapv2.Marker({
-      position : lonlat, //Marker의 중심좌표 설정.
-      icon: "/static/img/lamp-icon-sm.png", //Marker의 아이콘.
-      map : map, //Marker가 표시될 Map 설정.
+      position: lonlat, //Marker의 중심좌표 설정.
+      icon: '/static/img/lamp-icon-sm.png', //Marker의 아이콘.
+      map: map, //Marker가 표시될 Map 설정.
     });
     markers.push(marker);
   }
 
   //Marker에 클릭이벤트 등록.
-  markers.forEach(marker => marker.addListener("click", (evt) => {
-    markerEvent();
-  }));
+  markers.forEach((marker) =>
+    marker.addListener('click', (evt) => {
+      markerEvent();
+    })
+  );
 
   //Marker에 터치이벤트 등록.
-  markers.forEach(marker => marker.addListener("touchstart", (evt) => {
-    markerEvent();
-  })); 
+  markers.forEach((marker) =>
+    marker.addListener('touchstart', (evt) => {
+      markerEvent();
+    })
+  );
+
+  let center = map.getCenter();
+  console.log(center);
+  console.log(center._lat);
+  console.log(center._lng);
+  console.log(typeof center);
+
+  map.addListener('dragend', onDragend);
+  map.addListener('touchend', onTouchend);
+
+  function onDragend(e) {
+    latLngDataToViews(e.latLng._lat, e.latLng._lng);
+  }
+  function onTouchend(e) {
+    latLngDataToViews(e.latLng._lat, e.latLng._lng);
+  }
+}
+
+let lat = 35.154092733693304;
+let lng = 128.0981165242879;
+
+function latLngDataToViews(lat, lng) {
+  $.ajax({
+    type: 'GET',
+    url: 'mapcenter/',
+    data: { lat: lat, lng: lng },
+    success: function (response) {
+      console.log(response);
+    },
+    error: function (response) {
+      console.log('실패-!');
+    },
+  });
 }
 
 infoSummary.addEventListener('click', () => {

@@ -1,4 +1,5 @@
 from django.http import request
+from django.http.response import HttpResponse
 from django.shortcuts import render
 
 from urllib.request import urlopen, Request
@@ -12,8 +13,7 @@ def streetLampData():
   queryParams = '?' + urlencode({ quote_plus('serviceKey') : unquote('n9Pfhnwdrxh%2FiMJefGgPTp2AqXB6JERmRhzBvdbZHL7Cbneqc7N5j6TxUvNOis9Ri%2Fz0dFdM8jbOYhKcmWj2Qg%3D%3D'),
       quote_plus('pageNo') : '0',
       quote_plus('numOfRows') : '100',
-      quote_plus('type') : 'json',
-      quote_plus('lmpLcNm') : '서초1동'}, encoding='UTF-8', doseq=True)
+      quote_plus('type') : 'json'}, encoding='UTF-8', doseq=True)
 
   request = Request(url + queryParams)
   request.get_method = lambda: 'GET'
@@ -22,8 +22,16 @@ def streetLampData():
   # print(decode_data)
   return decode_data
 
+def mapcenter(request):
+  if request.is_ajax and request.method == 'GET':
+    lat = request.GET['lat']
+    lng = request.GET['lng']
+    return HttpResponse([lat, lng])
 
 def main(request):
   data = streetLampData()
   # print(data)
   return render(request, 'main.html', {'data':data})
+
+def main2(request):
+  return render(request, 'main2.html')

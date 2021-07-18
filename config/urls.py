@@ -20,4 +20,6 @@ from lightingroad import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.main, name='main'),
+    path('main2/', views.main2, name='main2'),
+    path('mapcenter/', views.mapcenter, name='mapcenter'),
 ]
