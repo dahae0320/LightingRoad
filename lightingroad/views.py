@@ -24,10 +24,9 @@ def streetLampData():
 
 def mapcenter(request):
   if request.is_ajax and request.method == 'GET':
-    x = request.GET['map_x']
-    y = request.GET['map_y']
-    return HttpResponse([x, y])
-
+    lat = request.GET['lat']
+    lng = request.GET['lng']
+    return HttpResponse([lat, lng])
 
 def main(request):
   data = streetLampData()
