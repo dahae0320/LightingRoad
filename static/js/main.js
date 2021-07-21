@@ -73,21 +73,21 @@ function initTmap() {
       });
       markers.push(marker);
     }
+
+    //Marker에 클릭이벤트 등록.
+    markers.forEach((marker) =>
+      marker.addListener('click', (evt) => {
+        markerEvent();
+      })
+    );
+
+    //Marker에 터치이벤트 등록.
+    markers.forEach((marker) =>
+      marker.addListener('touchstart', (evt) => {
+        markerEvent();
+      })
+    );
   }
-
-  //Marker에 클릭이벤트 등록.
-  markers.forEach((marker) =>
-    marker.addListener('click', (evt) => {
-      markerEvent();
-    })
-  );
-
-  //Marker에 터치이벤트 등록.
-  markers.forEach((marker) =>
-    marker.addListener('touchstart', (evt) => {
-      markerEvent();
-    })
-  );
 
   function onDragend(e) {
     latLngDataToViews(e.latLng._lat, e.latLng._lng);
