@@ -19,16 +19,6 @@
   <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=l7xx277bb41e41d345caae019ce5a6c7b6cb"></script>
   <script src="{% static 'js/main.js' %}" defer></script>
   <script src="{% static 'js/csrf_token.js' %}" defer></script>
-  <script defer>
-    let data = "{{data}}".replaceAll(`&quot;`, `"`);
-    let placeData = JSON.parse(data);
-    let resultData = placeData["response"]["body"]["items"]
-    console.log(resultData);
-
-    // for (const location of placeData) {
-    //   locations.push(location);
-    // }
-  </script>
 </head>
 
 <body onload="initTmap()">

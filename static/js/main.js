@@ -29,6 +29,10 @@ function bottomSheetEvent() {
   report.classList.toggle('up');
 }
 
+infoSummary.addEventListener('click', () => {
+  bottomSheetEvent();
+});
+
 function initTmap() {
   var map = new Tmapv2.Map('map_div', {
     center: new Tmapv2.LatLng(35.154092733693304, 128.0981165242879), // 지도 초기 좌표
@@ -40,27 +44,35 @@ function initTmap() {
   // 지도 옵션 줌컨트롤 표출 비활성화
   map.setOptions({ zoomControl: false });
 
-  var positions = [];
+  let center = map.getCenter();
+  latLngDataToViews(center._lat, center._lng);
 
-  for (let i = 0; i < resultData.length; i++) {
-    positions.push({
-      lonlat: new Tmapv2.LatLng(
-        resultData[i].latitude,
-        resultData[i].longitude
-      ),
-    });
-  }
+  map.addListener('dragend', onDragend);
+  map.addListener('touchend', onTouchend);
 
-  for (var i = 0; i < positions.length; i++) {
-    //for문을 통하여 배열 안에 있는 값을 마커 생성
-    var lonlat = positions[i].lonlat;
-    //Marker 객체 생성.
-    marker = new Tmapv2.Marker({
-      position: lonlat, //Marker의 중심좌표 설정.
-      icon: '/static/img/lamp-icon-sm.png', //Marker의 아이콘.
-      map: map, //Marker가 표시될 Map 설정.
-    });
-    markers.push(marker);
+  function setMarker(resultData) {
+    var positions = [];
+
+    for (let i = 0; i < resultData.length; i++) {
+      positions.push({
+        lonlat: new Tmapv2.LatLng(
+          resultData[i].latitude,
+          resultData[i].longitude
+        ),
+      });
+    }
+
+    for (var i = 0; i < positions.length; i++) {
+      //for문을 통하여 배열 안에 있는 값을 마커 생성
+      var lonlat = positions[i].lonlat;
+      //Marker 객체 생성.
+      marker = new Tmapv2.Marker({
+        position: lonlat, //Marker의 중심좌표 설정.
+        icon: '/static/img/lamp-icon-sm.png', //Marker의 아이콘.
+        map: map, //Marker가 표시될 Map 설정.
+      });
+      markers.push(marker);
+    }
   }
 
   //Marker에 클릭이벤트 등록.
@@ -77,43 +89,29 @@ function initTmap() {
     })
   );
 
-  let center = map.getCenter();
-  // console.log(center);
-  // console.log(center._lat);
-  // console.log(center._lng);
-  // console.log(typeof center);
-  latLngDataToViews(center._lat, center._lng);
-
-  map.addListener('dragend', onDragend);
-  map.addListener('touchend', onTouchend);
-
   function onDragend(e) {
     latLngDataToViews(e.latLng._lat, e.latLng._lng);
   }
+
   function onTouchend(e) {
     latLngDataToViews(e.latLng._lat, e.latLng._lng);
   }
+
+  function latLngDataToViews(lat, lng) {
+    $.ajax({
+      type: 'POST',
+      url: '',
+      data: { lat: lat, lng: lng },
+      success: function (response) {
+        let data = response.replaceAll(`&quot;`, `"`);
+        let placeData = JSON.parse(data);
+        let resultData = placeData['response']['body']['items'];
+        console.log(resultData);
+        setMarker(resultData);
+      },
+      error: function () {
+        console.log('실패-!');
+      },
+    });
+  }
 }
-
-// let lat = 35.154092733693304;
-// let lng = 128.0981165242879;
-
-function latLngDataToViews(lat, lng) {
-  $.ajax({
-    type: 'POST',
-    url: '',
-    data: { lat: lat, lng: lng},
-    success: function (response) {
-      console.log(response)
-    },
-    error: function () {
-      console.log('실패-!');
-    },
-  });
-}
-
-
-
-infoSummary.addEventListener('click', () => {
-  bottomSheetEvent();
-});
