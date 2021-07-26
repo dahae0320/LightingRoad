@@ -4,7 +4,7 @@ const bottomSheet = document.querySelector('.bottom-sheet');
 const report = document.querySelector('.bottom-sheet .report');
 const infoSummary = document.querySelector('.bottom-sheet .info-summary');
 
-let smap;
+// let map;
 
 function markerEvent() {
   bottomSheet.classList.remove('init');
@@ -36,7 +36,7 @@ infoSummary.addEventListener('click', () => {
 });
 
 function initTmap() {
-  map = new Tmapv2.Map('map_div', {
+  let map = new Tmapv2.Map('map_div', {
     center: new Tmapv2.LatLng(35.154092733693304, 128.0981165242879), // 지도 초기 좌표
     width: '100%',
     height: '100%',
@@ -101,16 +101,16 @@ function initTmap() {
     latLngDataToViews(e.latLng._lat, e.latLng._lng);
   }
 
-  function latLngDataToViews(add) {
+  function latLngDataToViews(code) {
     $.ajax({
       type: 'POST',
       url: '',
-      data: { add: add },
+      data: { code: code },
       success: function (response) {
         let data = response.replaceAll(`&quot;`, `"`);
         let placeData = JSON.parse(data);
         let resultData = placeData['response']['body']['items'];
-        // console.log(resultData);
+        console.log(placeData);
         setMarker(resultData);
       },
       error: function () {
@@ -141,20 +141,23 @@ function initTmap() {
   //리버스 지오코딩
   function onComplete() {
     console.log(this._responseData); //json으로 데이터를 받은 정보들을 콘솔창에서 확인할 수 있습니다.
-    // var result = '현재 지도의 중심 좌표주소 : ' + this._responseData.addressInfo.fullAddress; //출력될 결과 주소 정보 입니다.
     let city_do = this._responseData.addressInfo.city_do;
     let gu_gun = this._responseData.addressInfo.gu_gun;
     let address = city_do + ' ' + gu_gun;
-    console.log(address);
 
-    // var marker = new Tmapv2.Marker({
-    //   position: new Tmapv2.LatLng(35.8325868,128.5690042),
-    //   label: result
-    // });
+    let address_code;
 
-    // marker.setMap(map);
-    // map.setCenter(new Tmapv2.LatLng(35.8325868,128.5690042));
-    latLngDataToViews(address);
+    // 주소 -> 제공기관 코드
+    let adminCode = JSON.parse(data);
+    for (i = 0; i < adminCode.length; i++) {
+      if ( adminCode[i]["제공기관명"] == address ) {
+        address_code = adminCode[i]["제공기관코드"];
+        break;
+      }
+    }
+
+    latLngDataToViews(address_code);
+
   }
 
   //데이터 로드중 실행하는 함수입니다.
