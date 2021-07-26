@@ -4,8 +4,6 @@ const bottomSheet = document.querySelector('.bottom-sheet');
 const report = document.querySelector('.bottom-sheet .report');
 const infoSummary = document.querySelector('.bottom-sheet .info-summary');
 
-// let map;
-
 function markerEvent() {
   bottomSheet.classList.remove('init');
   report.classList.remove('init');

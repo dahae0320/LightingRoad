@@ -12,9 +12,6 @@ def streetLampData(code):
   queryParams = '?' + urlencode({ quote_plus('serviceKey') : unquote('n9Pfhnwdrxh%2FiMJefGgPTp2AqXB6JERmRhzBvdbZHL7Cbneqc7N5j6TxUvNOis9Ri%2Fz0dFdM8jbOYhKcmWj2Qg%3D%3D'),
       quote_plus('pageNo') : '1',
       quote_plus('numOfRows') : '1000',
-      # quote_plus('latitude') : lat,
-      # quote_plus('longitude') : lng,
-      # quote_plus('lnmadr') : '경상남도 진주시 상평동 274-16',
       quote_plus('instt_code') : code,
       quote_plus('type') : 'json'}, encoding='UTF-8', doseq=True)
 
@@ -23,12 +20,6 @@ def streetLampData(code):
   response_body = urlopen(request).read()
   decode_data = response_body.decode('utf-8')
   return decode_data
-
-def mapcenter(request):
-  if request.is_ajax and request.method == 'GET':
-    lat = request.GET['lat']
-    lng = request.GET['lng']
-    return HttpResponse([lat, lng])
 
 def main(request):  
   if request.is_ajax and request.method == 'POST':
