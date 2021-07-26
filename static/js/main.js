@@ -47,7 +47,7 @@ function initTmap() {
   map.setOptions({ zoomControl: false });
 
   let center = map.getCenter();
-  latLngDataToViews(center._lat, center._lng);
+  loadGetLonLatFromAddress(center._lat, center._lng);
 
   map.addListener('dragend', onDragend);
   map.addListener('touchend', onTouchend);
@@ -93,12 +93,10 @@ function initTmap() {
 
   function onDragend(e) {
     loadGetLonLatFromAddress(e.latLng._lat, e.latLng._lng);
-    latLngDataToViews(e.latLng._lat, e.latLng._lng);
   }
 
   function onTouchend(e) {
     loadGetLonLatFromAddress(e.latLng._lat, e.latLng._lng);
-    latLngDataToViews(e.latLng._lat, e.latLng._lng);
   }
 
   function latLngDataToViews(code) {
@@ -109,8 +107,8 @@ function initTmap() {
       success: function (response) {
         let data = response.replaceAll(`&quot;`, `"`);
         let placeData = JSON.parse(data);
-        let resultData = placeData['response']['body']['items'];
         console.log(placeData);
+        let resultData = placeData['response']['body']['items'];
         setMarker(resultData);
       },
       error: function () {
