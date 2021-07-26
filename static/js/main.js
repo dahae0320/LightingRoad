@@ -2,14 +2,27 @@ const bottomSheet = document.querySelector('.bottom-sheet');
 const report = document.querySelector('.bottom-sheet .report');
 const infoSummary = document.querySelector('.bottom-sheet .info-summary');
 
-function markerEvent() {
+const loca = document.querySelector('.bottom-sheet .info-summary .loca');
+const evalAvgNum = document.querySelector(
+  '.bottom-sheet .info-summary .eval-avg .num'
+);
+const managementInfo = document.querySelector(
+  '.bottom-sheet .info-detail .management .management__detail'
+);
+
+function changeInfo(address, resultData) {
+  loca.innerText = `${address}`;
+  managementInfo.innerText = `${resultData[0].institutionNm} / ${resultData[0].phoneNumber}`;
+}
+
+function markerEvent(address, resultData) {
   bottomSheet.classList.remove('init');
   report.classList.remove('init');
 
   if (bottomSheet.classList.contains('up')) {
-    console.log('데이터 변경');
+    changeInfo(address, resultData);
   } else {
-    console.log('데이터 변경');
+    changeInfo(address, resultData);
     bottomSheet.classList.remove('down');
     bottomSheet.classList.add('up');
     report.classList.remove('down');
@@ -75,21 +88,25 @@ function initTmap() {
         position: lonlat, //Marker의 중심좌표 설정.
         icon: '/static/img/lamp-icon-sm.png', //Marker의 아이콘.
         map: map, //Marker가 표시될 Map 설정.
+        title: resultData[i].rdnmadr,
       });
+      if (marker.title == undefined) {
+        marker.setTitle(resultData[i].lnmadr);
+      }
       markers.push(marker);
     }
 
     //Marker에 클릭이벤트 등록.
     markers.forEach((marker) =>
       marker.addListener('click', (evt) => {
-        markerEvent();
+        markerEvent(marker._marker_data.options.title, resultData);
       })
     );
 
     // Marker에 터치이벤트 등록.
     markers.forEach((marker) =>
       marker.addListener('touchstart', (evt) => {
-        markerEvent();
+        markerEvent(marker._marker_data.options.title, resultData);
       })
     );
   }
@@ -110,7 +127,6 @@ function initTmap() {
       success: function (response) {
         let data = response.replaceAll(`&quot;`, `"`);
         let placeData = JSON.parse(data);
-        console.log(placeData);
         let resultData = placeData['response']['body']['items'];
         setMarker(resultData);
       },
@@ -141,7 +157,6 @@ function initTmap() {
 
   //리버스 지오코딩
   function onComplete() {
-    console.log(this._responseData); //json으로 데이터를 받은 정보들을 콘솔창에서 확인할 수 있습니다.
     let city_do = this._responseData.addressInfo.city_do;
     let gu_gun = this._responseData.addressInfo.gu_gun;
     let address = city_do + ' ' + gu_gun;
