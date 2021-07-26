@@ -1,5 +1,3 @@
-var markers = [];
-
 const bottomSheet = document.querySelector('.bottom-sheet');
 const report = document.querySelector('.bottom-sheet .report');
 const infoSummary = document.querySelector('.bottom-sheet .info-summary');
@@ -50,8 +48,15 @@ function initTmap() {
   map.addListener('dragend', onDragend);
   map.addListener('touchend', onTouchend);
 
+  var markers = [];
+
   function setMarker(resultData) {
     var positions = [];
+
+    // 기존 marker 제거
+    for (let i = 0; i < markers.length; i++) {
+      markers[i].setMap(null);
+    }
 
     for (let i = 0; i < resultData.length; i++) {
       positions.push({
@@ -121,14 +126,14 @@ function initTmap() {
     var tData = new Tmapv2.extension.TData();
 
     var optionObj = {
-      coordType: "WGS84GEO",       //응답좌표 타입 옵션 설정 입니다.
-      addressType: "A04"           //주소타입 옵션 설정 입니다.
+      coordType: 'WGS84GEO', //응답좌표 타입 옵션 설정 입니다.
+      addressType: 'A04', //주소타입 옵션 설정 입니다.
     };
 
     var params = {
-      onComplete: onComplete,      //데이터 로드가 성공적으로 완료 되었을때 실행하는 함수 입니다.
-      onProgress: onProgress,      //데이터 로드 중에 실행하는 함수 입니다.
-      onError: onError             //데이터 로드가 실패했을때 실행하는 함수 입니다.
+      onComplete: onComplete, //데이터 로드가 성공적으로 완료 되었을때 실행하는 함수 입니다.
+      onProgress: onProgress, //데이터 로드 중에 실행하는 함수 입니다.
+      onError: onError, //데이터 로드가 실패했을때 실행하는 함수 입니다.
     };
     // TData 객체의 리버스지오코딩 함수
     tData.getAddressFromGeoJson(lat, lng, optionObj, params);
@@ -146,14 +151,13 @@ function initTmap() {
     // 주소 -> 제공기관 코드
     let adminCode = JSON.parse(data);
     for (i = 0; i < adminCode.length; i++) {
-      if ( adminCode[i]["제공기관명"] == address ) {
-        address_code = adminCode[i]["제공기관코드"];
+      if (adminCode[i]['제공기관명'] == address) {
+        address_code = adminCode[i]['제공기관코드'];
         break;
       }
     }
 
     latLngDataToViews(address_code);
-
   }
 
   //데이터 로드중 실행하는 함수입니다.
@@ -163,6 +167,6 @@ function initTmap() {
 
   //데이터 로드 중 에러가 발생시 실행하는 함수입니다.
   function onError() {
-    alert("onError");
+    alert('onError');
   }
 }
