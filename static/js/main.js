@@ -4,7 +4,7 @@ const bottomSheet = document.querySelector('.bottom-sheet');
 const report = document.querySelector('.bottom-sheet .report');
 const infoSummary = document.querySelector('.bottom-sheet .info-summary');
 
-let map;
+let smap;
 
 function markerEvent() {
   bottomSheet.classList.remove('init');
@@ -93,12 +93,12 @@ function initTmap() {
 
   function onDragend(e) {
     loadGetLonLatFromAddress(e.latLng._lat, e.latLng._lng);
-    // latLngDataToViews(e.latLng._lat, e.latLng._lng, result);
+    latLngDataToViews(e.latLng._lat, e.latLng._lng, result);
   }
 
   function onTouchend(e) {
     loadGetLonLatFromAddress(e.latLng._lat, e.latLng._lng);
-    // latLngDataToViews(e.latLng._lat, e.latLng._lng, result);
+    latLngDataToViews(e.latLng._lat, e.latLng._lng, result);
   }
 
   function latLngDataToViews(add) {
@@ -110,7 +110,7 @@ function initTmap() {
         let data = response.replaceAll(`&quot;`, `"`);
         let placeData = JSON.parse(data);
         let resultData = placeData['response']['body']['items'];
-        console.log(resultData);
+        // console.log(resultData);
         setMarker(resultData);
       },
       error: function () {
@@ -140,7 +140,7 @@ function initTmap() {
 
   //리버스 지오코딩
   function onComplete() {
-    // console.log(this._responseData); //json으로 데이터를 받은 정보들을 콘솔창에서 확인할 수 있습니다.
+    console.log(this._responseData); //json으로 데이터를 받은 정보들을 콘솔창에서 확인할 수 있습니다.
     var result = '현재 지도의 중심 좌표주소 : ' + this._responseData.addressInfo.fullAddress; //출력될 결과 주소 정보 입니다.
     let city = this._responseData.addressInfo.city_do;
 

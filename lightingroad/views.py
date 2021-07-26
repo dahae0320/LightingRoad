@@ -10,18 +10,19 @@ def streetLampData(add):
   url = 'http://api.data.go.kr/openapi/tn_pubr_public_scrty_lmp_api'
 
   queryParams = '?' + urlencode({ quote_plus('serviceKey') : unquote('n9Pfhnwdrxh%2FiMJefGgPTp2AqXB6JERmRhzBvdbZHL7Cbneqc7N5j6TxUvNOis9Ri%2Fz0dFdM8jbOYhKcmWj2Qg%3D%3D'),
-      quote_plus('pageNo') : '0',
-      quote_plus('numOfRows') : '100',
+      quote_plus('pageNo') : '1',
+      quote_plus('numOfRows') : '1000',
       # quote_plus('latitude') : lat,
       # quote_plus('longitude') : lng,
-      quote_plus('lnmadr') : '서울특별시 서초구 서초동 1666-4',
+      # quote_plus('lnmadr') : '경상남도 진주시 상평동 274-16',
+      quote_plus('instt_code') : 5310000,
       quote_plus('type') : 'json'}, encoding='UTF-8', doseq=True)
 
   request = Request(url + queryParams)
   request.get_method = lambda: 'GET'
   response_body = urlopen(request).read()
   decode_data = response_body.decode('utf-8')
-  print(decode_data)
+  # print(decode_data)
   return decode_data
 
 def mapcenter(request):
