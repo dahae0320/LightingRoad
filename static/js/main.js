@@ -102,7 +102,7 @@ function initTmap() {
     loadGetLonLatFromAddress(e.latLng._lat, e.latLng._lng);
   }
 
-  function latLngDataToViews(code) {
+  function adminCodeToViews(code) {
     $.ajax({
       type: 'POST',
       url: '',
@@ -157,7 +157,7 @@ function initTmap() {
       }
     }
 
-    latLngDataToViews(address_code);
+    adminCodeToViews(address_code);
   }
 
   //데이터 로드중 실행하는 함수입니다.
