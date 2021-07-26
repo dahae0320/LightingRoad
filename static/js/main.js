@@ -93,12 +93,12 @@ function initTmap() {
 
   function onDragend(e) {
     loadGetLonLatFromAddress(e.latLng._lat, e.latLng._lng);
-    latLngDataToViews(e.latLng._lat, e.latLng._lng, result);
+    latLngDataToViews(e.latLng._lat, e.latLng._lng);
   }
 
   function onTouchend(e) {
     loadGetLonLatFromAddress(e.latLng._lat, e.latLng._lng);
-    latLngDataToViews(e.latLng._lat, e.latLng._lng, result);
+    latLngDataToViews(e.latLng._lat, e.latLng._lng);
   }
 
   function latLngDataToViews(add) {
@@ -141,8 +141,11 @@ function initTmap() {
   //리버스 지오코딩
   function onComplete() {
     console.log(this._responseData); //json으로 데이터를 받은 정보들을 콘솔창에서 확인할 수 있습니다.
-    var result = '현재 지도의 중심 좌표주소 : ' + this._responseData.addressInfo.fullAddress; //출력될 결과 주소 정보 입니다.
-    let city = this._responseData.addressInfo.city_do;
+    // var result = '현재 지도의 중심 좌표주소 : ' + this._responseData.addressInfo.fullAddress; //출력될 결과 주소 정보 입니다.
+    let city_do = this._responseData.addressInfo.city_do;
+    let gu_gun = this._responseData.addressInfo.gu_gun;
+    let address = city_do + ' ' + gu_gun;
+    console.log(address);
 
     // var marker = new Tmapv2.Marker({
     //   position: new Tmapv2.LatLng(35.8325868,128.5690042),
@@ -151,7 +154,7 @@ function initTmap() {
 
     // marker.setMap(map);
     // map.setCenter(new Tmapv2.LatLng(35.8325868,128.5690042));
-    latLngDataToViews(city);
+    latLngDataToViews(address);
   }
 
   //데이터 로드중 실행하는 함수입니다.
