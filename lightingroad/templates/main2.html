@@ -20,9 +20,9 @@
 
 </head>
 
-<body onload="initTmap();">
+<!-- <body onload="initTmap();">
 	
-  <!-- 190430 기존 지도를 모두 이미지 처리 위해 주석 처리 S -->
+  
   <div id="map_wrap" class="map_wrap3">
     <div id="map_div"></div>
   </div>
@@ -31,4 +31,50 @@
   <p id="result"></p>
   <br />
 </body>
+</html> -->
+
+<body onload="initTmap()">
+  <div id="map_div"></div>
+
+  <form class="search-box">
+    <div class="search">
+      <i class="fas fa-map-marked-alt"></i>
+      <input type="text" placeholder="진주시 가좌동" onclick="">
+    </div>
+    <i class="fas fa-search"></i>
+  </form>
+
+  <footer class="bottom-sheet init down">
+    <img class="report init down" src="{% static 'img/police.png' %}" alt="police image">
+    <div class="info-summary">
+      <span class="loca">경상남도 진주시 개양터미널 128-123</span>
+      <div class="eval-avg">
+        <i class="fas fa-lightbulb"></i>
+        <span class="num">4.2</span>
+      </div>
+    </div>
+    <div class="info-detail">
+      <div class="management">
+        <div class="management__info">
+          <span class="management__name">관리기관</span>
+          <span class="management__detail">부산광역시 사상구청 / 051-310-4675</span>
+        </div>
+        <i class="fas fa-phone-square"></i>
+      </div>
+      <div class="eval">
+        <span class="guide">가로등의 밝기를 평가해주세요</span>
+        <div class="icons">
+          <i class="fas fa-lightbulb selected"></i>
+          <i class="fas fa-lightbulb selected"></i>
+          <i class="fas fa-lightbulb selected"></i>
+          <i class="fas fa-lightbulb selected"></i>
+          <i class="fas fa-lightbulb"></i>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+<div class="map_act_btn_wrap clear_box"></div>
+  <button id="btn_select">적용하기</button>
+  <p id="result"></p>
 </html>
