@@ -62,6 +62,8 @@ function initTmap() {
   map.addListener('touchend', onTouchend);
 
   var markers = [];
+  var markers2 = [];
+  
 
   function setMarker(resultData) {
     var positions = [];
@@ -184,4 +186,27 @@ function initTmap() {
   function onError() {
     alert('onError');
   }
+  // gps가져오는 부분
+  navigator.geolocation.getCurrentPosition(function(position) {
+    console.log(position.coords.latitude + ", " + position.coords.longitude);
+    var gpslat = position.coords.latitude;
+    var gpslng = position.coords.longitude;
+  //   let gpsposition = [];
+  //     gpsposition.push( {
+  //       latitude: gpslat,
+  //       longitude: gpslng
+  // })
+  //   setMarker(gpsposition)
+  //   });
+    marker = new Tmapv2.Marker({
+      position: new Tmapv2.LatLng(gpslat,gpslng), //Marker의 중심좌표 설정.
+      icon: '/static/img/GPS-sm.png',
+      map: map //Marker가 표시될 Map 설정.
+    });
+      markers2.push(marker);
+    });
 }
+
+
+
+
