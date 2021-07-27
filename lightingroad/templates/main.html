@@ -34,7 +34,9 @@
   </form>
 
   <footer class="bottom-sheet init down">
-    <img class="report init down" src="{% static 'img/police.png' %}" alt="police image">
+    <a href="tel:112">
+      <img class="report init down" src="{% static 'img/police.png' %}" alt="police image">
+    </a>
     <div class="info-summary">
       <span class="loca">경상남도 진주시 개양터미널 128-123</span>
       <div class="eval-avg">
@@ -48,7 +50,7 @@
           <span class="management__name">관리기관</span>
           <span class="management__detail">부산광역시 사상구청 / 051-310-4675</span>
         </div>
-        <i class="fas fa-phone-square"></i>
+        <i class="fas fa-phone-square" onclick="callClick()"></i>
       </div>
       <div class="eval">
         <span class="guide">가로등의 밝기를 평가해주세요</span>
