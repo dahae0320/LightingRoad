@@ -112,7 +112,7 @@ function initTmap() {
   function adminCodeToViews(code) {
     $.ajax({
       type: 'POST',
-      url: 'main2/',
+      url: '/main2/',
       data: { code: code },
       success: function (response) {
         let data = response.replaceAll(`&quot;`, `"`);
@@ -121,8 +121,11 @@ function initTmap() {
         let resultData = placeData['response']['body']['items'];
         setMarker(resultData);
       },
-      error: function () {
-        console.log('실패-!');
+    //   error: function () {
+    //     console.log('실패-!');
+		error:function(request,status,error){
+        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+
       },
     });
   }
