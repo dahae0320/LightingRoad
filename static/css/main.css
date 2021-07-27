@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   margin: 0;
 }
 
@@ -8,11 +9,11 @@ body {
 }
 
 /* 거리표시 팝업*/
-.mPop{
+.mPop {
   border: 1px;
-  background-color: #FFF;
+  background-color: #fff;
   font-size: 12px;
-  border-color: #FF0000;
+  border-color: #ff0000;
   border-style: solid;
   text-align: center;
 }
@@ -20,9 +21,9 @@ body {
 /*공통사용 클래스*/
 .mPopStyle {
   border: 1px;
-  background-color: #FFF;
+  background-color: #fff;
   font-size: 12px;
-  border-color: #FF0000;
+  border-color: #ff0000;
   border-style: solid;
   text-align: left;
 }
@@ -38,7 +39,7 @@ body {
   right: 0;
   width: 90%;
   height: 50px;
-  padding : 0 16px;
+  padding: 0 16px;
   margin: 0 auto;
   border-radius: 8px;
   background-color: white;
@@ -48,7 +49,7 @@ body {
 
 .search-box .search i {
   margin-right: 8px;
-  color: #2539A0;
+  color: #2539a0;
 }
 
 .search-box .search input {
@@ -59,7 +60,7 @@ body {
 .search-box .search input::placeholder {
   font-size: 16px;
   font-weight: 500;
-  color: #C4C4C4;
+  color: #c4c4c4;
 }
 
 .search-box i {
@@ -91,6 +92,45 @@ body {
   background-color: #F5F5F5;
   -webkit-transition: all 0.1s;
   cursor: pointer;
+
+.reload-btn {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  top: 100px;
+  left: 0;
+  right: 0;
+  min-width: 130px;
+  height: 40px;
+  padding: 0 16px;
+  margin: 0 auto;
+  border: none;
+  border-radius: 24px;
+  background-color: white;
+  box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.25);
+  z-index: 1;
+  cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+  color: #272020;
+}
+
+.reload-btn i {
+  margin-right: 12px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.reload-btn .name {
+  display: flex;
+  flex-direction: column;
+  font-size: 10px;
+  font-weight: 400;
+}
+
+.reload-btn .name .address {
+  font-weight: 700;
+
 }
 
 .bottom-sheet .report {
@@ -106,7 +146,7 @@ body {
   animation-duration: 1s;
   animation-iteration-count: 1;
   animation-direction: alternate;
-  animation-fill-mode: forwards; 
+  animation-fill-mode: forwards;
 }
 
 @-webkit-keyframes report-up {
@@ -160,7 +200,7 @@ body {
   animation-duration: 1s;
   animation-iteration-count: 1;
   animation-direction: alternate;
-  animation-fill-mode: forwards; 
+  animation-fill-mode: forwards;
 }
 
 @-webkit-keyframes up {
@@ -198,7 +238,8 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 20px 20px;
-  border-bottom: 1px solid #C4C4C4;
+  border-bottom: 1px solid #c4c4c4;
+  cursor: pointer;
 }
 
 .bottom-sheet .info-summary .loca {
@@ -209,7 +250,7 @@ body {
 .bottom-sheet .info-summary .eval-avg i {
   margin-right: 4px;
   font-size: 18px;
-  color: #FFD338;
+  color: #ffd338;
 }
 
 .bottom-sheet .info-summary .eval-avg .num {
@@ -249,7 +290,7 @@ body {
 
 .bottom-sheet .info-detail .management i {
   font-size: 26px;
-  color: #38FF7C;
+  color: #38ff7c;
 }
 
 .bottom-sheet .info-detail .eval {
@@ -267,7 +308,7 @@ body {
   display: flex;
   margin: 16px 0 0 32px;
   font-size: 32px;
-  color: #C4C4C4;
+  color: #c4c4c4;
 }
 
 .bottom-sheet .info-detail .eval .icons i {
@@ -275,5 +316,5 @@ body {
 }
 
 .bottom-sheet .info-detail .eval .icons .selected {
-  color: #FFD338;
+  color: #ffd338;
 }
