@@ -20,6 +20,11 @@ function changeInfo(address, resultData) {
   managementInfo.innerText = `${resultData[0].institutionNm} / ${resultData[0].phoneNumber}`;
 }
 
+function callClick(){
+  var num = document.querySelector('.management__detail').textContent.split(' / ')[1];
+  location.href = "tel:" + num;
+}
+
 function markerEvent(address, resultData) {
   bottomSheet.classList.remove('init');
   report.classList.remove('init');
@@ -107,6 +112,8 @@ function initTmap() {
         markerEvent(marker._marker_data.options.title, resultData);
       })
     );
+
+    
 
     // Marker에 터치이벤트 등록.
     markers.forEach((marker) =>
