@@ -53,6 +53,7 @@ body {
 
 .search-box .search input {
   border: none;
+  /* font-size: 18px; */
 }
 
 .search-box .search input::placeholder {
@@ -79,6 +80,16 @@ body {
   background-color: white;
   box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.25);
   z-index: 1;
+}
+
+.search-result-box .searchResult li {
+  list-style-type: none;
+  padding: 10px 0 10px 0;
+  border-bottom: 1px solid #C4C4C4;
+}
+.search-result-box .searchResult li:hover {
+  background-color: #F5F5F5;
+  -webkit-transition: all 0.1s;
 }
 
 .bottom-sheet .report {
