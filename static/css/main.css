@@ -80,7 +80,7 @@ body {
   border-radius: 8px;
   background-color: white;
   box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.25);
-  z-index: 1;
+  z-index: 3;
 }
 
 .search-result-box .searchResult li {
@@ -92,7 +92,7 @@ body {
   background-color: #F5F5F5;
   -webkit-transition: all 0.1s;
   cursor: pointer;
-
+}
 .reload-btn {
   box-sizing: border-box;
   display: flex;
