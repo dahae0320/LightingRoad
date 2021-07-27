@@ -90,6 +90,7 @@ body {
 .search-result-box .searchResult li:hover {
   background-color: #F5F5F5;
   -webkit-transition: all 0.1s;
+  cursor: pointer;
 }
 
 .bottom-sheet .report {

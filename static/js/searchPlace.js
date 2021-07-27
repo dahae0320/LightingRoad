@@ -10,6 +10,7 @@ searchKeyword.addEventListener('keyup', searchPlace);
 // });
 document.addEventListener('click', hideSearchResult);
 
+
 function searchPlace() {
   if (searchResult.style.display == 'none') {
     searchResult.style.display = 'block';
@@ -29,27 +30,12 @@ function searchPlace() {
     success: function (response) {
       if (response != undefined) {
         let resultpoisData = response.searchPoiInfo.pois.poi;
-
         let innerHtml = "";	// Search Reulsts 결과값 노출 위한 변수
 
         for (let k in resultpoisData) {
-
-          let noorLat = Number(resultpoisData[k].noorLat);
-          let noorLon = Number(resultpoisData[k].noorLon);
           let name = resultpoisData[k].name;
-
-          let pointCng = new Tmapv2.Point(noorLon, noorLat);
-
-          let projectionCng = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(pointCng);
-
-          let lat = projectionCng._lat;
-          let lon = projectionCng._lng;
-
-          let markerPosition = new Tmapv2.LatLng(lat, lon);
-
           innerHtml += "<li onclick='searchPOI(this.textContent)'>" + name + "</li>";
         }
-
         searchResult.innerHTML = innerHtml;
       }
     },
@@ -88,28 +74,11 @@ function searchPOI(search) {
 
 //POI검색
 function onComplete() {
-  // console.log(this._responseData); //json로 데이터를 받은 정보들을 콘솔창에서 확인할 수 있습니다.
   let lat = this._responseData.searchPoiInfo.pois.poi[0].frontLat;
   let lng = this._responseData.searchPoiInfo.pois.poi[0].frontLon;
 
-  // if (this._responseData.searchPoiInfo.pois.poi != '') {
-  //   jQuery(this._responseData.searchPoiInfo.pois.poi).each(function () {//결과를 each문으로 돌려 마커를 등록합니다.
-  //     //response 데이터중 원하는 값을 find 함수로 찾습니다.
-  //     var name = this.name;
-  //     var id = this.id;
-  //     var lon = this.frontLon;
-  //     var lat = this.frontLat;
-  //     var lonlatoption = {
-  //       title: name,//마커 라벨 text 설정
-  //       lonlat: new Tmapv2.LatLng(lat, lon)//마커 라벨 좌표 설정
-  //     };
-  //     addMarker(lonlatoption);//마커를 추가하는 함수입니다.
-  //   });
-  // } else {
-  //   alert('검색결과가 없습니다.');
-  // }
   map.setCenter(new Tmapv2.LatLng(lat, lng));
-  map.setZoom(15);
+  map.setZoom(16);
 }
 
 //데이터 로드중 실행하는 함수입니다.
