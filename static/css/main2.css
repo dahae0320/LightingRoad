@@ -6,3 +6,297 @@ body {
   width: 100vw;
   height: 100vh;
 }
+
+/* 거리표시 팝업*/
+.mPop{
+  border: 1px;
+  background-color: #FFF;
+  font-size: 12px;
+  border-color: #FF0000;
+  border-style: solid;
+  text-align: center;
+}
+
+/*공통사용 클래스*/
+.mPopStyle {
+  border: 1px;
+  background-color: #FFF;
+  font-size: 12px;
+  border-color: #FF0000;
+  border-style: solid;
+  text-align: left;
+}
+
+.search-box {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 30px;
+  left: 0;
+  right: 0;
+  width: 90%;
+  height: 50px;
+  padding : 0 16px;
+  margin: 0 auto;
+  border-radius: 8px;
+  background-color: white;
+  box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.25);
+  z-index: 1;
+}
+
+.search-box .search i {
+  margin-right: 8px;
+  color: #2539A0;
+}
+
+.search-box .search input {
+  border: none;
+}
+
+.search-box .search input::placeholder {
+  font-size: 16px;
+  font-weight: 500;
+  color: #C4C4C4;
+}
+
+.search-box i {
+  font-size: 18px;
+}
+
+.bottom-sheet .report {
+  position: fixed;
+  bottom: 72px;
+  right: 8px;
+  width: 60px;
+  border-radius: 10px;
+}
+
+.bottom-sheet .report.up {
+  animation-name: report-up;
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+  animation-direction: alternate;
+  animation-fill-mode: forwards; 
+}
+
+@-webkit-keyframes report-up {
+  0% {
+    bottom: 72px;
+  }
+  100% {
+    bottom: 252px;
+  }
+}
+
+.bottom-sheet .report.down {
+  animation-name: report-down;
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+  animation-direction: alternate;
+  animation-fill-mode: forwards;
+}
+
+@-webkit-keyframes report-down {
+  0% {
+    bottom: 252px;
+  }
+  100% {
+    bottom: 72px;
+  }
+}
+
+.bottom-sheet .report.init {
+  animation: none;
+}
+
+.bottom-sheet {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  bottom: -180px;
+  width: 100%;
+  height: 240px;
+  border-radius: 10px 10px 0 0;
+  background-color: #272020;
+  font-family: 'Roboto', sans-serif;
+  color: white;
+  box-shadow: 0 4px 30px 5px rgba(204, 255, 0, 0.03) inset;
+  z-index: 1;
+}
+
+.bottom-sheet.up {
+  animation-name: up;
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+  animation-direction: alternate;
+  animation-fill-mode: forwards; 
+}
+
+@-webkit-keyframes up {
+  0% {
+    bottom: -180px;
+  }
+  100% {
+    bottom: 0px;
+  }
+}
+
+.bottom-sheet.down {
+  animation-name: down;
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+  animation-direction: alternate;
+  animation-fill-mode: forwards;
+}
+
+@-webkit-keyframes down {
+  0% {
+    bottom: 0px;
+  }
+  100% {
+    bottom: -180px;
+  }
+}
+
+.bottom-sheet.init {
+  animation: none;
+}
+
+.bottom-sheet .info-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 20px;
+  border-bottom: 1px solid #C4C4C4;
+}
+
+.bottom-sheet .info-summary .loca {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.bottom-sheet .info-summary .eval-avg i {
+  margin-right: 4px;
+  font-size: 18px;
+  color: #FFD338;
+}
+
+.bottom-sheet .info-summary .eval-avg .num {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.bottom-sheet .info-detail {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  padding: 20px 20px;
+}
+
+.bottom-sheet .info-detail .management {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bottom-sheet .info-detail .management .management__info {
+  display: flex;
+  flex-direction: column;
+}
+
+.bottom-sheet .info-detail .management .management__info .management__name {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.bottom-sheet .info-detail .management .management__info .management__detail {
+  margin-top: 8px;
+  font-size: 10px;
+  font-weight: 400;
+}
+
+.bottom-sheet .info-detail .management i {
+  font-size: 26px;
+  color: #38FF7C;
+}
+
+.bottom-sheet .info-detail .eval {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bottom-sheet .info-detail .eval .guide {
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.bottom-sheet .info-detail .eval .icons {
+  display: flex;
+  margin: 16px 0 0 32px;
+  font-size: 32px;
+  color: #C4C4C4;
+}
+
+.bottom-sheet .info-detail .eval .icons i {
+  margin-right: 32px;
+}
+
+.bottom-sheet .info-detail .eval .icons .selected {
+  color: #FFD338;
+}
+
+
+#map_div {
+
+}
+
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+
+.contextmenu {
+  display: none;
+  position: absolute;
+  width: 200px;
+  margin: 0;
+  padding: 0;
+  background: #FFFFFF;
+  border-radius: 5px;
+  list-style: none;
+  box-shadow:
+    0 15px 35px rgba(50,50,90,0.1),
+    0 5px 15px rgba(0,0,0,0.07);
+  overflow: hidden;
+  z-index: 999999;
+}
+
+.contextmenu li {
+  border-left: 3px solid transparent;
+  transition: ease .2s;
+}
+
+.contextmenu li a {
+  display: block;
+  padding: 10px;
+  color: #B0BEC5;
+  text-decoration: none;
+  transition: ease .2s;
+}
+
+.contextmenu li:hover {
+  background: #CE93D8;
+  border-left: 3px solid #9C27B0;
+}
+
+.contextmenu li:hover a {
+  color: #FFFFFF;
+}
