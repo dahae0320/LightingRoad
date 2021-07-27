@@ -2,6 +2,9 @@ const bottomSheet = document.querySelector('.bottom-sheet');
 const report = document.querySelector('.bottom-sheet .report');
 const infoSummary = document.querySelector('.bottom-sheet .info-summary');
 
+const reloadBtn = document.querySelector('.reload-btn');
+const reloadBtnAddress = document.querySelector('.reload-btn .name .address');
+
 const loca = document.querySelector('.bottom-sheet .info-summary .loca');
 const evalAvgNum = document.querySelector(
   '.bottom-sheet .info-summary .eval-avg .num'
@@ -111,6 +114,11 @@ function initTmap() {
     );
   }
 
+  reloadBtn.addEventListener('click', () => {
+    let center = map.getCenter();
+    loadGetLonLatFromAddress(center._lat, center._lng);
+  });
+
   function onDragend(e) {
     loadGetLonLatFromAddress(e.latLng._lat, e.latLng._lng);
   }
@@ -132,6 +140,7 @@ function initTmap() {
       },
       error: function () {
         console.log('실패-!');
+        alert('해당 지역에는 보안등 데이터가 존재하지 않아요😥');
       },
     });
   }
@@ -160,6 +169,8 @@ function initTmap() {
     let city_do = this._responseData.addressInfo.city_do;
     let gu_gun = this._responseData.addressInfo.gu_gun;
     let address = city_do + ' ' + gu_gun;
+
+    reloadBtnAddress.innerText = `${address}`;
 
     let address_code;
 
