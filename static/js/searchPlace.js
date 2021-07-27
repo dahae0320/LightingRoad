@@ -1,9 +1,15 @@
 // 2. POI 통합 검색 API 요청
-// $("#btn_select").click(function () {
-function searchPlace() {
 
-  let searchKeyword = document.querySelector('.searchKeyword');
-  let searchResult = document.querySelector('.searchResult');
+const searchKeyword = document.querySelector('.searchKeyword');
+const searchResult = document.querySelector('.searchResult');
+
+searchKeyword.addEventListener('keyup', searchPlace);
+document.addEventListener('click', hideSearchResult);
+
+function searchPlace() {
+  if (searchResult.style.display == 'none') {
+    searchResult.style.display = 'block';
+  }
   console.log('검색하는 중...');
 
   $.ajax({
@@ -18,30 +24,25 @@ function searchPlace() {
       "count": 10
     },
     success: function (response) {
-      var resultpoisData = response.searchPoiInfo.pois.poi;
 
-      // 기존 마커, 팝업 제거
-      // if (markerArr.length > 0) {
-      //   for (var i in markerArr) {
-      //     markerArr[i].setMap(null);
-      //   }
-      // }
-      var innerHtml = "";	// Search Reulsts 결과값 노출 위한 변수
-      // var positionBounds = new Tmapv2.LatLngBounds();		//맵에 결과물 확인 하기 위한 LatLngBounds객체 생성
+      let resultpoisData = response.searchPoiInfo.pois.poi;
 
-      for (var k in resultpoisData) {
+      let innerHtml = "";	// Search Reulsts 결과값 노출 위한 변수
 
-        var noorLat = Number(resultpoisData[k].noorLat);
-        var noorLon = Number(resultpoisData[k].noorLon);
-        var name = resultpoisData[k].name;
+      for (let k in resultpoisData) {
 
-        var pointCng = new Tmapv2.Point(noorLon, noorLat);
-        var projectionCng = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(pointCng);
+        let noorLat = Number(resultpoisData[k].noorLat);
+        let noorLon = Number(resultpoisData[k].noorLon);
+        let name = resultpoisData[k].name;
 
-        var lat = projectionCng._lat;
-        var lon = projectionCng._lng;
+        let pointCng = new Tmapv2.Point(noorLon, noorLat);
+        console.log(pointCng);
+        let projectionCng = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(pointCng);
 
-        var markerPosition = new Tmapv2.LatLng(lat, lon);
+        let lat = projectionCng._lat;
+        let lon = projectionCng._lng;
+
+        let markerPosition = new Tmapv2.LatLng(lat, lon);
 
         // marker = new Tmapv2.Marker({
         //   position: markerPosition,
@@ -54,18 +55,17 @@ function searchPlace() {
 
         innerHtml += "<li><span>" + name + "</span></li>";
 
-        // markerArr.push(marker);
-        // positionBounds.extend(markerPosition);	// LatLngBounds의 객체 확장
       }
 
-      // $("#searchResult").html(innerHtml);	//searchResult 결과값 노출
       searchResult.innerHTML = innerHtml;
-      // map.panToBounds(positionBounds);	// 확장된 bounds의 중심으로 이동시키기
-      // map.zoomOut();
 
     },
     error: function (request, status, error) {
       console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
     }
   });
+}
+
+function hideSearchResult() {
+  searchResult.style.display = "none";
 }
