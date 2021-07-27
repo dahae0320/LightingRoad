@@ -19,6 +19,7 @@
   <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=l7xx277bb41e41d345caae019ce5a6c7b6cb"></script>
   <script src="{% static 'json/codeList.json' %}" type="text/javascript" defer></script>
   <script src="{% static 'js/main.js' %}" defer></script>
+  <script src="{% static 'js/searchPlace.js' %}" defer></script>
   <script src="{% static 'js/csrf_token.js' %}" defer></script>
 </head>
 
@@ -28,10 +29,16 @@
   <form class="search-box">
     <div class="search">
       <i class="fas fa-map-marked-alt"></i>
-      <input type="text" placeholder="진주시 가좌동" onclick="">
+      <input class="searchKeyword" type="text" placeholder="진주시 가좌동" onchange="searchPlace()">
     </div>
     <i class="fas fa-search"></i>
   </form>
+
+	<div class="search-result-box">
+	  <div class="rst mCustomScrollbar">
+			<ul class="searchResult" name="searchResult"></ul>
+		</div>
+	</div>
 
   <footer class="bottom-sheet init down">
     <img class="report init down" src="{% static 'img/police.png' %}" alt="police image">

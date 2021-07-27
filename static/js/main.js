@@ -10,6 +10,8 @@ const managementInfo = document.querySelector(
   '.bottom-sheet .info-detail .management .management__detail'
 );
 
+let map;
+
 function changeInfo(address, resultData) {
   loca.innerText = `${address}`;
   managementInfo.innerText = `${resultData[0].institutionNm} / ${resultData[0].phoneNumber}`;
@@ -45,7 +47,7 @@ infoSummary.addEventListener('click', () => {
 });
 
 function initTmap() {
-  let map = new Tmapv2.Map('map_div', {
+  map = new Tmapv2.Map('map_div', {
     center: new Tmapv2.LatLng(35.154092733693304, 128.0981165242879), // 지도 초기 좌표
     width: '100%',
     height: '100%',
