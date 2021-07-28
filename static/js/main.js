@@ -2,6 +2,9 @@ const bottomSheet = document.querySelector('.bottom-sheet');
 const report = document.querySelector('.bottom-sheet .report');
 const infoSummary = document.querySelector('.bottom-sheet .info-summary');
 
+const reloadBtn = document.querySelector('.reload-btn');
+const reloadBtnAddress = document.querySelector('.reload-btn .name .address');
+
 const loca = document.querySelector('.bottom-sheet .info-summary .loca');
 const evalAvgNum = document.querySelector(
   '.bottom-sheet .info-summary .eval-avg .num'
@@ -10,9 +13,16 @@ const managementInfo = document.querySelector(
   '.bottom-sheet .info-detail .management .management__detail'
 );
 
+let map;
+
 function changeInfo(address, resultData) {
   loca.innerText = `${address}`;
   managementInfo.innerText = `${resultData[0].institutionNm} / ${resultData[0].phoneNumber}`;
+}
+
+function callClick() {
+  var num = document.querySelector('.management__detail').textContent.split(' / ')[1];
+  location.href = "tel:" + num;
 }
 
 function markerEvent(address, resultData) {
@@ -45,7 +55,7 @@ infoSummary.addEventListener('click', () => {
 });
 
 function initTmap() {
-  let map = new Tmapv2.Map('map_div', {
+  map = new Tmapv2.Map('map_div', {
     center: new Tmapv2.LatLng(35.154092733693304, 128.0981165242879), // 지도 초기 좌표
     width: '100%',
     height: '100%',
@@ -105,6 +115,8 @@ function initTmap() {
       })
     );
 
+
+
     // Marker에 터치이벤트 등록.
     markers.forEach((marker) =>
       marker.addListener('touchstart', (evt) => {
@@ -113,12 +125,17 @@ function initTmap() {
     );
   }
 
+  reloadBtn.addEventListener('click', () => {
+    let center = map.getCenter();
+    loadGetLonLatFromAddress(center._lat, center._lng);
+  });
+
   function onDragend(e) {
-    loadGetLonLatFromAddress(e.latLng._lat, e.latLng._lng);
+    getAddress(e.latLng._lat, e.latLng._lng);
   }
 
   function onTouchend(e) {
-    loadGetLonLatFromAddress(e.latLng._lat, e.latLng._lng);
+    getAddress(e.latLng._lat, e.latLng._lng);
   }
 
   function adminCodeToViews(code) {
@@ -134,9 +151,11 @@ function initTmap() {
       },
       error: function () {
         console.log('실패-!');
+        alert('해당 지역에는 보안등 데이터가 존재하지 않아요😥');
       },
     });
   }
+
 
   //리버스 지오코딩 요청 함수
   function loadGetLonLatFromAddress(lat, lng) {
@@ -163,6 +182,8 @@ function initTmap() {
     let gu_gun = this._responseData.addressInfo.gu_gun;
     let address = city_do + ' ' + gu_gun;
 
+    reloadBtnAddress.innerText = `${address}`;
+
     let address_code;
 
     // 주소 -> 제공기관 코드
@@ -186,6 +207,7 @@ function initTmap() {
   function onError() {
     alert('onError');
   }
+
   // gps가져오는 부분
   navigator.geolocation.getCurrentPosition(function(position) {
     console.log(position.coords.latitude + ", " + position.coords.longitude);
@@ -198,6 +220,35 @@ function initTmap() {
     });
       markers2.push(marker);
     });
+
+
+  // 리버스 지오코딩 (reload 버튼 주소)
+  function getAddress(lat, lng) {
+    let tData = new Tmapv2.extension.TData();
+
+    let optionObj = {
+      coordType: 'WGS84GEO', //응답좌표 타입 옵션 설정 입니다.
+      addressType: 'A04', //주소타입 옵션 설정 입니다.
+    };
+
+    let params = {
+      onComplete: fun1, //데이터 로드가 성공적으로 완료 되었을때 실행하는 함수 입니다.
+      onProgress: fun2, //데이터 로드 중에 실행하는 함수 입니다.
+      onError: fun3, //데이터 로드가 실패했을때 실행하는 함수 입니다.
+    };
+    // TData 객체의 리버스지오코딩 함수
+    tData.getAddressFromGeoJson(lat, lng, optionObj, params);
+  }
+
+  function fun1() {
+    let city_do = this._responseData.addressInfo.city_do;
+    let gu_gun = this._responseData.addressInfo.gu_gun;
+    let address = city_do + ' ' + gu_gun;
+
+    reloadBtnAddress.innerText = `${address}`;
+  }
+  function fun2() { }
+  function fun3() { }
 }
 
 

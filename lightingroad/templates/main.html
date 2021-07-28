@@ -19,6 +19,7 @@
   <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=l7xx277bb41e41d345caae019ce5a6c7b6cb"></script>
   <script src="{% static 'json/codeList.json' %}" type="text/javascript" defer></script>
   <script src="{% static 'js/main.js' %}" defer></script>
+  <script src="{% static 'js/searchPlace.js' %}" defer></script>
   <script src="{% static 'js/csrf_token.js' %}" defer></script>
 </head>
 
@@ -28,13 +29,29 @@
   <form class="search-box">
     <div class="search">
       <i class="fas fa-map-marked-alt"></i>
-      <input type="text" placeholder="진주시 가좌동" onclick="">
+      <input class="searchKeyword" type="text" placeholder="진주시 가좌동">
     </div>
     <i class="fas fa-search"></i>
   </form>
 
+
+	<div class="search-result-box">
+		<ul class="searchResult" name="searchResult" style="display: none;"></ul>
+	</div>
+
+  <button class="reload-btn">
+    <i class="fas fa-redo-alt"></i>
+    <div class="name">
+      <span class="address">지역명</span>
+      <span>보안등 보기</span>
+    </div>
+  </button>
+
+
   <footer class="bottom-sheet init down">
-    <img class="report init down" src="{% static 'img/police.png' %}" alt="police image">
+    <a href="tel:112">
+      <img class="report init down" src="{% static 'img/police.png' %}" alt="police image">
+    </a>
     <div class="info-summary">
       <span class="loca">경상남도 진주시 개양터미널 128-123</span>
       <div class="eval-avg">
@@ -48,7 +65,7 @@
           <span class="management__name">관리기관</span>
           <span class="management__detail">부산광역시 사상구청 / 051-310-4675</span>
         </div>
-        <i class="fas fa-phone-square"></i>
+        <i class="fas fa-phone-square" onclick="callClick()"></i>
       </div>
       <div class="eval">
         <span class="guide">가로등의 밝기를 평가해주세요</span>
