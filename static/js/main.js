@@ -222,7 +222,7 @@ function initTmap() {
     });
 
 
-  // 리버스 지오코딩 (reload 버튼 주소)
+  // 리버스 지오코딩 (reload 버튼 주소).
   function getAddress(lat, lng) {
     let tData = new Tmapv2.extension.TData();
 
