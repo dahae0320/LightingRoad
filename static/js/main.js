@@ -191,13 +191,6 @@ function initTmap() {
     console.log(position.coords.latitude + ", " + position.coords.longitude);
     var gpslat = position.coords.latitude;
     var gpslng = position.coords.longitude;
-  //   let gpsposition = [];
-  //     gpsposition.push( {
-  //       latitude: gpslat,
-  //       longitude: gpslng
-  // })
-  //   setMarker(gpsposition)
-  //   });
     marker = new Tmapv2.Marker({
       position: new Tmapv2.LatLng(gpslat,gpslng), //Marker의 중심좌표 설정.
       icon: '/static/img/GPS-sm.png',
