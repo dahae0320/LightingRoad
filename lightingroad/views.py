@@ -29,4 +29,8 @@ def main(request):
   return render(request, 'main.html')
 
 def main2(request):
+  if request.is_ajax and request.method == 'POST':
+    code = request.POST['code']
+    data = streetLampData(code)  
+    return HttpResponse(data)
   return render(request, 'main2.html')
