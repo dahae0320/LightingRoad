@@ -1,7 +1,7 @@
 var markers2 = [];
 var marker;
 var lonlat;
-
+var map;
 
 const bottomSheet = document.querySelector('.bottom-sheet');
 const report = document.querySelector('.bottom-sheet .report');
@@ -46,11 +46,36 @@ function bottomSheetEvent() {
   report.classList.toggle('up');
 }
 
+function markerEventPop(marker_lat, marker_lng) {
+	var content ="<div style=' position: relative; border-bottom: 1px solid #dcdcdc; line-height: 18px; padding: 0 35px 2px 0;'>"+
+					"<div style='font-size: 12px; line-height: 15px;'>"+
+					"<span style='display: inline-block; width: 14px; height: 14px; background-image: url('http://tmapapi.sktelecom.com/resources/images/common/footer_logo.png'); vertical-align: middle; margin-right: 5px;'></span>SK T-타워"+
+					"</div>"+
+					"</div>"+
+					"<div style='position: relative; padding-top: 5px; display:inline-block'>"+
+					"<div style='display:inline-block; border:1px solid #dcdcdc;'><img src='http://tmapapi.sktelecom.com/resources/images/common/footer_logo.png' width='73' height='70'></div>"+
+					"<div style='display:inline-block; margin-left:5px; vertical-align: top;'>"+
+					"<span style='font-size: 12px; margin-left:2px; margin-bottom:2px; display:block;'>서울특별시 중구 을지로 65 SK T-타워</span>"+
+					"<span style='font-size: 12px; color:#888; margin-left:2px; margin-bottom:2px; display:block;'>(우)100-999  (지번)을지로2가 11</span>"+
+					"<span style='font-size: 12px; margin-left:2px;'><a href='https://openapi.sk.com/' target='blank'>개발자센터</a></span>"+
+					"</div>"+
+					"</div>";
+		//Popup 객체 생성.
+		infoWindow = new Tmapv2.InfoWindow({
+			position: new Tmapv2.LatLng(marker_lat, marker_lng), //Popup 이 표출될 맵 좌표
+			content: content, //Popup 표시될 text
+			type: 2, //Popup의 type 설정.
+			map: map //Popup이 표시될 맵 객체
+		});
+		
+	// map.setCenter(new Tmapv2.LatLng(marker_lat, marker_lng));
+}
+
 infoSummary.addEventListener('click', () => {
   bottomSheetEvent();
 });
 
-var map;
+
 var marker_s, marker_e, marker_p1, marker_p2;
 var marker_2,marker_3, marker_4;  // 경유지 변수 추가
 var totalMarkerArr = [];
@@ -74,9 +99,9 @@ function initTmap() {
 
   map.addListener('dragend', onDragend);
   map.addListener('touchend', onTouchend);
-  map.addListener("contextmenu", onClick); //map 클릭 이벤트를 등록합니다.
-
-
+  map.addListener('contextmenu', onClick); //map 클릭 이벤트를 등록합니다.
+  
+  
   var markers = [];
 
   function setMarker(resultData) {
@@ -115,11 +140,37 @@ function initTmap() {
     //Marker에 클릭이벤트 등록.
     markers.forEach((marker) =>
       marker.addListener('click', (evt) => {
-		console.log(marker._marker_data.options.position._lat)
-		console.log(marker._marker_data.options.position._lng)
-		marker1_lat = marker._marker_data.options.position._lat
-		marker1_lng = marker._marker_data.options.position._lng
+		// console.log(marker._marker_data.options.position._lat)
+		// console.log(marker._marker_data.options.position._lng)
+		// marker1_lat = marker._marker_data.options.position._lat
+		// marker1_lng = marker._marker_data.options.position._lng
         markerEvent(marker._marker_data.options.title, resultData);
+		  var content = "<div style=' position: relative; z-index:400; border-bottom: 1px solid #dcdcdc; line-height: 18px; padding: 0 35px 2px 0;'>" +
+			  "<div style='font-size: 12px; line-height: 15px;'>" +
+			  "<span style='display: inline-block; width: 14px; height: 14px; background-image: url('http://tmapapi.sktelecom.com/resources/images/common/footer_logo.png'); vertical-align: middle; margin-right: 5px;'></span>SK T-타워" +
+			  "</div>" +
+			  "</div>" +
+			  "<div style='position: relative; z-index:400; padding-top: 5px; display:inline-block'>" +
+			  "<div style='display:inline-block; border:1px solid #dcdcdc;'><img src='http://tmapapi.sktelecom.com/resources/images/common/footer_logo.png' width='73' height='70'></div>" +
+			  "<div style='display:inline-block; margin-left:5px; vertical-align: top;'>" +
+			  "<span style='font-size: 12px; margin-left:2px; margin-bottom:2px; display:block;'>서울특별시 중구 을지로 65 SK T-타워</span>" +
+			  "<span style='font-size: 12px; color:#888; margin-left:2px; margin-bottom:2px; display:block;'>(우)100-999  (지번)을지로2가 11</span>" +
+			  "<span style='font-size: 12px; margin-left:2px;'><a href='https://openapi.sk.com/' target='blank'>개발자센터</a></span>" +
+			  "</div>" +
+					"</div>";
+		//Popup 객체 생성.
+		infoWindow = new Tmapv2.InfoWindow({
+			position: new Tmapv2.LatLng(marker._marker_data.options.position._lat,marker._marker_data.options.position._lng), //Popup 이 표출될 맵 좌표
+			content: content, //Popup 표시될 text
+			type: 2, //Popup의 type 설정.
+			map: map, //Popup이 표시될 맵 객체
+			setVisible: true
+		});
+
+		function onClose(popup){
+			infoWindow.setVisible(false);
+		}
+		
       })
     );
 
@@ -152,6 +203,7 @@ function initTmap() {
 	  
 		markers2.push(marker);
 
+
 	}
 
 	function removeMarkers() {
@@ -160,6 +212,7 @@ function initTmap() {
 		}
 		markers2 = [];
 	}
+
 
   function adminCodeToViews(code) {
     $.ajax({
@@ -410,55 +463,7 @@ function initTmap() {
 				resultdrawArr.push(polyline_);
 			}
 
-			$(document).ready(function(){
-				//Show contextmenu:
-				$(document).contextmenu(function(e){
-				  //Get window size:
-				  var winWidth = $(document).width();
-				  var winHeight = $(document).height();
-				  //Get pointer position:
-				  var posX = e.pageX;
-				  var posY = e.pageY;
-				  //Get contextmenu size:
-				  var menuWidth = $(".contextmenu").width();
-				  var menuHeight = $(".contextmenu").height();
-				  //Security margin:
-				  var secMargin = 10;
-				  //Prevent page overflow:
-				  if(posX + menuWidth + secMargin >= winWidth
-				  && posY + menuHeight + secMargin >= winHeight){
-					//Case 1: right-bottom overflow:
-					posLeft = posX - menuWidth - secMargin + "px";
-					posTop = posY - menuHeight - secMargin + "px";
-				  }
-				  else if(posX + menuWidth + secMargin >= winWidth){
-					//Case 2: right overflow:
-					posLeft = posX - menuWidth - secMargin + "px";
-					posTop = posY + secMargin + "px";
-				  }
-				  else if(posY + menuHeight + secMargin >= winHeight){
-					//Case 3: bottom overflow:
-					posLeft = posX + secMargin + "px";
-					posTop = posY - menuHeight - secMargin + "px";
-				  }
-				  else {
-					//Case 4: default values:
-					posLeft = posX + secMargin + "px";
-					posTop = posY + secMargin + "px";
-				  };
-				  //Display contextmenu:
-				  $(".contextmenu").css({
-					"left": posLeft,
-					"top": posTop
-				  }).show();
-				  //Prevent browser default contextmenu.
-				  return false;
-				});
-				//Hide contextmenu:
-				$(document).click(function(){
-				  $(".contextmenu").hide();
-				});
-			  });
+			
 			
 }
 
