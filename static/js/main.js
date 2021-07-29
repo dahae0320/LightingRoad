@@ -252,8 +252,6 @@ function getAddress(lat, lng) {
   function fun2() { }
   function fun3() { }
 
-  
-}
 function tonowposition(){
   navigator.geolocation.getCurrentPosition(function(position) {
     var lonlat = new Tmapv2.LatLng(position.coords.latitude,position.coords.longitude);
@@ -262,12 +260,12 @@ function tonowposition(){
 
 }
 
-function fun1() {
-  let city_do = this._responseData.addressInfo.city_do;
-  let gu_gun = this._responseData.addressInfo.gu_gun;
-  let address = city_do + ' ' + gu_gun;
+// function fun1() {
+//   let city_do = this._responseData.addressInfo.city_do;
+//   let gu_gun = this._responseData.addressInfo.gu_gun;
+//   let address = city_do + ' ' + gu_gun;
 
-  reloadBtnAddress.innerText = `${address}`;
-}
-function fun2() { }
-function fun3() { }
+//   reloadBtnAddress.innerText = `${address}`;
+// }
+// function fun2() { }
+// function fun3() { }
