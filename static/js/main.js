@@ -210,7 +210,6 @@ function initTmap() {
 
   // gps가져오는 부분
   navigator.geolocation.getCurrentPosition(function(position) {
-    console.log(position.coords.latitude + ", " + position.coords.longitude);
     var gpslat = position.coords.latitude;
     var gpslng = position.coords.longitude;
     marker = new Tmapv2.Marker({
@@ -249,6 +248,14 @@ function initTmap() {
   }
   function fun2() { }
   function fun3() { }
+
+  
+}
+function tonowposition(){
+  navigator.geolocation.getCurrentPosition(function(position) {
+    var lonlat = new Tmapv2.LatLng(position.coords.latitude,position.coords.longitude);
+    map.setCenter(lonlat); // 지도의 중심 좌표를 설정합니다.
+  });
 }
 
 

@@ -46,6 +46,7 @@ function bottomSheetEvent() {
   report.classList.toggle('up');
 }
 
+
 var s_mk_lat;
 var s_mk_lng;
 var p_mk_lat;
@@ -78,6 +79,7 @@ function passFn(lat,lng) {
   // console.log(p_mk_list);
 }
 
+
 function destinationFn(lat,lng) {
 	console.log('여기를 목적지로 지정 클릭수행')
   console.log(lat, lng)
@@ -105,6 +107,7 @@ function initTmap() {
     height: '500px',
     zoom: 15,
     zIndexMarker: "8",
+
   });
 
   // 지도 옵션 줌컨트롤 표출 비활성화
@@ -152,6 +155,7 @@ function initTmap() {
      }
       markers.push(marker);
     }
+
     //Marker에 클릭이벤트 등록.
     markers.forEach((marker) =>
       marker.addListener('click', (evt) => {
@@ -160,6 +164,7 @@ function initTmap() {
       // marker1_lat = marker._marker_data.options.position._lat
       // marker1_lng = marker._marker_data.options.position._lng
         markerEvent(marker._marker_data.options.title, resultData);
+
         var content =
 			"<div class='outside' style=' position: relative;  width:130px; border-bottom: 1px solid black; line-height: 18px; padding: 0 35px 2px 0;'>" +
            "<div class='a' width:130px; style='font-size: 12px; line-height: 15px;'>" +
@@ -201,6 +206,7 @@ function initTmap() {
          infoWindow.setVisible(false);
       }
       
+
       })
     );
 
@@ -315,7 +321,6 @@ function initTmap() {
     alert('onError');
   }
 
-  // 2. 시작, 도착 심볼찍기
    // 시작
    marker_s = new Tmapv2.Marker(
       {
@@ -488,6 +493,7 @@ function initTmap() {
                         }
                      });
       });
+
 
          function drawLine(arrPoint) {
             var polyline_;
