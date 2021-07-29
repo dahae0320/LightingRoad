@@ -59,15 +59,10 @@ function startFn(lat,lng) {
   console.log(lat, lng)
   s_mk_lat = lat;
   s_mk_lng = lng;
-  marker_3 = new Tmapv2.Marker(
-    {
-       position : new Tmapv2.LatLng(37.5672089168727, 126.99050799891104),
-       icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png",
-       iconSize : new Tmapv2.Size(24, 38),
-       map : map
-    });
 }
 
+
+let passListData;
 function passFn(lat,lng) {
 	console.log('여기를 경유지로 지정 클릭수행')
   console.log(lat, lng)
@@ -160,10 +155,11 @@ function initTmap() {
       // marker1_lat = marker._marker_data.options.position._lat
       // marker1_lng = marker._marker_data.options.position._lng
         markerEvent(marker._marker_data.options.title, resultData);
+  
         var content =
 			"<div class='outside' style=' position: relative;  width:130px; border-bottom: 1px solid black; line-height: 18px; padding: 0 35px 2px 0;'>" +
            "<div class='a' width:130px; style='font-size: 12px; line-height: 15px;'>" +
-           "<span class='b' style='display: inline-block; width:130px; height: 14px; margin-left:2px; vertical-align: middle; margin-right: 5px;'><a href='javascript:void(0);' onclick='startFn("+marker._marker_data.options.position._lat+","+marker._marker_data.options.position._lng+");'>여기를 출발지로 지정</a></span>" +
+           "<span class='b' style='display: inline-block; width:130px; height: 14px; margin-left:2px; vertical-align: middle; margin-right: 5px;'><a href='javascript:void(0);' onclick='startFn("+marker._marker_data.options.position._lat+","+marker._marker_data.options.position._lng+"); markerChange("+marker._marker_data.options.position._lat+","+marker._marker_data.options.position._lng+") '>여기를 출발지로 지정</a></span>" +
            "</div>" +
            "</div>" +
 		   "<div class='outside' style=' position: relative;  width:130px; border-bottom: 1px solid black; line-height: 18px; padding: 0 35px 2px 0;'>" +
@@ -197,9 +193,9 @@ function initTmap() {
          setVisible: true
       });
 
-      function onClose(popup){
-         infoWindow.setVisible(false);
-      }
+      // function onClose(popup){
+      //    infoWindow.setVisible(false);
+      // }
       
       })
     );
@@ -212,6 +208,7 @@ function initTmap() {
     );
   }
 
+
   function onDragend(e) {
     loadGetLonLatFromAddress(e.latLng._lat, e.latLng._lng);
   }
@@ -223,6 +220,7 @@ function initTmap() {
   function onClick(e) {
    // 클릭한 위치에 새로 마커를 찍기 위해 이전에 있던 마커들을 제거
    removeMarkers();
+
    
    lonlat = e.latLng;
    //Marker 객체 생성.
@@ -315,6 +313,18 @@ function initTmap() {
     alert('onError');
   }
 
+  // var mm
+
+  // function markerChange(lat, lng) {
+  //   mm = new Tmapv2.Marker(
+  //     {
+  //        position : new Tmapv2.LatLng(lat, lng),
+  //        icon : "https://img.icons8.com/fluent/96/000000/marker-b.png",
+  //        iconSize : new Tmapv2.Size(24, 38),
+  //        map : map
+  //     });
+  // }
+
   // 2. 시작, 도착 심볼찍기
    // 시작
    marker_s = new Tmapv2.Marker(
@@ -351,17 +361,15 @@ function initTmap() {
          });
       
    var p1 = [126.99050799891104, 37.5672089168727]
-   var p2 = [126.99755684423954, 37.56772766459168]
-   var a = 126.99050799891104
-   var b = 37.5672089168727
+   var p2 = [126.99755684423954, 37.56772766459168]  
   
   //  var ppp = [p_mk_lng, p_mk_lat]
   //  passListData = `${p_mk_lng},${p_mk_lat}_`
-  console.log('아니제발',p_mk_lng,p_mk_lat)
-  console.log('아니',s_mk_lng,s_mk_lat)
-  passListData = `${p_mk_lng},${p_mk_lat}_`
+  var a = String(p_mk_lng);
+  var b = String(p_mk_lat);
+  passListData = `sdfg${a},${b}`
       
-      
+     
    // 3. 경로탐색 API 사용요청
       ////추가
    $("#btn_select")
@@ -385,7 +393,7 @@ function initTmap() {
                           "startY" : s_mk_lat,
                            "endX" : d_mk_lng,
                            "endY" : d_mk_lat,
-                           "passList" : passListData,
+                           "passList" : `${p_mk_lng},${p_mk_lat}_`,
                            // "passList" : "126.99050799891104,37.5672089168727_126.99755684423954,37.56772766459168_",   //출발지에 가까운게 제일 처음
                            "reqCoordType" : "WGS84GEO",
                            "resCoordType" : "EPSG3857",
