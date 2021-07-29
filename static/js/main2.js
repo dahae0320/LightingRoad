@@ -70,7 +70,7 @@ function passFn(lat,lng) {
   p_mk_lng = lng;
   // p_mk_list.push(p_mk_lng);
   // p_mk_list.push(p_mk_lat);
-  // console.log(p_mk_list)...;
+  // console.log(p_mk_list)..dsdsgdg.;
 }
 
 function destinationFn(lat,lng) {
