@@ -46,30 +46,7 @@ function bottomSheetEvent() {
   report.classList.toggle('up');
 }
 
-function markerEventPop(marker_lat, marker_lng) {
-	var content ="<div style=' position: relative; border-bottom: 1px solid #dcdcdc; line-height: 18px; padding: 0 35px 2px 0;'>"+
-					"<div style='font-size: 12px; line-height: 15px;'>"+
-					"<span style='display: inline-block; width: 14px; height: 14px; background-image: url('http://tmapapi.sktelecom.com/resources/images/common/footer_logo.png'); vertical-align: middle; margin-right: 5px;'></span>SK T-타워"+
-					"</div>"+
-					"</div>"+
-					"<div style='position: relative; padding-top: 5px; display:inline-block'>"+
-					"<div style='display:inline-block; border:1px solid #dcdcdc;'><img src='http://tmapapi.sktelecom.com/resources/images/common/footer_logo.png' width='73' height='70'></div>"+
-					"<div style='display:inline-block; margin-left:5px; vertical-align: top;'>"+
-					"<span style='font-size: 12px; margin-left:2px; margin-bottom:2px; display:block;'>서울특별시 중구 을지로 65 SK T-타워</span>"+
-					"<span style='font-size: 12px; color:#888; margin-left:2px; margin-bottom:2px; display:block;'>(우)100-999  (지번)을지로2가 11</span>"+
-					"<span style='font-size: 12px; margin-left:2px;'><a href='https://openapi.sk.com/' target='blank'>개발자센터</a></span>"+
-					"</div>"+
-					"</div>";
-		//Popup 객체 생성.
-		infoWindow = new Tmapv2.InfoWindow({
-			position: new Tmapv2.LatLng(marker_lat, marker_lng), //Popup 이 표출될 맵 좌표
-			content: content, //Popup 표시될 text
-			type: 2, //Popup의 type 설정.
-			map: map //Popup이 표시될 맵 객체
-		});
-		
-	// map.setCenter(new Tmapv2.LatLng(marker_lat, marker_lng));
-}
+
 
 infoSummary.addEventListener('click', () => {
   bottomSheetEvent();
@@ -89,6 +66,7 @@ function initTmap() {
     width: '100%',
     height: '500px',
     zoom: 15,
+	zIndexMarker: "8",
   });
 
   // 지도 옵션 줌컨트롤 표출 비활성화
@@ -136,7 +114,7 @@ function initTmap() {
 	  }
       markers.push(marker);
     }
-
+	
     //Marker에 클릭이벤트 등록.
     markers.forEach((marker) =>
       marker.addListener('click', (evt) => {
@@ -145,7 +123,7 @@ function initTmap() {
 		// marker1_lat = marker._marker_data.options.position._lat
 		// marker1_lng = marker._marker_data.options.position._lng
         markerEvent(marker._marker_data.options.title, resultData);
-		  var content = "<div style=' position: relative; z-index:400; border-bottom: 1px solid #dcdcdc; line-height: 18px; padding: 0 35px 2px 0;'>" +
+		  var content = "<div class='popupstyle' style=' position: relative; z-index:400; border-bottom: 1px solid #dcdcdc; line-height: 18px; padding: 0 35px 2px 0;'>" +
 			  "<div style='font-size: 12px; line-height: 15px;'>" +
 			  "<span style='display: inline-block; width: 14px; height: 14px; background-image: url('http://tmapapi.sktelecom.com/resources/images/common/footer_logo.png'); vertical-align: middle; margin-right: 5px;'></span>SK T-타워" +
 			  "</div>" +
@@ -158,6 +136,7 @@ function initTmap() {
 			  "<span style='font-size: 12px; margin-left:2px;'><a href='https://openapi.sk.com/' target='blank'>개발자센터</a></span>" +
 			  "</div>" +
 					"</div>";
+
 		//Popup 객체 생성.
 		infoWindow = new Tmapv2.InfoWindow({
 			position: new Tmapv2.LatLng(marker._marker_data.options.position._lat,marker._marker_data.options.position._lng), //Popup 이 표출될 맵 좌표
@@ -463,7 +442,6 @@ function initTmap() {
 				resultdrawArr.push(polyline_);
 			}
 
-			
 			
 }
 
