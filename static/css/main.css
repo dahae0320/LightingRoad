@@ -134,8 +134,8 @@ body {
 }
 .now{
   position: fixed;
-  bottom: 72px;
-  left: 8px;
+  top: 100px;
+  right: 8px;
   width: 60px;
   border-radius: 10px;
   cursor: pointer;
