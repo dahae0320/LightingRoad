@@ -208,8 +208,8 @@ function initTmap() {
   }
 
   // gps가져오는 부분
-  navigator.geolocation.getCurrentPosition(function (position) {
-    console.log(position.coords.latitude + ", " + position.coords.longitude);
+
+  navigator.geolocation.getCurrentPosition(function(position) {
     var gpslat = position.coords.latitude;
     var gpslng = position.coords.longitude;
     marker = new Tmapv2.Marker({
@@ -222,22 +222,44 @@ function initTmap() {
 }
 
 
+
 // 리버스 지오코딩 (reload 버튼 주소)
 function getAddress(lat, lng) {
   let tData = new Tmapv2.extension.TData();
+
 
   let optionObj = {
     coordType: 'WGS84GEO', //응답좌표 타입 옵션 설정 입니다.
     addressType: 'A04', //주소타입 옵션 설정 입니다.
   };
 
-  let params = {
-    onComplete: fun1, //데이터 로드가 성공적으로 완료 되었을때 실행하는 함수 입니다.
-    onProgress: fun2, //데이터 로드 중에 실행하는 함수 입니다.
-    onError: fun3, //데이터 로드가 실패했을때 실행하는 함수 입니다.
-  };
-  // TData 객체의 리버스지오코딩 함수
-  tData.getAddressFromGeoJson(lat, lng, optionObj, params);
+    let params = {
+      onComplete: fun1, //데이터 로드가 성공적으로 완료 되었을때 실행하는 함수 입니다.
+      onProgress: fun2, //데이터 로드 중에 실행하는 함수 입니다.
+      onError: fun3, //데이터 로드가 실패했을때 실행하는 함수 입니다.
+    };
+    // TData 객체의 리버스지오코딩 함수
+    tData.getAddressFromGeoJson(lat, lng, optionObj, params);
+  }
+
+  function fun1() {
+    let city_do = this._responseData.addressInfo.city_do;
+    let gu_gun = this._responseData.addressInfo.gu_gun;
+    let address = city_do + ' ' + gu_gun;
+
+    reloadBtnAddress.innerText = `${address}`;
+  }
+  function fun2() { }
+  function fun3() { }
+
+  
+}
+function tonowposition(){
+  navigator.geolocation.getCurrentPosition(function(position) {
+    var lonlat = new Tmapv2.LatLng(position.coords.latitude,position.coords.longitude);
+    map.setCenter(lonlat); // 지도의 중심 좌표를 설정합니다.
+  });
+
 }
 
 function fun1() {
