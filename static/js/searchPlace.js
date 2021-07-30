@@ -2,19 +2,34 @@
 const searchKeyword = document.querySelector('.searchKeyword');
 const searchResult = document.querySelector('.searchResult');
 
+searchKeyword.addEventListener('keypress', enterKey);
+
 searchKeyword.addEventListener('keyup', searchPlace);
-// searchKeyword.addEventListener('click', () => {
+// searchKeyword.addEventListener('enter', function(){
+//   if (event.ketCode == 13){
+//     hideSearchResult();
+//   }
+  // searchKeyword.addEventListener('click', () => {
 //   if (searchKeyword.value !== '' || searchResult.style.display == 'none') {
 //     searchResult.style.display = 'block';
 //   }
 // });
 document.addEventListener('click', hideSearchResult);
 
+var count = 1;
+var marker;
+var markerArr = [];
 
 function searchPlace() {
-  if (searchResult.style.display == 'none') {
+  // if (count == 1) {
+  //   searchResult.style.display = 'block';
+  // }
+  // else if(count == 0){
+  //   searchResult.style.display = 'none';
+
+  $(".searchKeyword").on("propertychange keydown paste input", function(){
     searchResult.style.display = 'block';
-  }
+  });
 
   $.ajax({
     method: "GET",
@@ -32,11 +47,22 @@ function searchPlace() {
         let resultpoisData = response.searchPoiInfo.pois.poi;
         let innerHtml = "";	// Search Reulsts 결과값 노출 위한 변수
 
+        if(markerArr.length > 0){
+          for(var i in markerArr){
+            markerArr[i].setMap(null);
+          }
+          markerArr = [];
+        }
+
         for (let k in resultpoisData) {
           let name = resultpoisData[k].name;
           innerHtml += "<li onclick='searchPOI(this.textContent)'>" + name + "</li>";
         }
+        
+
+        
         searchResult.innerHTML = innerHtml;
+        console.log(innerHtml);
       }
     },
     error: function (request, status, error) {
@@ -44,6 +70,16 @@ function searchPlace() {
     }
   });
 }
+
+
+function enterKey(){
+      var searchText = document.querySelector('.searchKeyword').value;
+      searchPOI(searchText);
+      --count;
+      console.log(count);
+      // console.log(text);
+}
+
 
 function hideSearchResult() {
   searchResult.style.display = "none";
@@ -68,6 +104,7 @@ function searchPOI(search) {
     onProgress: onProgress,
     onError: onError
   };
+  
   var tData = new Tmapv2.extension.TData();
   tData.getPOIDataFromSearchJson(encodeURIComponent(search), optionObj, params);//encodeURIComponent함수로 해당 파라메터 값을 처리합니다.
 }
@@ -77,8 +114,15 @@ function onComplete() {
   let lat = this._responseData.searchPoiInfo.pois.poi[0].frontLat;
   let lng = this._responseData.searchPoiInfo.pois.poi[0].frontLon;
 
+ 
+  
   getAddress(lat, lng);
   map.setCenter(new Tmapv2.LatLng(lat, lng));
+  var marker = new Tmapv2.Marker({
+    position: new Tmapv2.LatLng(lat,lng), //Marker의 중심좌표 설정.
+    map: map //Marker가 표시될 Map 설정
+  });
+  markerArr.push(marker);
   map.setZoom(16);
 }
 
