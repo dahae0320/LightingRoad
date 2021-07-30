@@ -26,7 +26,7 @@ function searchPlace() {
   // }
   // else if(count == 0){
   //   searchResult.style.display = 'none';
-  // }
+
   $(".searchKeyword").on("propertychange keydown paste input", function(){
     searchResult.style.display = 'block';
   });
