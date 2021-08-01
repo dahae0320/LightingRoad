@@ -184,7 +184,9 @@ function initTmap() {
   function onComplete() {
     let city_do = this._responseData.addressInfo.city_do;
     let gu_gun = this._responseData.addressInfo.gu_gun;
+    // let s = this._responseData.addressInfo;
     let address = city_do + ' ' + gu_gun;
+    console.log(this._responseData);
 
     let address_code;
 

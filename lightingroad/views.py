@@ -6,6 +6,7 @@ from urllib.request import urlopen, Request
 from urllib.parse import urlencode, quote_plus, unquote
 
 import json
+import requests
 
 # Create your views here.
 def streetLampData(code):
@@ -34,7 +35,9 @@ def streetLampData(code):
       json.dump(json_obj, jsonFile)
   return decode_data
 
-def main(request):  
+def main(request):
+  str = '서울특별시 서초구 반포동'
+  api_data = (requests.get('http://127.0.0.1:8000/'+str)).json()
   if request.is_ajax and request.method == 'POST':
     code = request.POST['code']
     data = streetLampData(code)
