@@ -36,13 +36,12 @@ def streetLampData(code):
   return decode_data
 
 def main(request):
-  str = '서울특별시 서초구 반포동'
-  api_data = (requests.get('http://127.0.0.1:8000/'+str)).json()
   if request.is_ajax and request.method == 'POST':
     code = request.POST['code']
-    data = streetLampData(code)
-    # print(data)
-    return HttpResponse(data)
+    api_data = (requests.get('http://127.0.0.1:8000/'+code)).json()
+    # data = streetLampData(code)
+    # print(api_data)
+    return HttpResponse(str(api_data))
   return render(request, 'main.html')
 
 def main2(request):

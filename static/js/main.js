@@ -148,10 +148,9 @@ function initTmap() {
       url: '',
       data: { code: code },
       success: function (response) {
-        let data = response.replaceAll(`&quot;`, `"`);
+        let data = response.replaceAll(`'`, `"`);
         let placeData = JSON.parse(data);
-        let resultData = placeData['response']['body']['items'];
-        setMarker(resultData);
+        setMarker(placeData);
       },
       error: function () {
         console.log('실패-!');
@@ -184,22 +183,25 @@ function initTmap() {
   function onComplete() {
     let city_do = this._responseData.addressInfo.city_do;
     let gu_gun = this._responseData.addressInfo.gu_gun;
-    // let s = this._responseData.addressInfo;
+    let roadName =  this._responseData.addressInfo.roadName;
     let address = city_do + ' ' + gu_gun;
-    console.log(this._responseData);
+    let address2 = address + ' ' + roadName;
+    // console.log(this._responseData);
 
-    let address_code;
+    let jibunAdd = getAddrLoc(address2);
+
+    // let address_code;
 
     // 주소 -> 제공기관 코드
-    let adminCode = JSON.parse(data);
-    for (i = 0; i < adminCode.length; i++) {
-      if (adminCode[i]['제공기관명'] == address) {
-        address_code = adminCode[i]['제공기관코드'];
-        break;
-      }
-    }
+    // let adminCode = JSON.parse(data);
+    // for (i = 0; i < adminCode.length; i++) {
+    //   if (adminCode[i]['제공기관명'] == address) {
+    //     address_code = adminCode[i]['제공기관코드'];
+    //     break;
+    //   }
+    // }
 
-    adminCodeToViews(address_code);
+    adminCodeToViews(address + ' ' + jibunAdd);
   }
 
   //데이터 로드중 실행하는 함수입니다.

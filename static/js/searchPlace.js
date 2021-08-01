@@ -113,8 +113,6 @@ function searchPOI(search) {
 function onComplete() {
   let lat = this._responseData.searchPoiInfo.pois.poi[0].frontLat;
   let lng = this._responseData.searchPoiInfo.pois.poi[0].frontLon;
-
- 
   
   getAddress(lat, lng);
   map.setCenter(new Tmapv2.LatLng(lat, lng));
