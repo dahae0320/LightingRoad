@@ -53,18 +53,19 @@ var p_mk_lng;
 var d_mk_lat;
 var d_mk_lng;
 var p_mk_list = [];
+let List;
 
 function startFn(lat,lng) {
   s_mk_lat = lat;
   s_mk_lng = lng;
+  List = ''; 
 }
 
-let passListData = [];
-let List;
+// let passListData = [];
 
 function passFn(lat,lng) {
-  passListData.push(lat);
-  passListData.push(lng);
+  // passListData.push(lat);
+  // passListData.push(lng);
 
   for (let i=0; i < 1; i++) {
     if (List == undefined) {
