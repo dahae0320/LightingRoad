@@ -55,27 +55,27 @@ var d_mk_lng;
 var p_mk_list = [];
 
 function startFn(lat,lng) {
-	console.log('여기를 출발지로 지정 클릭수행')
-  console.log(lat, lng)
   s_mk_lat = lat;
   s_mk_lng = lng;
 }
 
+let passListData = [];
+let List;
 
-let passListData;
 function passFn(lat,lng) {
-	console.log('여기를 경유지로 지정 클릭수행')
-  console.log(lat, lng)
-  p_mk_lat = lat;
-  p_mk_lng = lng;
-  // p_mk_list.push(p_mk_lng);
-  // p_mk_list.push(p_mk_lat);
-  // console.log(p_mk_list)..dsdsgdg.;
+  passListData.push(lat);
+  passListData.push(lng);
+
+  for (let i=0; i < 1; i++) {
+    if (List == undefined) {
+      List = `${lng},${lat}_`
+    } else {
+      List = List + `${lng},${lat}_`
+    }
+  }
 }
 
 function destinationFn(lat,lng) {
-	console.log('여기를 목적지로 지정 클릭수행')
-  console.log(lat, lng)
   d_mk_lat = lat;
   d_mk_lng = lng;
 }
@@ -85,9 +85,11 @@ infoSummary.addEventListener('click', () => {
   bottomSheetEvent();
 });
 
+function onClose(popup){
+  infoWindow.setVisible(false);
+}
 
 var marker_s, marker_e, marker_p1, marker_p2;
-var marker_2,marker_3, marker_4;  // 경유지 변수 추가
 var totalMarkerArr = [];
 var drawInfoArr = [];
 var resultdrawArr = [];
@@ -97,7 +99,7 @@ function initTmap() {
   let map = new Tmapv2.Map('map_div', {
     center: new Tmapv2.LatLng(37.570028, 126.989072), // 지도 초기 좌표
     width: '100%',
-    height: '500px',
+    height: '700px',
     zoom: 15,
     zIndexMarker: "8",
   });
@@ -116,7 +118,7 @@ function initTmap() {
 
   function setMarker(resultData) {
     var positions = [];
-
+  
     // 기존 marker 제거
     for (let i = 0; i < markers.length; i++) {
       markers[i].setMap(null);
@@ -139,8 +141,7 @@ function initTmap() {
         position: lonlat, //Marker의 중심좌표 설정.
         icon: '/static/img/lamp-icon-sm.png', //Marker의 아이콘.
         map: map, //Marker가 표시될 Map 설정.
-      title: resultData[i].rdnmadr,
-      zIndexMarker: 10,
+        title: resultData[i].rdnmadr,
       });
      if (marker.title == undefined) {
         marker.setTitle(resultData[i].lnmadr);
@@ -150,41 +151,30 @@ function initTmap() {
     //Marker에 클릭이벤트 등록.
     markers.forEach((marker) =>
       marker.addListener('click', (evt) => {
-      console.log('제발',marker._marker_data.options.position._lat, marker._marker_data.options.position._lng)
-      // console.log(marker._marker_data.options.position._lng)
-      // marker1_lat = marker._marker_data.options.position._lat
-      // marker1_lng = marker._marker_data.options.position._lng
         markerEvent(marker._marker_data.options.title, resultData);
-  
+      
         var content =
-			"<div class='outside' style=' position: relative;  width:130px; border-bottom: 1px solid black; line-height: 18px; padding: 0 35px 2px 0;'>" +
+			"<div class='outside' style=' position: relative;  width:150px; border-bottom: 1px solid black; line-height: 18px; padding: 0 35px 2px 0;'>" +
            "<div class='a' width:130px; style='font-size: 12px; line-height: 15px;'>" +
-           "<span class='b' style='display: inline-block; width:130px; height: 14px; margin-left:2px; vertical-align: middle; margin-right: 5px;'><a href='javascript:void(0);' onclick='startFn("+marker._marker_data.options.position._lat+","+marker._marker_data.options.position._lng+"); markerChange("+marker._marker_data.options.position._lat+","+marker._marker_data.options.position._lng+") '>여기를 출발지로 지정</a></span>" +
+           "<span class='b' style='display: inline-block; width:130px; height: 14px; margin-left:2px; vertical-align: middle; margin-right: 5px;'><a href='javascript:void(0);' onclick='startFn("+marker._marker_data.options.position._lat+","+marker._marker_data.options.position._lng+"); onClose();'>여기를 출발지로 지정</a></span>" +
            "</div>" +
            "</div>" +
-		   "<div class='outside' style=' position: relative;  width:130px; border-bottom: 1px solid black; line-height: 18px; padding: 0 35px 2px 0;'>" +
+		   "<div class='outside' style=' position: relative;  width:150px; border-bottom: 1px solid black; line-height: 18px; padding: 0 35px 2px 0;'>" +
            "<div class='a' width:130px; style='font-size: 12px; line-height: 15px;'>" +
-           "<span class='b' style='display: inline-block; width:130px; height: 14px; margin-left:2px; vertical-align: middle; margin-right: 5px;'><a href='javascript:void(0);' onclick='passFn("+marker._marker_data.options.position._lat+","+marker._marker_data.options.position._lng+");'>여기를 경유지로 지정</a></span>" +
+           "<span class='b' style='display: inline-block; width:130px; height: 14px; margin-left:2px; vertical-align: middle; margin-right: 5px;'><a href='javascript:void(0);' onclick='passFn("+marker._marker_data.options.position._lat+","+marker._marker_data.options.position._lng+"); onClose();'>여기를 경유지로 지정</a></span>" +
            "</div>" +
            "</div>" +
-		   "<div class='outside' style=' position: relative;  width:130px; line-height: 18px; padding: 0 35px 2px 0;'>" +
+		   "<div class='outside' style=' position: relative;  width:150px; line-height: 18px; padding: 0 35px 2px 0;'>" +
            "<div class='a' width:130px; style='font-size: 12px; line-height: 15px;'>" +
-           "<span class='b' style='display: inline-block; width:130px; height: 14px; margin-left:2px; vertical-align: middle; margin-right: 5px;'><a href='javascript:void(0);' onclick='destinationFn("+marker._marker_data.options.position._lat+","+marker._marker_data.options.position._lng+");'>여기를 목적지로 지정</a></span>" +
+           "<span class='b' style='display: inline-block; width:130px; height: 14px; margin-left:2px; vertical-align: middle; margin-right: 5px;'><a href='javascript:void(0);' onclick='destinationFn("+marker._marker_data.options.position._lat+","+marker._marker_data.options.position._lng+"); onClose();'>여기를 목적지로 지정</a></span>" +
            "</div>" +
            "</div>" +
-    
-
 
           //JS에서 받아온거가 html에서 못알아먹을수도 있다! 긍까 반드시 개발자모드로 가서 element에서 html에서 잘 인식하는지 확인을 하고 아니다 하면 저기 "+ㅇㅇ+"처럼하기        
-
-        //    "<div class='c' style='position: relative; z-index:100000; padding-top: 5px; display:inline-block'>" +
-        //    "<div class='d' style='display:inline-block; vertical-align: top;'>" +
-        //    "<span class='e' style='font-size: 12px; margin-left:2px; margin-bottom:2px; display:block;'>여기를 경유지로 지정</span>" +
-        //    "<span class='f' style='font-size: 12px; margin-left:2px; margin-bottom:2px; display:block;'>여기를 목적지로 지정</span>" +
-        //    "<span class='g' style='font-size: 12px; margin-left:2px;'><a href='https://openapi.sk.com/' target='blank'>개발자센터</a></span>" +
            "</div>" +
                "</div>";
       //Popup 객체 생성.
+
       infoWindow = new Tmapv2.InfoWindow({
          position: new Tmapv2.LatLng(marker._marker_data.options.position._lat,marker._marker_data.options.position._lng), //Popup 이 표출될 맵 좌표
          content: content, //Popup 표시될 text
@@ -192,10 +182,6 @@ function initTmap() {
          map: map, //Popup이 표시될 맵 객체
          setVisible: true
       });
-
-      // function onClose(popup){
-      //    infoWindow.setVisible(false);
-      // }
       
       })
     );
@@ -220,7 +206,6 @@ function initTmap() {
   function onClick(e) {
    // 클릭한 위치에 새로 마커를 찍기 위해 이전에 있던 마커들을 제거
    removeMarkers();
-
    
    lonlat = e.latLng;
    //Marker 객체 생성.
@@ -231,7 +216,6 @@ function initTmap() {
      
       markers2.push(marker);
 
-
    }
 
    function removeMarkers() {
@@ -240,8 +224,7 @@ function initTmap() {
       }
       markers2 = [];
    }
-
-
+  
   function adminCodeToViews(code) {
     $.ajax({
       type: 'POST',
@@ -313,18 +296,6 @@ function initTmap() {
     alert('onError');
   }
 
-  // var mm
-
-  // function markerChange(lat, lng) {
-  //   mm = new Tmapv2.Marker(
-  //     {
-  //        position : new Tmapv2.LatLng(lat, lng),
-  //        icon : "https://img.icons8.com/fluent/96/000000/marker-b.png",
-  //        iconSize : new Tmapv2.Size(24, 38),
-  //        map : map
-  //     });
-  // }
-
   // 2. 시작, 도착 심볼찍기
    // 시작
    marker_s = new Tmapv2.Marker(
@@ -365,10 +336,6 @@ function initTmap() {
   
   //  var ppp = [p_mk_lng, p_mk_lat]
   //  passListData = `${p_mk_lng},${p_mk_lat}_`
-  var a = String(p_mk_lng);
-  var b = String(p_mk_lat);
-  passListData = `sdfg${a},${b}`
-      
      
    // 3. 경로탐색 API 사용요청
       ////추가
@@ -393,8 +360,8 @@ function initTmap() {
                           "startY" : s_mk_lat,
                            "endX" : d_mk_lng,
                            "endY" : d_mk_lat,
-                           "passList" : `${p_mk_lng},${p_mk_lat}_`,
-                           // "passList" : "126.99050799891104,37.5672089168727_126.99755684423954,37.56772766459168_",   //출발지에 가까운게 제일 처음
+                          //  "passList" : `${p_mk_lng},${p_mk_lat}_`,
+                          "passList" : List,
                            "reqCoordType" : "WGS84GEO",
                            "resCoordType" : "EPSG3857",
                            "startName" : "출발지",
