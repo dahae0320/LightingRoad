@@ -48,30 +48,31 @@ function bottomSheetEvent() {
 
 var s_mk_lat;
 var s_mk_lng;
-var p_mk_lat;
-var p_mk_lng;
 var d_mk_lat;
 var d_mk_lng;
-var p_mk_list = [];
-let List;
+let Pass;
+let passList = []
 
 function startFn(lat,lng) {
   s_mk_lat = lat;
   s_mk_lng = lng;
-  List = ''; 
+  Pass = '';
 }
 
-// let passListData = [];
-
 function passFn(lat,lng) {
-  // passListData.push(lat);
-  // passListData.push(lng);
-
-  for (let i=0; i < 1; i++) {
-    if (List == undefined) {
-      List = `${lng},${lat}_`
-    } else {
-      List = List + `${lng},${lat}_`
+  passList.push(lat)
+  passList.push(lng)
+  console.log(passList)
+  if (passList.length == 10) {
+    Pass = ''
+    passList = []
+  } else {
+    for (let i=0; i < 1; i++) {
+      if (Pass == undefined) {
+        Pass = `${lng},${lat}_`
+      } else {
+        Pass = Pass + `${lng},${lat}_`
+      }
     }
   }
 }
@@ -362,7 +363,7 @@ function initTmap() {
                            "endX" : d_mk_lng,
                            "endY" : d_mk_lat,
                           //  "passList" : `${p_mk_lng},${p_mk_lat}_`,
-                          "passList" : List,
+                          "passList" : Pass,
                            "reqCoordType" : "WGS84GEO",
                            "resCoordType" : "EPSG3857",
                            "startName" : "출발지",
