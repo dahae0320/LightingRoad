@@ -300,3 +300,8 @@ body {
 .contextmenu li:hover a {
   color: #FFFFFF;
 }
+
+img {
+  position: relative;
+  z-index: -2;
+}
