@@ -1,4 +1,3 @@
-// 2. POI 통합 검색 API 요청
 const searchKeyword = document.querySelector('.searchKeyword');
 const searchResult = document.querySelector('.searchResult');
 
@@ -17,7 +16,6 @@ searchKeyword.addEventListener('keyup', searchPlace);
 document.addEventListener('click', hideSearchResult);
 
 var count = 1;
-var marker;
 var markerArr = [];
 
 function searchPlace() {
