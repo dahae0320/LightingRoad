@@ -21,8 +21,10 @@ function changeInfo(address, resultData) {
 }
 
 function callClick() {
-  var num = document.querySelector('.management__detail').textContent.split(' / ')[1];
-  location.href = "tel:" + num;
+  var num = document
+    .querySelector('.management__detail')
+    .textContent.split(' / ')[1];
+  location.href = 'tel:' + num;
 }
 
 function markerEvent(address, resultData) {
@@ -66,6 +68,7 @@ function initTmap() {
   map.setOptions({ zoomControl: false });
 
   let center = map.getCenter();
+  getAddress(center._lat, center._lng);
   loadGetLonLatFromAddress(center._lat, center._lng);
 
   map.addListener('dragend', onDragend);
@@ -73,7 +76,6 @@ function initTmap() {
 
   var markers = [];
   var markers2 = [];
-  
 
   function setMarker(resultData) {
     var positions = [];
@@ -98,7 +100,7 @@ function initTmap() {
       //Marker 객체 생성.
       marker = new Tmapv2.Marker({
         position: lonlat, //Marker의 중심좌표 설정.
-        icon: '/static/img/lamp-icon-sm.png', //Marker의 아이콘.
+        icon: '/static/img/lamp-icon.png', //Marker의 아이콘.
         map: map, //Marker가 표시될 Map 설정.
         title: resultData[i].rdnmadr,
       });
@@ -114,8 +116,6 @@ function initTmap() {
         markerEvent(marker._marker_data.options.title, resultData);
       })
     );
-
-
 
     // Marker에 터치이벤트 등록.
     markers.forEach((marker) =>
@@ -144,10 +144,9 @@ function initTmap() {
       url: '',
       data: { code: code },
       success: function (response) {
-        let data = response.replaceAll(`&quot;`, `"`);
+        let data = response.replaceAll(`'`, `"`);
         let placeData = JSON.parse(data);
-        let resultData = placeData['response']['body']['items'];
-        setMarker(resultData);
+        setMarker(placeData);
       },
       error: function () {
         console.log('실패-!');
@@ -155,7 +154,6 @@ function initTmap() {
       },
     });
   }
-
 
   //리버스 지오코딩 요청 함수
   function loadGetLonLatFromAddress(lat, lng) {
@@ -180,22 +178,25 @@ function initTmap() {
   function onComplete() {
     let city_do = this._responseData.addressInfo.city_do;
     let gu_gun = this._responseData.addressInfo.gu_gun;
+    let roadName = this._responseData.addressInfo.roadName;
     let address = city_do + ' ' + gu_gun;
+    let address2 = address + ' ' + roadName;
+    // console.log(this._responseData);
 
-    reloadBtnAddress.innerText = `${address}`;
+    let jibunAdd = getAddrLoc(address2);
 
-    let address_code;
+    // let address_code;
 
     // 주소 -> 제공기관 코드
-    let adminCode = JSON.parse(data);
-    for (i = 0; i < adminCode.length; i++) {
-      if (adminCode[i]['제공기관명'] == address) {
-        address_code = adminCode[i]['제공기관코드'];
-        break;
-      }
-    }
+    // let adminCode = JSON.parse(data);
+    // for (i = 0; i < adminCode.length; i++) {
+    //   if (adminCode[i]['제공기관명'] == address) {
+    //     address_code = adminCode[i]['제공기관코드'];
+    //     break;
+    //   }
+    // }
 
-    adminCodeToViews(address_code);
+    adminCodeToViews(address + ' ' + jibunAdd);
   }
 
   //데이터 로드중 실행하는 함수입니다.
@@ -209,48 +210,47 @@ function initTmap() {
   }
 
   // gps가져오는 부분
-  navigator.geolocation.getCurrentPosition(function(position) {
-    console.log(position.coords.latitude + ", " + position.coords.longitude);
+  navigator.geolocation.getCurrentPosition(function (position) {
+    console.log(position.coords.latitude + ', ' + position.coords.longitude);
     var gpslat = position.coords.latitude;
     var gpslng = position.coords.longitude;
     marker = new Tmapv2.Marker({
-      position: new Tmapv2.LatLng(gpslat,gpslng), //Marker의 중심좌표 설정.
+      position: new Tmapv2.LatLng(gpslat, gpslng), //Marker의 중심좌표 설정.
       icon: '/static/img/GPS-sm.png',
-      map: map //Marker가 표시될 Map 설정.
+      map: map, //Marker가 표시될 Map 설정.
     });
-      markers2.push(marker);
-    });
-
-
-  // 리버스 지오코딩 (reload 버튼 주소).
-  function getAddress(lat, lng) {
-    let tData = new Tmapv2.extension.TData();
-
-    let optionObj = {
-      coordType: 'WGS84GEO', //응답좌표 타입 옵션 설정 입니다.
-      addressType: 'A04', //주소타입 옵션 설정 입니다.
-    };
-
-    let params = {
-      onComplete: fun1, //데이터 로드가 성공적으로 완료 되었을때 실행하는 함수 입니다.
-      onProgress: fun2, //데이터 로드 중에 실행하는 함수 입니다.
-      onError: fun3, //데이터 로드가 실패했을때 실행하는 함수 입니다.
-    };
-    // TData 객체의 리버스지오코딩 함수
-    tData.getAddressFromGeoJson(lat, lng, optionObj, params);
-  }
-
-  function fun1() {
-    let city_do = this._responseData.addressInfo.city_do;
-    let gu_gun = this._responseData.addressInfo.gu_gun;
-    let address = city_do + ' ' + gu_gun;
-
-    reloadBtnAddress.innerText = `${address}`;
-  }
-  function fun2() { }
-  function fun3() { }
+    markers2.push(marker);
+  });
 }
 
+// 리버스 지오코딩 (reload 버튼 주소)
+function getAddress(lat, lng) {
+  let tData = new Tmapv2.extension.TData();
 
+  let optionObj = {
+    coordType: 'WGS84GEO', //응답좌표 타입 옵션 설정 입니다.
+    addressType: 'A04', //주소타입 옵션 설정 입니다.
+  };
 
+  let params = {
+    onComplete: fun1, //데이터 로드가 성공적으로 완료 되었을때 실행하는 함수 입니다.
+    onProgress: fun2, //데이터 로드 중에 실행하는 함수 입니다.
+    onError: fun3, //데이터 로드가 실패했을때 실행하는 함수 입니다.
+  };
+  // TData 객체의 리버스지오코딩 함수
+  tData.getAddressFromGeoJson(lat, lng, optionObj, params);
+}
 
+function fun1() {
+  let city_do = this._responseData.addressInfo.city_do;
+  let gu_gun = this._responseData.addressInfo.gu_gun;
+  let address = city_do + ' ' + gu_gun;
+  let roadName = this._responseData.addressInfo.roadName;
+  let address2 = address + ' ' + roadName;
+
+  let jibunAdd = getAddrLoc(address2);
+
+  reloadBtnAddress.innerText = `${address} ${jibunAdd}`;
+}
+function fun2() {}
+function fun3() {}
