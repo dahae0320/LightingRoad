@@ -469,8 +469,14 @@ function initTmap() {
     });
     markers2.push(marker);
   });
+  
 }
-
+function tonowposition(){
+  navigator.geolocation.getCurrentPosition(function(position) {
+    var lonlat = new Tmapv2.LatLng(position.coords.latitude,position.coords.longitude);
+    map.setCenter(lonlat); // 지도의 중심 좌표를 설정합니다.
+  });
+}
 
 // 리버스 지오코딩 (reload 버튼 주소)
 function getAddress(lat, lng) {
