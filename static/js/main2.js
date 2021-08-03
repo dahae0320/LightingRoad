@@ -21,6 +21,7 @@ let map;
 //   managementInfo.innerText = `${resultData[0].institutionNm} / ${resultData[0].phoneNumber}`;
 // }
 //
+
 // function markerEvent(address, resultData) {
 //   bottomSheet.classList.remove('init');
 //   report.classList.remove('init');
@@ -54,6 +55,7 @@ let Pass;
 let passList = []
 
 function startFn(lat, lng) {
+
   s_mk_lat = lat;
   s_mk_lng = lng;
   Pass = '';
@@ -77,7 +79,9 @@ function passFn(lat, lng) {
   }
 }
 
+
 function destinationFn(lat, lng) {
+
   d_mk_lat = lat;
   d_mk_lng = lng;
 }
@@ -103,7 +107,8 @@ function initTmap() {
     width: '100%',
     height: '700px',
     zoom: 15,
-    zIndexMarker: "8", 까먹지말기
+    zIndexMarker: "8", 
+
   });
 
   // 지도 옵션 줌컨트롤 표출 비활성화
@@ -150,6 +155,7 @@ function initTmap() {
       }
       markers.push(marker);
     }
+
     //Marker에 클릭이벤트 등록.
     markers.forEach((marker) =>
       marker.addListener('click', (evt) => {
@@ -477,7 +483,6 @@ function initTmap() {
     });
     resultdrawArr.push(polyline_);
   }
-
 
 
 }

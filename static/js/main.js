@@ -126,6 +126,7 @@ function initTmap() {
   var markers = [];
   var markers2 = [];
 
+
   function setMarker(resultData) {
     var positions = [];
 
@@ -285,9 +286,11 @@ function initTmap() {
     let address2 = address + ' ' + roadName;
     // console.log(this._responseData);
 
+
     let jibunAdd = getAddrLoc(address2);
 
     // let address_code;
+
 
     // 주소 -> 제공기관 코드
     // let adminCode = JSON.parse(data);
@@ -451,18 +454,23 @@ function initTmap() {
   }
 
   // gps가져오는 부분
+
   navigator.geolocation.getCurrentPosition(function (position) {
     console.log(position.coords.latitude + ', ' + position.coords.longitude);
+
     var gpslat = position.coords.latitude;
     var gpslng = position.coords.longitude;
     marker = new Tmapv2.Marker({
       position: new Tmapv2.LatLng(gpslat, gpslng), //Marker의 중심좌표 설정.
       icon: '/static/img/GPS-sm.png',
+
       map: map, //Marker가 표시될 Map 설정.
+
     });
     markers2.push(marker);
   });
 }
+
 
 // 리버스 지오코딩 (reload 버튼 주소)
 function getAddress(lat, lng) {
@@ -495,3 +503,4 @@ function fun1() {
 }
 function fun2() {}
 function fun3() {}
+
