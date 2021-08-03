@@ -13,6 +13,17 @@ const managementInfo = document.querySelector(
   '.bottom-sheet .info-detail .management .management__detail'
 );
 
+function setBulbRate(bulb) {
+  const lightbulb = document.querySelectorAll('.icons > .fa-lightbulb');
+  let num = bulb.getAttribute('name');
+  for (i = 0; i < num; i++) {
+    lightbulb[i].classList.add('selected');
+  }
+  for (i = num; i < 5; i++) {
+    lightbulb[i].classList.remove('selected');
+  }
+}
+
 let markers2 = [];
 let marker;
 let lonlat;
