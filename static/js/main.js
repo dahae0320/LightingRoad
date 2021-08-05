@@ -12,6 +12,7 @@ const evalAvgNum = document.querySelector(
 const managementInfo = document.querySelector(
   '.bottom-sheet .info-detail .management .management__detail'
 );
+const btnDelete = document.querySelector('.btn_delete')
 
 let roadcount = 0;
 
@@ -37,11 +38,19 @@ let d_mk_lat;
 let d_mk_lng;
 let Pass;
 let passList = []
+let marker_3;
+
+let marker_p;
+let totalMarkerArr = [];
+let drawInfoArr = [];
+let resultdrawArr = [];
 
 function startFn(lat, lng) {
   s_mk_lat = lat;
   s_mk_lng = lng;
+
   Pass = '';
+
   marker_s = new Tmapv2.Marker(
     {
       position : new Tmapv2.LatLng(lat, lng),
@@ -51,10 +60,13 @@ function startFn(lat, lng) {
     }); //출발 마커 생성
 } 
 
+
 function passFn(lat, lng) {
   passList.push(lat)
   passList.push(lng)
+
   console.log(passList)
+
   if (passList.length == 11) {
     Pass = ''
     passList = []
@@ -127,6 +139,39 @@ function destinationFn(lat, lng) {
     }); //도착 마커 생성
 }
 
+function optiondelete() {
+  let s_mk_lat = '';
+  let s_mk_lng = '';
+  let d_mk_lat = '';
+  let d_mk_lng = '';
+  let Pass = '';
+  let passList = []
+  console.log(`s_y:${s_mk_lat}, s_x:${s_mk_lng}, d_y:${d_mk_lat}, d_x:${d_mk_lng} ,Pass:${Pass}, passList:${passList}`)
+  resettingMap();
+}
+
+function resettingMap() {
+  //기존마커는 삭제
+  marker_3.setMap(null);
+
+  // if (resultMarkerArr.length > 0) {
+  //   for (var i = 0; i < resultMarkerArr.length; i++) {
+  //     resultMarkerArr[i].setMap(null);
+  //   }
+  // }
+
+  if (resultdrawArr.length > 0) {
+    for (var i = 0; i < resultdrawArr.length; i++) {
+      resultdrawArr[i].setMap(null);
+    }
+  }
+
+  drawInfoArr = [];
+  // resultMarkerArr = [];
+  resultdrawArr = [];
+}
+
+
 function onClose(popup) {
   infoWindow.setVisible(false);
 }
@@ -171,10 +216,6 @@ function bottomSheetEvent() {
 infoSummary.addEventListener('click', () => {
   bottomSheetEvent();
 });
-
-let totalMarkerArr = [];
-let drawInfoArr = [];
-let resultdrawArr = [];
 
 function initTmap() {
   map = new Tmapv2.Map('map_div', {
@@ -239,37 +280,33 @@ function initTmap() {
         markerEvent(marker._marker_data.options.title, resultData);
 
         if(roadcount == 1){
-        let content =
-          "<div class='outside' style=' position: relative;  width:150px; border-bottom: 1px solid black; line-height: 18px; padding: 0 35px 2px 0;'>" +
-          "<div class='a' width:130px; style='font-size: 12px; line-height: 15px;'>" +
-          "<span class='b' style='display: inline-block; width:130px; height: 14px; margin-left:2px; vertical-align: middle; margin-right: 5px;'><a href='javascript:void(0);' onclick='startFn(" + marker._marker_data.options.position._lat + "," + marker._marker_data.options.position._lng + "); onClose();'>여기를 출발지로 지정</a></span>" +
-          "</div>" +
-          "</div>" +
-          "<div class='outside' style=' position: relative;  width:150px; border-bottom: 1px solid black; line-height: 18px; padding: 0 35px 2px 0;'>" +
-          "<div class='a' width:130px; style='font-size: 12px; line-height: 15px;'>" +
-          "<span class='b' style='display: inline-block; width:130px; height: 14px; margin-left:2px; vertical-align: middle; margin-right: 5px;'><a href='javascript:void(0);' onclick='passFn(" + marker._marker_data.options.position._lat + "," + marker._marker_data.options.position._lng + "); onClose();'>여기를 경유지로 지정</a></span>" +
-          "</div>" +
-          "</div>" +
-          "<div class='outside' style=' position: relative;  width:150px; line-height: 18px; padding: 0 35px 2px 0;'>" +
-          "<div class='a' width:130px; style='font-size: 12px; line-height: 15px;'>" +
-          "<span class='b' style='display: inline-block; width:130px; height: 14px; margin-left:2px; vertical-align: middle; margin-right: 5px;'><a href='javascript:void(0);' onclick='destinationFn(" + marker._marker_data.options.position._lat + "," + marker._marker_data.options.position._lng + "); onClose();'>여기를 목적지로 지정</a></span>" +
-          "</div>" +
-          "</div>" +
-
-          //JS에서 받아온거가 html에서 못알아먹을수도 있다! 긍까 반드시 개발자모드로 가서 element에서 html에서 잘 인식하는지 확인을 하고 아니다 하면 저기 "+ㅇㅇ+"처럼하기        
-          "</div>" +
-          "</div>";
+        let content ="<div class='info_container' style='position: static; display: flex; flex-direction: column; font-size: 18px; box-shadow: 5px 5px 5px #00000040; border-radius: 10px; top: 410px; left : 800px; width : 170px; background: #FFFFFF 0% 0% no-repeat padding-box;'>"+
+                     "<a class='btn-close' style='position: absolute; top: 5px; right: 5px; display: block; width: 15px; height: 15px; background: url(static/img/x.png) center;' href='javascript:void(0)' onclick='onClose()' ></a>"+
+                     "<div class='info-box'>"+
+                     "<p style='display: block;height: 20px;padding-right:20px;padding-top:5px; padding-left: 15px;font-size: 13px; color: #444;' ><a href='javascript:void(0);' onclick='startFn(" + marker._marker_data.options.position._lat + "," + marker._marker_data.options.position._lng + "); onClose();'>여기를 출발지로 지정</a></p>"+
+                     "<p style='display: block;height: 20px;padding-right:20px; padding-left: 15px;font-size: 13px; color: #444;' ><a href='javascript:void(0);' onclick='passFn(" + marker._marker_data.options.position._lat + "," + marker._marker_data.options.position._lng + "); onClose();'>여기를 경유지로 지정</a></p>"+
+                     "<p style='display: block;height: 20px;padding-right:20px; padding-left: 15px;font-size: 13px; color: #444;' ><a href='javascript:void(0);' onclick='destinationFn(" + marker._marker_data.options.position._lat + "," + marker._marker_data.options.position._lng + "); onClose();'>여기를 목적지로 지정</a></p>"+
+                     "</div>"+
+                     "<a href='javascript:void(0)' onclick='onClose()' class='btn-close' style='position: absolute; top: 10px; right: 10px; display: block; width: 15px; height: 15px; background: url(resources/images/sample/btn-close-w.svg) no-repeat center;'></a>"+
+                     "</div>"+
+                     "</div>";
+        
+          
+        //JS에서 받아온거가 html에서 못알아먹을수도 있다! 긍까 반드시 개발자모드로 가서 element에서 html에서 잘 인식하는지 확인을 하고 아니다 하면 저기 "+ㅇㅇ+"처럼하기       
         //Popup 객체 생성.
 
         infoWindow = new Tmapv2.InfoWindow({
           position: new Tmapv2.LatLng(marker._marker_data.options.position._lat, marker._marker_data.options.position._lng), //Popup 이 표출될 맵 좌표
           content: content, //Popup 표시될 text
           type: 2, //Popup의 type 설정.
+          border :'0px solid #FF0000',
           map: map, //Popup이 표시될 맵 객체
           setVisible: true
+
         });
       }
       })
+      
     );
 
     // Marker에 터치이벤트 등록.
@@ -397,12 +434,13 @@ function initTmap() {
   $("#btn_select")
     .click(
       function () {
+
         //기존 맵에 있던 정보들 초기화
-        // resettingMap();
-        let searchOption = $("#selectLevel").val();
-        let trafficInfochk = $("#year").val();
         roadcount += 1;
+        bottomSheet.style.display = 'none';
+
         //JSON TYPE EDIT [S]
+
         $
           .ajax({
             method: "POST",
