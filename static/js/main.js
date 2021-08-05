@@ -14,7 +14,7 @@ const evalAvgNum = document.querySelector(
 const managementInfo = document.querySelector(
   '.bottom-sheet .info-detail .management .management__detail'
 );
-const btnDelete = document.querySelector('.btn_delete')
+const btndelete = document.querySelector('.delete_container')
 
 let roadcount = 0;
 
@@ -442,6 +442,7 @@ function initTmap() {
         bottomSheet.style.display = 'none';
         searchBox.style.display = 'none';
         reloadBtn.style.display = 'none';
+        btndelete.style.display = 'block';
 
         //JSON TYPE EDIT [S]
 
