@@ -1,51 +1,8 @@
+
 let markers2 = [];
 let marker;
 let lonlat;
 let map;
-
-// const bottomSheet = document.querySelector('.bottom-sheet');
-// const report = document.querySelector('.bottom-sheet .report');
-// const infoSummary = document.querySelector('.bottom-sheet .info-summary');
-
-//추가 
-// const loca = document.querySelector('.bottom-sheet .info-summary .loca');
-// const evalAvgNum = document.querySelector(
-//   '.bottom-sheet .info-summary .eval-avg .num'
-// );
-// const managementInfo = document.querySelector(
-//   '.bottom-sheet .info-detail .management .management__detail'
-// );
-
-// function changeInfo(address, resultData) {
-//   loca.innerText = `${address}`;
-//   managementInfo.innerText = `${resultData[0].institutionNm} / ${resultData[0].phoneNumber}`;
-// }
-//
-
-// function markerEvent(address, resultData) {
-//   bottomSheet.classList.remove('init');
-//   report.classList.remove('init');
-
-//   if (bottomSheet.classList.contains('up')) {
-//     changeInfo(address, resultData);
-//   } else {
-//     changeInfo(address, resultData);
-//     bottomSheet.classList.remove('down');
-//     bottomSheet.classList.add('up');
-//     report.classList.remove('down');
-//     report.classList.add('up');
-//   }
-// }
-
-// function bottomSheetEvent() {
-//   bottomSheet.classList.remove('init');
-//   bottomSheet.classList.toggle('down');
-//   bottomSheet.classList.toggle('up');
-
-//   report.classList.remove('init');
-//   report.classList.toggle('down');
-//   report.classList.toggle('up');
-// }
 
 let s_mk_lat;
 let s_mk_lng;
@@ -55,10 +12,17 @@ let Pass;
 let passList = []
 
 function startFn(lat, lng) {
-
+  marker_s = new Tmapv2.Marker(
+    {
+      position : new Tmapv2.LatLng(lat, lng),
+      icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png",
+      iconSize : new Tmapv2.Size(24, 38),
+      map : map
+    });
   s_mk_lat = lat;
   s_mk_lng = lng;
   Pass = '';
+  
 }
 
 function passFn(lat, lng) {
@@ -232,118 +196,6 @@ function initTmap() {
     }
     markers2 = [];
   }
-
-  // function adminCodeToViews(code) {
-  //   $.ajax({
-  //     type: 'POST',
-  //     url: '/main2/',
-  //     data: { code: code },
-  //     success: function (response) {
-  //       let data = response.replaceAll(`&quot;`, `"`);
-  //       let placeData = JSON.parse(data);
-  //       console.log(placeData);
-  //       let resultData = placeData['response']['body']['items'];
-  //       setMarker(resultData);
-  //     },
-  //     //   error: function () {
-  //     //     console.log('실패-!');
-  //     error: function (request, status, error) {
-  //       alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-
-  //     },
-  //   });
-  // }
-
-  // //리버스 지오코딩 요청 함수
-  // function loadGetLonLatFromAddress(lat, lng) {
-  //   // TData 객체 생성
-  //   let tData = new Tmapv2.extension.TData();
-
-  //   let optionObj = {
-  //     coordType: 'WGS84GEO', //응답좌표 타입 옵션 설정 입니다.
-  //     addressType: 'A04', //주소타입 옵션 설정 입니다.
-  //   };
-
-  //   let params = {
-  //     onComplete: onComplete, //데이터 로드가 성공적으로 완료 되었을때 실행하는 함수 입니다.
-  //     onProgress: onProgress, //데이터 로드 중에 실행하는 함수 입니다.
-  //     onError: onError, //데이터 로드가 실패했을때 실행하는 함수 입니다.
-  //   };
-  //   // TData 객체의 리버스지오코딩 함수
-  //   tData.getAddressFromGeoJson(lat, lng, optionObj, params);
-  // }
-
-  // //리버스 지오코딩
-  // function onComplete() {
-  //   console.log(this._responseData); //json으로 데이터를 받은 정보들을 콘솔창에서 확인할 수 있습니다.
-  //   let city_do = this._responseData.addressInfo.city_do;
-  //   let gu_gun = this._responseData.addressInfo.gu_gun;
-  //   let address = city_do + ' ' + gu_gun;
-
-  //   let address_code;
-
-  //   // 주소 -> 제공기관 코드
-  //   let adminCode = JSON.parse(data);
-  //   for (i = 0; i < adminCode.length; i++) {
-  //     if (adminCode[i]['제공기관명'] == address) {
-  //       address_code = adminCode[i]['제공기관코드'];
-  //       break;
-  //     }
-  //   }
-
-  //   adminCodeToViews(address_code);
-  // }
-
-  // //데이터 로드중 실행하는 함수입니다.
-  // function onProgress() {
-  //   //alert("onComplete");
-  // }
-
-  // //데이터 로드 중 에러가 발생시 실행하는 함수입니다.
-  // function onError() {
-  //   alert('onError');
-  // }
-
-  // // 2. 시작, 도착 심볼찍기
-  // // 시작
-  // marker_s = new Tmapv2.Marker(
-  //   {
-  //     position: new Tmapv2.LatLng(37.56689860, 126.97871544),
-  //     icon: "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png",
-  //     iconSize: new Tmapv2.Size(24, 38),
-  //     map: map
-  //   });
-  // // 3번째 경유지  GS25
-  // marker_2 = new Tmapv2.Marker(
-  //   {
-  //     position: new Tmapv2.LatLng(37.56772766459168, 126.99755684423954),
-  //     icon: "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png",
-  //     iconSize: new Tmapv2.Size(24, 38),
-  //     map: map
-  //   });
-  // // 2번째 경유지
-  // marker_3 = new Tmapv2.Marker(
-  //   {
-  //     position: new Tmapv2.LatLng(37.5672089168727, 126.99050799891104),
-  //     icon: "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png",
-  //     iconSize: new Tmapv2.Size(24, 38),
-  //     map: map
-  //   });
-
-  // // 도착
-  // marker_e = new Tmapv2.Marker(
-  //   {
-  //     position: new Tmapv2.LatLng(37.57081522, 127.00160213),
-  //     icon: "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_e.png",
-  //     iconSize: new Tmapv2.Size(24, 38),
-  //     map: map
-  //   });
-
-  // let p1 = [126.99050799891104, 37.5672089168727]
-  // let p2 = [126.99755684423954, 37.56772766459168]
-
-  //  let ppp = [p_mk_lng, p_mk_lat]
-  //  passListData = `${p_mk_lng},${p_mk_lat}_`
 
   //  경로탐색 API 사용요청
   ////추가
