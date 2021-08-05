@@ -26,19 +26,22 @@
 
 <body onload="initTmap()">
   <div id="map_div"></div>
-  
+
   <div class="search-box">
     <div class="search">
       <i class="fas fa-map-marked-alt"></i>
-      <input class="searchKeyword" type="search" style="width: 250px;" autocapitalize="off" onkeyup="if(event.key == '13'){enterKey()}" placeholder="장소, 주소 검색">
+      <input class="searchKeyword" type="search" style="width: 250px;" autocapitalize="off"
+        onkeyup="if(event.key == '13'){enterKey()}" placeholder="장소, 주소 검색">
     </div>
     <i class="fas fa-search" onclick="enterKey()"></i>
   </div>
 
 
-	<div class="search-result-box">
-		<ul class="searchResult" name="searchResult" style="display: none;"></ul>
-	</div>
+  <div class="search-result-box">
+    <ul class="searchResult" name="searchResult" style="display: none;"></ul>
+  </div>
+
+
   <div class="reload">
     가나다라
     <button class="reload-btn">
@@ -53,16 +56,16 @@
 
   <footer class="bottom-sheet init down">
     <a href="tel:112">
-      <img class="report init down"  src="{% static 'img/police.png' %}" alt="police image">
+      <img class="report init down" src="{% static 'img/police.png' %}" alt="police image">
     </a>
     <a href="javascript:void(0);" onclick="tonowposition();">
       <img class="now" src="{% static 'img/nowposition.png' %}" alt="now position">
     </a>
     <div class="info-summary">
-      <span class="loca">경상남도 진주시 개양터미널 128-123</span>
+      <span class="loca">마커를 클릭해보세요😀</span>
       <div class="eval-avg">
         <i class="fas fa-lightbulb"></i>
-        <span class="num">4.2</span>
+        <span class="num">0.0</span>
       </div>
     </div>
     <div class="info-detail">
@@ -76,17 +79,18 @@
       <div class="eval">
         <span class="guide">가로등의 밝기를 평가해주세요</span>
         <div class="icons">
-          <i name="1" class="fas fa-lightbulb" onclick="setBulbRate(this);"></i>
-          <i name="2" class="fas fa-lightbulb" onclick="setBulbRate(this);"></i>
-          <i name="3" class="fas fa-lightbulb" onclick="setBulbRate(this);"></i>
-          <i name="4" class="fas fa-lightbulb" onclick="setBulbRate(this);"></i>
-          <i name="5" class="fas fa-lightbulb" onclick="setBulbRate(this);"></i>
+          <i name="1" class="fas fa-lightbulb bulb1"></i>
+          <i name="2" class="fas fa-lightbulb bulb2"></i>
+          <i name="3" class="fas fa-lightbulb bulb3"></i>
+          <i name="4" class="fas fa-lightbulb bulb4"></i>
+          <i name="5" class="fas fa-lightbulb bulb5"></i>
         </div>
       </div>
     </div>
   </footer>
 </body>
 <div class="map_act_btn_wrap clear_box"></div>
-  <button id="btn_select"><img src="{% static 'img/navi.png' %}" alt=""></button>
-  <p id="result"></p>
+<button id="btn_select"><img src="{% static 'img/navi.png' %}" alt=""></button>
+<p id="result"></p>
+
 </html>
