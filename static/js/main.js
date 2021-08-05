@@ -1,6 +1,8 @@
 const bottomSheet = document.querySelector('.bottom-sheet');
+const searchBox = document.querySelector('.search-box');
 const report = document.querySelector('.bottom-sheet .report');
 const infoSummary = document.querySelector('.bottom-sheet .info-summary');
+const bottomSheetBar = document.querySelector('.bottom-sheet .info-summary .info-detail');
 
 const reloadBtn = document.querySelector('.reload-btn');
 const reloadBtnAddress = document.querySelector('.reload-btn .name .address');
@@ -438,6 +440,8 @@ function initTmap() {
         //기존 맵에 있던 정보들 초기화
         roadcount += 1;
         bottomSheet.style.display = 'none';
+        searchBox.style.display = 'none';
+        reloadBtn.style.display = 'none';
 
         //JSON TYPE EDIT [S]
 
