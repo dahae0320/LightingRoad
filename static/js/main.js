@@ -12,7 +12,7 @@ const evalAvgNum = document.querySelector(
 const managementInfo = document.querySelector(
   '.bottom-sheet .info-detail .management .management__detail'
 );
-const btnDelete = document.querySelector('.btn_delete')
+const btndelete = document.querySelector('.delete_container')
 
 let roadcount = 0;
 
@@ -438,7 +438,7 @@ function initTmap() {
         //기존 맵에 있던 정보들 초기화
         roadcount += 1;
         bottomSheet.style.display = 'none';
-
+        btndelete.style.display = 'block';
         //JSON TYPE EDIT [S]
 
         $
