@@ -258,9 +258,13 @@ function initTmap() {
       url: '',
       data: { code: code },
       success: function (response) {
-        let data = response.replaceAll(`'`, `"`);
-        let placeData = JSON.parse(data);
-        setMarker(placeData);
+        if (response.length == 2) {
+          alert('해당 지역에는 보안등 데이터가 존재하지 않아요😥');
+        } else {
+          let data = response.replaceAll(`'`, `"`);
+          let placeData = JSON.parse(data);
+          setMarker(placeData);
+        }
       },
       error: function () {
         console.log('실패-!');
@@ -480,11 +484,11 @@ function initTmap() {
     });
     markers2.push(marker);
   });
-  
+
 }
-function tonowposition(){
-  navigator.geolocation.getCurrentPosition(function(position) {
-    var lonlat = new Tmapv2.LatLng(position.coords.latitude,position.coords.longitude);
+function tonowposition() {
+  navigator.geolocation.getCurrentPosition(function (position) {
+    var lonlat = new Tmapv2.LatLng(position.coords.latitude, position.coords.longitude);
     map.setCenter(lonlat); // 지도의 중심 좌표를 설정합니다.
   });
 }
@@ -518,6 +522,6 @@ function fun1() {
 
   reloadBtnAddress.innerText = `${address} ${jibunAdd}`;
 }
-function fun2() {}
-function fun3() {}
+function fun2() { }
+function fun3() { }
 
