@@ -153,16 +153,19 @@ body {
   outline: 0;
   background-color:transparent;
 }
-
+.delete_container{
+  display: none;
+}
 .delete_con {
   display: flex;
   justify-content: center;
+  z-index: 100;
 }
 
 .btn_delete{
   position: fixed;
-  top: 230px;
-  right: 5px;
+  bottom: 60px;
+
   border-radius: 10px;
   cursor: pointer;
   border: 0;
