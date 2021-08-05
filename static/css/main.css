@@ -93,15 +93,17 @@ body {
   -webkit-transition: all 0.1s;
   cursor: pointer;
 }
+.reload{
+  display: flex!important;
+  justify-content: center!important;
+
+}
 .reload-btn {
   box-sizing: border-box;
   display: flex;
   align-items: center;
   position: fixed;
   top: 100px;
-  left: 0;
-  right: 0;
-  min-width: 130px;
   height: 40px;
   padding: 0 16px;
   margin: 0 auto;
