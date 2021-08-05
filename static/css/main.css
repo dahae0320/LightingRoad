@@ -165,6 +165,7 @@ body {
 .btn_delete{
   position: fixed;
   bottom: 60px;
+
   border-radius: 10px;
   cursor: pointer;
   border: 0;

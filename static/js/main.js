@@ -40,9 +40,13 @@ let d_mk_lat;
 let d_mk_lng;
 let Pass;
 let passList = []
-let marker_3;
+let marker_pass1;
+let marker_pass2;
+let marker_pass3;
+let marker_pass4;
+let marker_pass5;
 
-let marker_p;
+// let marker_p;
 let totalMarkerArr = [];
 let drawInfoArr = [];
 let resultdrawArr = [];
@@ -142,25 +146,13 @@ function destinationFn(lat, lng) {
 }
 
 function optiondelete() {
-  let s_mk_lat = '';
-  let s_mk_lng = '';
-  let d_mk_lat = '';
-  let d_mk_lng = '';
-  let Pass = '';
-  let passList = []
-  console.log(`s_y:${s_mk_lat}, s_x:${s_mk_lng}, d_y:${d_mk_lat}, d_x:${d_mk_lng} ,Pass:${Pass}, passList:${passList}`)
-  resettingMap();
-}
-
-function resettingMap() {
-  //기존마커는 삭제
-  marker_3.setMap(null);
-
-  // if (resultMarkerArr.length > 0) {
-  //   for (var i = 0; i < resultMarkerArr.length; i++) {
-  //     resultMarkerArr[i].setMap(null);
-  //   }
-  // }
+  marker_s.setMap(null);
+  marker_d.setMap(null);
+  marker_pass1.setMap(null);
+  marker_pass2.setMap(null);
+  marker_pass3.setMap(null);
+  marker_pass4.setMap(null);
+  marker_pass5.setMap(null);
 
   if (resultdrawArr.length > 0) {
     for (var i = 0; i < resultdrawArr.length; i++) {
@@ -169,8 +161,35 @@ function resettingMap() {
   }
 
   drawInfoArr = [];
-  // resultMarkerArr = [];
   resultdrawArr = [];
+  let s_mk_lat = '';
+  let s_mk_lng = '';
+  let d_mk_lat = '';
+  let d_mk_lng = '';
+  let Pass = '';
+  let passList = []
+  console.log(`s_y:${s_mk_lat}, s_x:${s_mk_lng}, d_y:${d_mk_lat}, d_x:${d_mk_lng} ,Pass:${Pass}, passList:${passList}`)
+  // resettingMap();
+}
+
+function resettingMap() {
+  //기존마커는 삭제
+
+    // for (var i = 0; i < 6; i++) {
+  //   marker_pass[i].setMap(null);
+  // }
+
+  // marker_s.setMap(null);
+  // marker_d.setMap(null);
+
+  // if (resultdrawArr.length > 0) {
+  //   for (var i = 0; i < resultdrawArr.length; i++) {
+  //     resultdrawArr[i].setMap(null);
+  //   }
+  // }
+
+  // drawInfoArr = [];
+  // resultdrawArr = [];
 }
 
 
@@ -293,7 +312,6 @@ function initTmap() {
                      "</div>"+
                      "</div>";
         
-          
         //JS에서 받아온거가 html에서 못알아먹을수도 있다! 긍까 반드시 개발자모드로 가서 element에서 html에서 잘 인식하는지 확인을 하고 아니다 하면 저기 "+ㅇㅇ+"처럼하기       
         //Popup 객체 생성.
 
@@ -304,9 +322,9 @@ function initTmap() {
           border :'0px solid #FF0000',
           map: map, //Popup이 표시될 맵 객체
           setVisible: true
-
         });
       }
+
       })
       
     );
@@ -443,8 +461,6 @@ function initTmap() {
         searchBox.style.display = 'none';
         reloadBtn.style.display = 'none';
         btndelete.style.display = 'block';
-
-        //JSON TYPE EDIT [S]
 
         $
           .ajax({
