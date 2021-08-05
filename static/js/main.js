@@ -402,6 +402,8 @@ function initTmap() {
         let searchOption = $("#selectLevel").val();
         let trafficInfochk = $("#year").val();
         roadcount += 1;
+        bottomSheet.style.display = 'none';
+
         //JSON TYPE EDIT [S]
         $
           .ajax({
