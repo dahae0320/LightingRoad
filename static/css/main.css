@@ -140,6 +140,16 @@ body {
   border-radius: 10px;
   cursor: pointer;
 }
+#btn_select{
+  position: fixed;
+  top: 165px;
+  right: 5px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 0;
+  outline: 0;
+  background-color:transparent;
+}
 .bottom-sheet .report {
   position: fixed;
   bottom: 72px;
@@ -324,4 +334,13 @@ body {
 
 .bottom-sheet .info-detail .eval .icons .selected {
   color: #ffd338;
+}
+a:link { 
+  color: black; text-decoration: none;
+}
+a:visited { 
+  color: black; text-decoration: none;
+}
+a:hover { 
+  color: black; text-decoration: none;
 }
