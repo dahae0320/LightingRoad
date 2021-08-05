@@ -351,10 +351,10 @@ function initTmap() {
     .click(
       function () {
         //기존 맵에 있던 정보들 초기화
-        // resettingMap();
-        let searchOption = $("#selectLevel").val();
-        let trafficInfochk = $("#year").val();
-        //JSON TYPE EDIT [S]
+        resettingMap();
+        // let searchOption = $("#selectLevel").val();
+        // let trafficInfochk = $("#year").val();
+        // //JSON TYPE EDIT [S]
         $
           .ajax({
             method: "POST",
