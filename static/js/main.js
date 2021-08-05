@@ -12,6 +12,7 @@ const evalAvgNum = document.querySelector(
 const managementInfo = document.querySelector(
   '.bottom-sheet .info-detail .management .management__detail'
 );
+const btnDelete = document.querySelector('.btn_delete')
 
 function setBulbRate(bulb) {
   const lightbulb = document.querySelectorAll('.icons > .fa-lightbulb');
@@ -35,16 +36,32 @@ let d_mk_lat;
 let d_mk_lng;
 let Pass;
 let passList = []
+let marker_3;
+
+let marker_p;
+let totalMarkerArr = [];
+let drawInfoArr = [];
+let resultdrawArr = [];
 
 function startFn(lat, lng) {
   s_mk_lat = lat;
   s_mk_lng = lng;
+
+  Pass = '';
+  marker_3 = new Tmapv2.Marker(
+    {
+      position: new Tmapv2.LatLng(lat, lng),
+      icon: "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png",
+      iconSize: new Tmapv2.Size(24, 38),
+      map: map
+    });
+
 }
 
 function passFn(lat, lng) {
   passList.push(lat)
   passList.push(lng)
-  console.log(passList)
+
   if (passList.length == 11) {
     Pass = ''
     passList = []
@@ -63,6 +80,39 @@ function destinationFn(lat, lng) {
   d_mk_lat = lat;
   d_mk_lng = lng;
 }
+
+function optiondelete() {
+  let s_mk_lat = '';
+  let s_mk_lng = '';
+  let d_mk_lat = '';
+  let d_mk_lng = '';
+  let Pass = '';
+  let passList = []
+  console.log(`s_y:${s_mk_lat}, s_x:${s_mk_lng}, d_y:${d_mk_lat}, d_x:${d_mk_lng} ,Pass:${Pass}, passList:${passList}`)
+  resettingMap();
+}
+
+function resettingMap() {
+  //기존마커는 삭제
+  marker_3.setMap(null);
+
+  // if (resultMarkerArr.length > 0) {
+  //   for (var i = 0; i < resultMarkerArr.length; i++) {
+  //     resultMarkerArr[i].setMap(null);
+  //   }
+  // }
+
+  if (resultdrawArr.length > 0) {
+    for (var i = 0; i < resultdrawArr.length; i++) {
+      resultdrawArr[i].setMap(null);
+    }
+  }
+
+  drawInfoArr = [];
+  // resultMarkerArr = [];
+  resultdrawArr = [];
+}
+
 
 function onClose(popup) {
   infoWindow.setVisible(false);
@@ -108,10 +158,6 @@ function bottomSheetEvent() {
 infoSummary.addEventListener('click', () => {
   bottomSheetEvent();
 });
-
-let totalMarkerArr = [];
-let drawInfoArr = [];
-let resultdrawArr = [];
 
 function initTmap() {
   map = new Tmapv2.Map('map_div', {
@@ -174,7 +220,6 @@ function initTmap() {
     markers.forEach((marker) =>
       marker.addListener('click', (evt) => {
         markerEvent(marker._marker_data.options.title, resultData);
-
         let content ="<div class='info_container' style='position: static; display: flex; flex-direction: column; font-size: 18px; box-shadow: 5px 5px 5px #00000040; border-radius: 10px; top: 410px; left : 800px; width : 170px; background: #FFFFFF 0% 0% no-repeat padding-box;'>"+
                      "<a class='btn-close' style='position: absolute; top: 5px; right: 5px; display: block; width: 15px; height: 15px; background: url(static/img/x.png) center;' href='javascript:void(0)' onclick='onClose()' ></a>"+
                      "<div class='info-box'>"+
@@ -201,6 +246,7 @@ function initTmap() {
         });
 
       })
+      
     );
 
     // Marker에 터치이벤트 등록.
@@ -328,11 +374,6 @@ function initTmap() {
   $("#btn_select")
     .click(
       function () {
-        //기존 맵에 있던 정보들 초기화
-        // resettingMap();
-        let searchOption = $("#selectLevel").val();
-        let trafficInfochk = $("#year").val();
-        //JSON TYPE EDIT [S]
         $
           .ajax({
             method: "POST",

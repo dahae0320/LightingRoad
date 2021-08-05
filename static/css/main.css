@@ -153,6 +153,21 @@ body {
   outline: 0;
   background-color:transparent;
 }
+
+.delete_con {
+  display: flex;
+  justify-content: center;
+}
+
+.btn_delete{
+  position: fixed;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 0;
+  outline: 0;
+  background-color:transparent;
+}
+
 .bottom-sheet .report {
   position: fixed;
   bottom: 72px;
