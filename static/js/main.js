@@ -13,6 +13,8 @@ const managementInfo = document.querySelector(
   '.bottom-sheet .info-detail .management .management__detail'
 );
 
+let roadcount = 0;
+
 function setBulbRate(bulb) {
   const lightbulb = document.querySelectorAll('.icons > .fa-lightbulb');
   let num = bulb.getAttribute('name');
@@ -40,13 +42,20 @@ function startFn(lat, lng) {
   s_mk_lat = lat;
   s_mk_lng = lng;
   Pass = '';
-}
+  marker_s = new Tmapv2.Marker(
+    {
+      position : new Tmapv2.LatLng(lat, lng),
+      icon : "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/red_b.png",
+      iconSize : new Tmapv2.Size(40, 45),
+      map : map
+    }); //출발 마커 생성
+} 
 
 function passFn(lat, lng) {
   passList.push(lat)
   passList.push(lng)
   console.log(passList)
-  if (passList.length == 10) {
+  if (passList.length == 11) {
     Pass = ''
     passList = []
   } else {
@@ -58,11 +67,64 @@ function passFn(lat, lng) {
       }
     }
   }
+  if(passList.length == 2){
+    marker_pass1 = new Tmapv2.Marker(
+      {
+        position : new Tmapv2.LatLng(lat, lng),
+        icon : "http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_1.png",
+        iconSize : new Tmapv2.Size(24, 38),
+        map : map
+      }); //경유지 마커 생성
+  }
+  else if(passList.length == 4){
+    marker_pass2 = new Tmapv2.Marker(
+      {
+        position : new Tmapv2.LatLng(lat, lng),
+        icon : "http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_2.png",
+        iconSize : new Tmapv2.Size(24, 38),
+        map : map
+      }); //경유지 마커 생성
+  }
+  else if(passList.length == 6){
+    marker_pass3 = new Tmapv2.Marker(
+      {
+        position : new Tmapv2.LatLng(lat, lng),
+        icon : "http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_3.png",
+        iconSize : new Tmapv2.Size(24, 38),
+        map : map
+      }); //경유지 마커 생성
+  }
+  else if(passList.length == 8){
+    marker_pass4 = new Tmapv2.Marker(
+      {
+        position : new Tmapv2.LatLng(lat, lng),
+        icon : "http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_4.png",
+        iconSize : new Tmapv2.Size(24, 38),
+        map : map
+      }); //경유지 마커 생성
+  }
+  else{
+    marker_pass5 = new Tmapv2.Marker(
+      {
+        position : new Tmapv2.LatLng(lat, lng),
+        icon : "http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_5.png",
+        iconSize : new Tmapv2.Size(24, 38),
+        map : map
+      }); //경유지 마커 생성
+  }
+  
 }
 
 function destinationFn(lat, lng) {
   d_mk_lat = lat;
   d_mk_lng = lng;
+  marker_d = new Tmapv2.Marker(
+    {
+      position : new Tmapv2.LatLng(lat, lng),
+      icon : "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/blue_b.png",
+      iconSize : new Tmapv2.Size(40, 45),
+      map : map
+    }); //도착 마커 생성
 }
 
 function onClose(popup) {
@@ -176,6 +238,7 @@ function initTmap() {
       marker.addListener('click', (evt) => {
         markerEvent(marker._marker_data.options.title, resultData);
 
+        if(roadcount == 1){
         let content =
           "<div class='outside' style=' position: relative;  width:150px; border-bottom: 1px solid black; line-height: 18px; padding: 0 35px 2px 0;'>" +
           "<div class='a' width:130px; style='font-size: 12px; line-height: 15px;'>" +
@@ -205,7 +268,7 @@ function initTmap() {
           map: map, //Popup이 표시될 맵 객체
           setVisible: true
         });
-
+      }
       })
     );
 
@@ -338,6 +401,7 @@ function initTmap() {
         // resettingMap();
         let searchOption = $("#selectLevel").val();
         let trafficInfochk = $("#year").val();
+        roadcount += 1;
         //JSON TYPE EDIT [S]
         $
           .ajax({
