@@ -13,15 +13,59 @@ const managementInfo = document.querySelector(
   '.bottom-sheet .info-detail .management .management__detail'
 );
 
-function setBulbRate(bulb) {
-  const lightbulb = document.querySelectorAll('.icons > .fa-lightbulb');
-  let num = bulb.getAttribute('name');
+const lightbulb = document.querySelectorAll('.icons > .fa-lightbulb');
+
+const bulb1 = document.querySelector(
+  '.bottom-sheet .info-detail .eval .icons .bulb1'
+);
+const bulb2 = document.querySelector(
+  '.bottom-sheet .info-detail .eval .icons .bulb2'
+);
+const bulb3 = document.querySelector(
+  '.bottom-sheet .info-detail .eval .icons .bulb3'
+);
+const bulb4 = document.querySelector(
+  '.bottom-sheet .info-detail .eval .icons .bulb4'
+);
+const bulb5 = document.querySelector(
+  '.bottom-sheet .info-detail .eval .icons .bulb5'
+);
+
+const bulbArr = [bulb1, bulb2, bulb3, bulb4, bulb5];
+
+function setBulbRate(bulb, id, avgSum, avgCount) {
+  let num = parseInt(bulb.getAttribute('name'));
+
+  console.log(avgSum);
+  console.log(avgCount);
+  console.log('');
+
+  avgSum += num;
+  avgCount++;
+
+  console.log(avgSum);
+  console.log(avgCount);
+  console.log('');
+
   for (i = 0; i < num; i++) {
     lightbulb[i].classList.add('selected');
   }
+
   for (i = num; i < 5; i++) {
     lightbulb[i].classList.remove('selected');
   }
+
+  $.ajax({
+    type: 'POST',
+    url: 'avg/',
+    data: { id: id, avgSum: avgSum, avgCount: avgCount },
+    success: function (response) {
+      console.log('성공');
+    },
+    error: function () {
+      console.log('실패!');
+    },
+  });
 }
 
 let markers2 = [];
@@ -34,7 +78,7 @@ let s_mk_lng;
 let d_mk_lat;
 let d_mk_lng;
 let Pass;
-let passList = []
+let passList = [];
 
 function startFn(lat, lng) {
   s_mk_lat = lat;
@@ -43,18 +87,18 @@ function startFn(lat, lng) {
 }
 
 function passFn(lat, lng) {
-  passList.push(lat)
-  passList.push(lng)
-  console.log(passList)
+  passList.push(lat);
+  passList.push(lng);
+  console.log(passList);
   if (passList.length == 10) {
-    Pass = ''
-    passList = []
+    Pass = '';
+    passList = [];
   } else {
     for (let i = 0; i < 1; i++) {
       if (Pass == undefined) {
-        Pass = `${lng},${lat}_`
+        Pass = `${lng},${lat}_`;
       } else {
-        Pass = Pass + `${lng},${lat}_`
+        Pass = Pass + `${lng},${lat}_`;
       }
     }
   }
@@ -69,7 +113,8 @@ function onClose(popup) {
   infoWindow.setVisible(false);
 }
 
-function changeInfo(address, resultData) {
+function changeInfo(address, avgGrade, resultData) {
+  evalAvgNum.innerText = `${avgGrade}`;
   loca.innerText = `${address}`;
   managementInfo.innerText = `${resultData[0].institutionNm} / ${resultData[0].phoneNumber}`;
 }
@@ -81,14 +126,30 @@ function callClick() {
   location.href = 'tel:' + num;
 }
 
-function markerEvent(address, resultData) {
+function markerEvent(address, context, resultData) {
+  const avgTemp = context.split(' ');
+  id = parseInt(avgTemp[0]);
+  avgSum = parseInt(avgTemp[1]);
+  avgCount = parseInt(avgTemp[2]);
+  avgGrade = (avgSum / parseFloat(avgCount)).toFixed(1);
+
+  if (avgCount == 0) {
+    avgGrade = '0.0';
+  }
+
   bottomSheet.classList.remove('init');
   report.classList.remove('init');
 
+  bulbArr.forEach((bulb) =>
+    bulb.addEventListener('click', () => {
+      setBulbRate(bulb, id, avgSum, avgCount);
+    })
+  );
+
   if (bottomSheet.classList.contains('up')) {
-    changeInfo(address, resultData);
+    changeInfo(address, avgGrade, resultData);
   } else {
-    changeInfo(address, resultData);
+    changeInfo(address, avgGrade, resultData);
     bottomSheet.classList.remove('down');
     bottomSheet.classList.add('up');
     report.classList.remove('down');
@@ -120,7 +181,7 @@ function initTmap() {
     width: '100%',
     height: '100%',
     zoom: 15,
-    zIndexMarker: "8",
+    zIndexMarker: '8',
   });
 
   // 지도 옵션 줌컨트롤 표출 비활성화
@@ -136,7 +197,6 @@ function initTmap() {
 
   var markers = [];
   var markers2 = [];
-
 
   function setMarker(resultData) {
     var positions = [];
@@ -164,6 +224,7 @@ function initTmap() {
         icon: '/static/img/lamp-icon.png', //Marker의 아이콘.
         map: map, //Marker가 표시될 Map 설정.
         title: resultData[i].rdnmadr,
+        label: `${resultData[i].id} ${resultData[i].avgSum} ${resultData[i].avgCount}`,
       });
       if (marker.title == undefined) {
         marker.setTitle(resultData[i].lnmadr);
@@ -174,45 +235,66 @@ function initTmap() {
     //Marker에 클릭이벤트 등록.
     markers.forEach((marker) =>
       marker.addListener('click', (evt) => {
-        markerEvent(marker._marker_data.options.title, resultData);
+        markerEvent(
+          marker._marker_data.options.title,
+          marker._marker_data.options.label,
+          resultData
+        );
 
         let content =
           "<div class='outside' style=' position: relative;  width:150px; border-bottom: 1px solid black; line-height: 18px; padding: 0 35px 2px 0;'>" +
           "<div class='a' width:130px; style='font-size: 12px; line-height: 15px;'>" +
-          "<span class='b' style='display: inline-block; width:130px; height: 14px; margin-left:2px; vertical-align: middle; margin-right: 5px;'><a href='javascript:void(0);' onclick='startFn(" + marker._marker_data.options.position._lat + "," + marker._marker_data.options.position._lng + "); onClose();'>여기를 출발지로 지정</a></span>" +
-          "</div>" +
-          "</div>" +
+          "<span class='b' style='display: inline-block; width:130px; height: 14px; margin-left:2px; vertical-align: middle; margin-right: 5px;'><a href='javascript:void(0);' onclick='startFn(" +
+          marker._marker_data.options.position._lat +
+          ',' +
+          marker._marker_data.options.position._lng +
+          "); onClose();'>여기를 출발지로 지정</a></span>" +
+          '</div>' +
+          '</div>' +
           "<div class='outside' style=' position: relative;  width:150px; border-bottom: 1px solid black; line-height: 18px; padding: 0 35px 2px 0;'>" +
           "<div class='a' width:130px; style='font-size: 12px; line-height: 15px;'>" +
-          "<span class='b' style='display: inline-block; width:130px; height: 14px; margin-left:2px; vertical-align: middle; margin-right: 5px;'><a href='javascript:void(0);' onclick='passFn(" + marker._marker_data.options.position._lat + "," + marker._marker_data.options.position._lng + "); onClose();'>여기를 경유지로 지정</a></span>" +
-          "</div>" +
-          "</div>" +
+          "<span class='b' style='display: inline-block; width:130px; height: 14px; margin-left:2px; vertical-align: middle; margin-right: 5px;'><a href='javascript:void(0);' onclick='passFn(" +
+          marker._marker_data.options.position._lat +
+          ',' +
+          marker._marker_data.options.position._lng +
+          "); onClose();'>여기를 경유지로 지정</a></span>" +
+          '</div>' +
+          '</div>' +
           "<div class='outside' style=' position: relative;  width:150px; line-height: 18px; padding: 0 35px 2px 0;'>" +
           "<div class='a' width:130px; style='font-size: 12px; line-height: 15px;'>" +
-          "<span class='b' style='display: inline-block; width:130px; height: 14px; margin-left:2px; vertical-align: middle; margin-right: 5px;'><a href='javascript:void(0);' onclick='destinationFn(" + marker._marker_data.options.position._lat + "," + marker._marker_data.options.position._lng + "); onClose();'>여기를 목적지로 지정</a></span>" +
-          "</div>" +
-          "</div>" +
-
-          //JS에서 받아온거가 html에서 못알아먹을수도 있다! 긍까 반드시 개발자모드로 가서 element에서 html에서 잘 인식하는지 확인을 하고 아니다 하면 저기 "+ㅇㅇ+"처럼하기        
-          "</div>" +
-          "</div>";
+          "<span class='b' style='display: inline-block; width:130px; height: 14px; margin-left:2px; vertical-align: middle; margin-right: 5px;'><a href='javascript:void(0);' onclick='destinationFn(" +
+          marker._marker_data.options.position._lat +
+          ',' +
+          marker._marker_data.options.position._lng +
+          "); onClose();'>여기를 목적지로 지정</a></span>" +
+          '</div>' +
+          '</div>' +
+          //JS에서 받아온거가 html에서 못알아먹을수도 있다! 긍까 반드시 개발자모드로 가서 element에서 html에서 잘 인식하는지 확인을 하고 아니다 하면 저기 "+ㅇㅇ+"처럼하기
+          '</div>' +
+          '</div>';
         //Popup 객체 생성.
 
         infoWindow = new Tmapv2.InfoWindow({
-          position: new Tmapv2.LatLng(marker._marker_data.options.position._lat, marker._marker_data.options.position._lng), //Popup 이 표출될 맵 좌표
+          position: new Tmapv2.LatLng(
+            marker._marker_data.options.position._lat,
+            marker._marker_data.options.position._lng
+          ), //Popup 이 표출될 맵 좌표
           content: content, //Popup 표시될 text
           type: 2, //Popup의 type 설정.
           map: map, //Popup이 표시될 맵 객체
-          setVisible: true
+          setVisible: true,
         });
-
       })
     );
 
     // Marker에 터치이벤트 등록.
     markers.forEach((marker) =>
       marker.addListener('touchstart', (evt) => {
-        markerEvent(marker._marker_data.options.title, resultData);
+        markerEvent(
+          marker._marker_data.options.title,
+          marker._marker_data.options.label,
+          resultData
+        );
       })
     );
   }
@@ -238,11 +320,10 @@ function initTmap() {
     //Marker 객체 생성.
     marker = new Tmapv2.Marker({
       position: new Tmapv2.LatLng(lonlat.lat(), lonlat.lng()), //Marker의 중심좌표 설정.
-      map: map //Marker가 표시될 Map 설정.
+      map: map, //Marker가 표시될 Map 설정.
     });
 
     markers2.push(marker);
-
   }
 
   function removeMarkers() {
@@ -301,11 +382,9 @@ function initTmap() {
     let address2 = address + ' ' + roadName;
     // console.log(this._responseData);
 
-
     let jibunAdd = getAddrLoc(address2);
 
     // let address_code;
-
 
     // 주소 -> 제공기관 코드
     // let adminCode = JSON.parse(data);
@@ -331,139 +410,149 @@ function initTmap() {
 
   //  경로탐색 API 사용요청
   ////추가
-  $("#btn_select")
-    .click(
-      function () {
-        //기존 맵에 있던 정보들 초기화
-        // resettingMap();
-        let searchOption = $("#selectLevel").val();
-        let trafficInfochk = $("#year").val();
-        //JSON TYPE EDIT [S]
-        $
-          .ajax({
-            method: "POST",
-            url: "https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&format=json&callback=result",
-            async: false,
-            data: {
-              "appKey": "l7xx277bb41e41d345caae019ce5a6c7b6cb",
-              //  "startX" : "126.97871544",
-              //  "startY" : "37.56689860",
-              "startX": s_mk_lng,
-              "startY": s_mk_lat,
-              "endX": d_mk_lng,
-              "endY": d_mk_lat,
-              //  "passList" : `${p_mk_lng},${p_mk_lat}_`,
-              "passList": Pass,
-              "reqCoordType": "WGS84GEO",
-              "resCoordType": "EPSG3857",
-              "startName": "출발지",
-              "endName": "도착지"
-            },
-            success: function (response) {
-              let resultData = response.features;
-              //결과 출력
-              let tDistance = "총 거리 : "
-                + ((resultData[0].properties.totalDistance) / 1000)
-                  .toFixed(1) + "km,";
-              let tTime = " 총 시간 : "
-                + ((resultData[0].properties.totalTime) / 60)
-                  .toFixed(0) + "분";
-              $("#result").text(tDistance + tTime);
+  $('#btn_select').click(function () {
+    //기존 맵에 있던 정보들 초기화
+    // resettingMap();
+    let searchOption = $('#selectLevel').val();
+    let trafficInfochk = $('#year').val();
+    //JSON TYPE EDIT [S]
+    $.ajax({
+      method: 'POST',
+      url: 'https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&format=json&callback=result',
+      async: false,
+      data: {
+        appKey: 'l7xx277bb41e41d345caae019ce5a6c7b6cb',
+        //  "startX" : "126.97871544",
+        //  "startY" : "37.56689860",
+        startX: s_mk_lng,
+        startY: s_mk_lat,
+        endX: d_mk_lng,
+        endY: d_mk_lat,
+        //  "passList" : `${p_mk_lng},${p_mk_lat}_`,
+        passList: Pass,
+        reqCoordType: 'WGS84GEO',
+        resCoordType: 'EPSG3857',
+        startName: '출발지',
+        endName: '도착지',
+      },
+      success: function (response) {
+        let resultData = response.features;
+        //결과 출력
+        let tDistance =
+          '총 거리 : ' +
+          (resultData[0].properties.totalDistance / 1000).toFixed(1) +
+          'km,';
+        let tTime =
+          ' 총 시간 : ' +
+          (resultData[0].properties.totalTime / 60).toFixed(0) +
+          '분';
+        $('#result').text(tDistance + tTime);
 
-              //기존 그려진 라인 & 마커가 있다면 초기화
-              if (resultdrawArr.length > 0) {
-                for (let i in resultdrawArr) {
-                  resultdrawArr[i]
-                    .setMap(null);
-                }
-                resultdrawArr = [];
-              }
+        //기존 그려진 라인 & 마커가 있다면 초기화
+        if (resultdrawArr.length > 0) {
+          for (let i in resultdrawArr) {
+            resultdrawArr[i].setMap(null);
+          }
+          resultdrawArr = [];
+        }
 
-              drawInfoArr = [];
-              for (let i in resultData) { //for문 [S]
-                let geometry = resultData[i].geometry;
-                let properties = resultData[i].properties;
-                let polyline_;
-                if (geometry.type == "LineString") {
-                  for (let j in geometry.coordinates) {
-                    // 경로들의 결과값(구간)들을 포인트 객체로 변환 
-                    let latlng = new Tmapv2.Point(
-                      geometry.coordinates[j][0],
-                      geometry.coordinates[j][1],
-                      geometry.coordinates[j][2],
-                    );
-                    // 포인트 객체를 받아 좌표값으로 변환
-                    let convertPoint = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(
-                      latlng);
-                    // 포인트객체의 정보로 좌표값 변환 객체로 저장
-                    let convertChange = new Tmapv2.LatLng(
-                      convertPoint._lat,
-                      convertPoint._lng);
-                    // 배열에 담기
-                    drawInfoArr.push(convertChange);
-                  }
-                } else {
-                  let markerImg = "";
-                  let pType = "";
-                  let size;
-                  if (properties.pointType == "S") { //출발지 마커
-                    markerImg = "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png";
-                    pType = "S";
-                    size = new Tmapv2.Size(24, 38);
-                  } else if (properties.pointType == "E") { //도착지 마커
-                    markerImg = "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_e.png";
-                    pType = "E";
-                    size = new Tmapv2.Size(24, 38);
-                  } else { //각 포인트 마커
-                    markerImg = "http://topopen.tmap.co.kr/imgs/point.png";
-                    pType = "P";
-                    size = new Tmapv2.Size(8, 8);
-                  }
-                  // 경로들의 결과값들을 포인트 객체로 변환 
-                  let latlon = new Tmapv2.Point(
-                    geometry.coordinates[0],
-                    geometry.coordinates[1],
-                    geometry.coordinates[2],
-                  );
-                  // 포인트 객체를 받아 좌표값으로 다시 변환
-                  let convertPoint = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(
-                    latlon);
-                  let routeInfoObj = {
-                    markerImage: markerImg,
-                    lng: convertPoint._lng,
-                    lat: convertPoint._lat,
-                    pointType: pType
-                  };
-                  // Marker 추가
-                  marker_p = new Tmapv2.Marker(
-                    {
-                      position: new Tmapv2.LatLng(
-                        routeInfoObj.lat,
-                        routeInfoObj.lng),
-                      icon: routeInfoObj.markerImage,
-                      iconSize: size,
-                      map: map
-                    });
-                }
-              }//for문 [E]
-              drawLine(drawInfoArr);
-            },
-            error: function (request, status, error) {
-              console.log("code:" + request.status + "\n"
-                + "message:" + request.responseText + "\n"
-                + "error:" + error);
+        drawInfoArr = [];
+        for (let i in resultData) {
+          //for문 [S]
+          let geometry = resultData[i].geometry;
+          let properties = resultData[i].properties;
+          let polyline_;
+          if (geometry.type == 'LineString') {
+            for (let j in geometry.coordinates) {
+              // 경로들의 결과값(구간)들을 포인트 객체로 변환
+              let latlng = new Tmapv2.Point(
+                geometry.coordinates[j][0],
+                geometry.coordinates[j][1],
+                geometry.coordinates[j][2]
+              );
+              // 포인트 객체를 받아 좌표값으로 변환
+              let convertPoint =
+                new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(latlng);
+              // 포인트객체의 정보로 좌표값 변환 객체로 저장
+              let convertChange = new Tmapv2.LatLng(
+                convertPoint._lat,
+                convertPoint._lng
+              );
+              // 배열에 담기
+              drawInfoArr.push(convertChange);
             }
-          });
-      });
+          } else {
+            let markerImg = '';
+            let pType = '';
+            let size;
+            if (properties.pointType == 'S') {
+              //출발지 마커
+              markerImg =
+                'http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png';
+              pType = 'S';
+              size = new Tmapv2.Size(24, 38);
+            } else if (properties.pointType == 'E') {
+              //도착지 마커
+              markerImg =
+                'http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_e.png';
+              pType = 'E';
+              size = new Tmapv2.Size(24, 38);
+            } else {
+              //각 포인트 마커
+              markerImg = 'http://topopen.tmap.co.kr/imgs/point.png';
+              pType = 'P';
+              size = new Tmapv2.Size(8, 8);
+            }
+            // 경로들의 결과값들을 포인트 객체로 변환
+            let latlon = new Tmapv2.Point(
+              geometry.coordinates[0],
+              geometry.coordinates[1],
+              geometry.coordinates[2]
+            );
+            // 포인트 객체를 받아 좌표값으로 다시 변환
+            let convertPoint = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(
+              latlon
+            );
+            let routeInfoObj = {
+              markerImage: markerImg,
+              lng: convertPoint._lng,
+              lat: convertPoint._lat,
+              pointType: pType,
+            };
+            // Marker 추가
+            marker_p = new Tmapv2.Marker({
+              position: new Tmapv2.LatLng(routeInfoObj.lat, routeInfoObj.lng),
+              icon: routeInfoObj.markerImage,
+              iconSize: size,
+              map: map,
+            });
+          }
+        } //for문 [E]
+        drawLine(drawInfoArr);
+      },
+      error: function (request, status, error) {
+        console.log(
+          'code:' +
+            request.status +
+            '\n' +
+            'message:' +
+            request.responseText +
+            '\n' +
+            'error:' +
+            error
+        );
+      },
+    });
+  });
 
   function drawLine(arrPoint) {
     let polyline_;
 
     polyline_ = new Tmapv2.Polyline({
       path: arrPoint,
-      strokeColor: "#DD0000",
+      strokeColor: '#DD0000',
       strokeWeight: 6,
-      map: map
+      map: map,
     });
     resultdrawArr.push(polyline_);
   }
@@ -480,15 +569,16 @@ function initTmap() {
       icon: '/static/img/GPS-sm.png',
 
       map: map, //Marker가 표시될 Map 설정.
-
     });
     markers2.push(marker);
   });
-
 }
 function tonowposition() {
   navigator.geolocation.getCurrentPosition(function (position) {
-    var lonlat = new Tmapv2.LatLng(position.coords.latitude, position.coords.longitude);
+    var lonlat = new Tmapv2.LatLng(
+      position.coords.latitude,
+      position.coords.longitude
+    );
     map.setCenter(lonlat); // 지도의 중심 좌표를 설정합니다.
   });
 }
@@ -522,6 +612,5 @@ function fun1() {
 
   reloadBtnAddress.innerText = `${address} ${jibunAdd}`;
 }
-function fun2() { }
-function fun3() { }
-
+function fun2() {}
+function fun3() {}

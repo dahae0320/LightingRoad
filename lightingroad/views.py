@@ -50,3 +50,11 @@ def main2(request):
     data = streetLampData(code)  
     return HttpResponse(data)
   return render(request, 'main2.html')
+
+def saveAvg(request):
+  id = request.POST['id']
+  print(id)
+  avgSum = request.POST['avgSum']
+  avgCount = request.POST['avgCount']
+  requests.get('http://127.0.0.1:8000/avg/' + id + '/' + avgSum + '/' + avgCount + '/')
+  return HttpResponse("success")
