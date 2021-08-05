@@ -141,6 +141,7 @@ body {
   width: 60px;
   border-radius: 10px;
   cursor: pointer;
+  
 }
 #btn_select{
   position: fixed;
