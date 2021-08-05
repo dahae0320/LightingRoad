@@ -153,10 +153,13 @@ body {
   background-color:transparent;
 }
 
+.delete_con {
+  display: flex;
+  justify-content: center;
+}
+
 .btn_delete{
   position: fixed;
-  top: 300px;
-  right: 5px;
   border-radius: 10px;
   cursor: pointer;
   border: 0;
