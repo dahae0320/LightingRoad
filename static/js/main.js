@@ -14,7 +14,8 @@ const evalAvgNum = document.querySelector(
 const managementInfo = document.querySelector(
   '.bottom-sheet .info-detail .management .management__detail'
 );
-const btndelete = document.querySelector('.delete_container')
+const btndeleteContainer = document.querySelector('.delete_container')
+const btnDelete = btndeleteContainer.querySelector('btn_delete')
 
 let roadcount = 0;
 
@@ -50,6 +51,9 @@ let marker_pass5;
 let totalMarkerArr = [];
 let drawInfoArr = [];
 let resultdrawArr = [];
+let resultMarkerArr = [];
+let chktraffic = [];
+let count = 0;
 
 function startFn(lat, lng) {
   s_mk_lat = lat;
@@ -66,11 +70,11 @@ function startFn(lat, lng) {
     }); //출발 마커 생성
 } 
 
-
 function passFn(lat, lng) {
+  count += 1
   passList.push(lat)
   passList.push(lng)
-
+  console.log(count)
   console.log(passList)
 
   if (passList.length == 11) {
@@ -145,14 +149,34 @@ function destinationFn(lat, lng) {
     }); //도착 마커 생성
 }
 
+//작은 동그라미 제거해야됨
 function optiondelete() {
+  roadcount = 1
+  console.log(roadcount);  //
   marker_s.setMap(null);
   marker_d.setMap(null);
-  marker_pass1.setMap(null);
-  marker_pass2.setMap(null);
-  marker_pass3.setMap(null);
-  marker_pass4.setMap(null);
-  marker_pass5.setMap(null);
+  if (count == 1) {
+    marker_pass1.setMap(null);
+  } else if(count == 2) {
+    marker_pass1.setMap(null);
+    marker_pass2.setMap(null);
+  } else if(count == 3) {
+    marker_pass1.setMap(null);
+    marker_pass2.setMap(null);
+    marker_pass3.setMap(null);
+  } else if(count == 4) {
+    marker_pass1.setMap(null);
+    marker_pass2.setMap(null);
+    marker_pass3.setMap(null);
+    marker_pass4.setMap(null);
+  } else if(count == 5) {
+    marker_pass1.setMap(null);
+    marker_pass2.setMap(null);
+    marker_pass3.setMap(null);
+    marker_pass4.setMap(null);
+    marker_pass5.setMap(null);
+  }
+
 
   if (resultdrawArr.length > 0) {
     for (var i = 0; i < resultdrawArr.length; i++) {
@@ -160,8 +184,16 @@ function optiondelete() {
     }
   }
 
+  if (resultMarkerArr.length > 0) {
+    for (var i = 0; i < resultMarkerArr.length; i++) {
+      resultMarkerArr[i].setMap(null);
+    }
+  }
+
+  chktraffic = [];
   drawInfoArr = [];
   resultdrawArr = [];
+  resultMarkerArr = [];
   let s_mk_lat = '';
   let s_mk_lng = '';
   let d_mk_lat = '';
@@ -169,29 +201,7 @@ function optiondelete() {
   let Pass = '';
   let passList = []
   console.log(`s_y:${s_mk_lat}, s_x:${s_mk_lng}, d_y:${d_mk_lat}, d_x:${d_mk_lng} ,Pass:${Pass}, passList:${passList}`)
-  // resettingMap();
 }
-
-function resettingMap() {
-  //기존마커는 삭제
-
-    // for (var i = 0; i < 6; i++) {
-  //   marker_pass[i].setMap(null);
-  // }
-
-  // marker_s.setMap(null);
-  // marker_d.setMap(null);
-
-  // if (resultdrawArr.length > 0) {
-  //   for (var i = 0; i < resultdrawArr.length; i++) {
-  //     resultdrawArr[i].setMap(null);
-  //   }
-  // }
-
-  // drawInfoArr = [];
-  // resultdrawArr = [];
-}
-
 
 function onClose(popup) {
   infoWindow.setVisible(false);
@@ -457,10 +467,11 @@ function initTmap() {
 
         //기존 맵에 있던 정보들 초기화
         roadcount += 1;
+        console.log(roadcount); //
         bottomSheet.style.display = 'none';
         searchBox.style.display = 'none';
         reloadBtn.style.display = 'none';
-        btndelete.style.display = 'block';
+        btndeleteContainer.style.display = 'block';
 
         $
           .ajax({
