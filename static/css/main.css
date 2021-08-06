@@ -141,6 +141,7 @@ body {
   width: 60px;
   border-radius: 10px;
   cursor: pointer;
+  
 }
 #btn_select{
   position: fixed;
@@ -152,6 +153,26 @@ body {
   outline: 0;
   background-color:transparent;
 }
+.delete_container{
+  display: none;
+}
+.delete_con {
+  display: flex;
+  justify-content: center;
+  z-index: 100;
+}
+
+.btn_delete{
+  position: fixed;
+  bottom: 60px;
+
+  border-radius: 10px;
+  cursor: pointer;
+  border: 0;
+  outline: 0;
+  background-color:transparent;
+}
+
 .bottom-sheet .report {
   position: fixed;
   bottom: 72px;
