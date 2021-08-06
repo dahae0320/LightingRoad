@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.main, name='main'),
     path('main2/', views.main2, name='main2'),
+    path('avg/', views.saveAvg, name='saveAvg'),
 ]
