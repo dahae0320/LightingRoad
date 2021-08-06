@@ -3,6 +3,11 @@ body {
   margin: 0;
 }
 
+.testBtn {
+  display: fixed;
+  z-index: 3;
+}
+
 body {
   width: 100vw;
   height: 100vh;
@@ -366,4 +371,8 @@ a:visited {
 }
 a:hover { 
   color: black; text-decoration: none;
+}
+
+#map_div > div > div > span {
+  display: none;
 }

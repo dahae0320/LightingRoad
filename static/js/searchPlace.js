@@ -2,30 +2,17 @@ const searchKeyword = document.querySelector('.searchKeyword');
 const searchResult = document.querySelector('.searchResult');
 
 searchKeyword.addEventListener('keypress', enterKey);
-
 searchKeyword.addEventListener('keyup', searchPlace);
-// searchKeyword.addEventListener('enter', function(){
-//   if (event.ketCode == 13){
-//     hideSearchResult();
-//   }
-  // searchKeyword.addEventListener('click', () => {
-//   if (searchKeyword.value !== '' || searchResult.style.display == 'none') {
-//     searchResult.style.display = 'block';
-//   }
-// });
+
+// 검색어 부분이 아닌 다른 외부의 모든 것(document)을 눌렀을 때, 검색 결과창이 사라지도록...
 document.addEventListener('click', hideSearchResult);
 
-var resultCnt = 1;
-var markerArr = [];
+let resultCnt = 1;
+let markerArr = [];
 
 function searchPlace() {
-  // if (resultCnt == 1) {
-  //   searchResult.style.display = 'block';
-  // }
-  // else if(resultCnt == 0){
-  //   searchResult.style.display = 'none';
 
-  $(".searchKeyword").on("propertychange keydown paste input", function(){
+  $(".searchKeyword").on("propertychange keydown paste input", function () {
     searchResult.style.display = 'block';
   });
 
@@ -45,8 +32,8 @@ function searchPlace() {
         let resultpoisData = response.searchPoiInfo.pois.poi;
         let innerHtml = "";	// Search Reulsts 결과값 노출 위한 변수
 
-        if(markerArr.length > 0){
-          for(var i in markerArr){
+        if (markerArr.length > 0) {
+          for (let i in markerArr) {
             markerArr[i].setMap(null);
           }
           markerArr = [];
@@ -56,26 +43,20 @@ function searchPlace() {
           let name = resultpoisData[k].name;
           innerHtml += "<li onclick='searchPOI(this.textContent)'>" + name + "</li>";
         }
-        
-
-        
         searchResult.innerHTML = innerHtml;
-        console.log(innerHtml);
       }
     },
     error: function (request, status, error) {
-      // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+      console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
     }
   });
 }
 
 
-function enterKey(){
-      var searchText = document.querySelector('.searchKeyword').value;
-      searchPOI(searchText);
-      --resultCnt;
-      console.log(resultCnt);
-      // console.log(text);
+function enterKey() {
+  let searchText = document.querySelector('.searchKeyword').value;
+  searchPOI(searchText);
+  --resultCnt;
 }
 
 
@@ -91,20 +72,18 @@ function moveToSearchPlace(lat, lng) {
 //특정 장소를 검색하는 함수입니다.
 function searchPOI(search) {
   hideSearchResult();
-  var optionObj = {
+  let optionObj = {
     reqCoordType: "WGS84GEO", //요청 좌표계 옵션 설정입니다.
     resCoordType: "WGS84GEO",  //응답 좌표계 옵션 설정입니다.
-    // centerLon: 126.925356, //POI검색시 중앙좌표의 경도입니다.
-    // centerLat: 37.554034	//POI검색시 중앙좌표의 위도입니다. 
   };
-  var params = {
+  let params = {
     onComplete: onComplete,
     onProgress: onProgress,
     onError: onError
   };
-  
-  var tData = new Tmapv2.extension.TData();
-  tData.getPOIDataFromSearchJson(encodeURIComponent(search), optionObj, params);//encodeURIComponent함수로 해당 파라메터 값을 처리합니다.
+
+  let tData = new Tmapv2.extension.TData();
+  tData.getPOIDataFromSearchJson(encodeURIComponent(search), optionObj, params); //encodeURIComponent함수로 해당 파라메터 값을 처리합니다.
 }
 
 //POI검색
@@ -114,8 +93,8 @@ function onComplete() {
 
   getAddress(lat, lng);
   map.setCenter(new Tmapv2.LatLng(lat, lng));
-  var marker = new Tmapv2.Marker({
-    position: new Tmapv2.LatLng(lat,lng), //Marker의 중심좌표 설정.
+  let marker = new Tmapv2.Marker({
+    position: new Tmapv2.LatLng(lat, lng), //Marker의 중심좌표 설정.
     map: map //Marker가 표시될 Map 설정
   });
   markerArr.push(marker);
@@ -124,7 +103,6 @@ function onComplete() {
 
 //데이터 로드중 실행하는 함수입니다.
 function onProgress() {
-
 }
 
 //데이터 로드 중 에러가 발생시 실행하는 함수입니다.
