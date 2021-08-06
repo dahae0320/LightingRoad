@@ -2,7 +2,9 @@ const bottomSheet = document.querySelector('.bottom-sheet');
 const searchBox = document.querySelector('.search-box');
 const report = document.querySelector('.bottom-sheet .report');
 const infoSummary = document.querySelector('.bottom-sheet .info-summary');
-const bottomSheetBar = document.querySelector('.bottom-sheet .info-summary .info-detail');
+const bottomSheetBar = document.querySelector(
+  '.bottom-sheet .info-summary .info-detail'
+);
 
 const reloadBtn = document.querySelector('.reload-btn');
 const reloadBtnAddress = document.querySelector('.reload-btn .name .address');
@@ -14,9 +16,7 @@ const evalAvgNum = document.querySelector(
 const managementInfo = document.querySelector(
   '.bottom-sheet .info-detail .management .management__detail'
 );
-const btndeleteContainer = document.querySelector('.delete_container')
-const btnDelete = btndeleteContainer.querySelector('btn_delete')
-
+const btndeleteContainer = document.querySelector('.delete_container');
 
 const lightbulb = document.querySelectorAll('.icons > .fa-lightbulb');
 
@@ -77,7 +77,7 @@ let s_mk_lng;
 let d_mk_lat;
 let d_mk_lng;
 let Pass;
-let passList = []
+let passList = [];
 let marker_pass1;
 let marker_pass2;
 let marker_pass3;
@@ -99,21 +99,20 @@ function startFn(lat, lng) {
 
   Pass = '';
 
-  marker_s = new Tmapv2.Marker(
-    {
-      position: new Tmapv2.LatLng(lat, lng),
-      icon: "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/red_b.png",
-      iconSize: new Tmapv2.Size(40, 45),
-      map: map
-    }); //출발 마커 생성
+  marker_s = new Tmapv2.Marker({
+    position: new Tmapv2.LatLng(lat, lng),
+    icon: 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/red_b.png',
+    iconSize: new Tmapv2.Size(40, 45),
+    map: map,
+  }); //출발 마커 생성
 }
 
 function passFn(lat, lng) {
-  count += 1
-  passList.push(lat)
-  passList.push(lng)
-  console.log(count)
-  console.log(passList)
+  count += 1;
+  passList.push(lat);
+  passList.push(lng);
+  console.log(count);
+  console.log(passList);
 
   if (passList.length == 11) {
     Pass = '';
@@ -128,69 +127,58 @@ function passFn(lat, lng) {
     }
   }
   if (passList.length == 2) {
-    marker_pass1 = new Tmapv2.Marker(
-      {
-        position: new Tmapv2.LatLng(lat, lng),
-        icon: "http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_1.png",
-        iconSize: new Tmapv2.Size(24, 38),
-        map: map
-      }); //경유지 마커 생성
+    marker_pass1 = new Tmapv2.Marker({
+      position: new Tmapv2.LatLng(lat, lng),
+      icon: 'http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_1.png',
+      iconSize: new Tmapv2.Size(24, 38),
+      map: map,
+    }); //경유지 마커 생성
+  } else if (passList.length == 4) {
+    marker_pass2 = new Tmapv2.Marker({
+      position: new Tmapv2.LatLng(lat, lng),
+      icon: 'http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_2.png',
+      iconSize: new Tmapv2.Size(24, 38),
+      map: map,
+    }); //경유지 마커 생성
+  } else if (passList.length == 6) {
+    marker_pass3 = new Tmapv2.Marker({
+      position: new Tmapv2.LatLng(lat, lng),
+      icon: 'http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_3.png',
+      iconSize: new Tmapv2.Size(24, 38),
+      map: map,
+    }); //경유지 마커 생성
+  } else if (passList.length == 8) {
+    marker_pass4 = new Tmapv2.Marker({
+      position: new Tmapv2.LatLng(lat, lng),
+      icon: 'http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_4.png',
+      iconSize: new Tmapv2.Size(24, 38),
+      map: map,
+    }); //경유지 마커 생성
+  } else {
+    marker_pass5 = new Tmapv2.Marker({
+      position: new Tmapv2.LatLng(lat, lng),
+      icon: 'http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_5.png',
+      iconSize: new Tmapv2.Size(24, 38),
+      map: map,
+    }); //경유지 마커 생성
   }
-  else if (passList.length == 4) {
-    marker_pass2 = new Tmapv2.Marker(
-      {
-        position: new Tmapv2.LatLng(lat, lng),
-        icon: "http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_2.png",
-        iconSize: new Tmapv2.Size(24, 38),
-        map: map
-      }); //경유지 마커 생성
-  }
-  else if (passList.length == 6) {
-    marker_pass3 = new Tmapv2.Marker(
-      {
-        position: new Tmapv2.LatLng(lat, lng),
-        icon: "http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_3.png",
-        iconSize: new Tmapv2.Size(24, 38),
-        map: map
-      }); //경유지 마커 생성
-  }
-  else if (passList.length == 8) {
-    marker_pass4 = new Tmapv2.Marker(
-      {
-        position: new Tmapv2.LatLng(lat, lng),
-        icon: "http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_4.png",
-        iconSize: new Tmapv2.Size(24, 38),
-        map: map
-      }); //경유지 마커 생성
-  }
-  else {
-    marker_pass5 = new Tmapv2.Marker(
-      {
-        position: new Tmapv2.LatLng(lat, lng),
-        icon: "http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_5.png",
-        iconSize: new Tmapv2.Size(24, 38),
-        map: map
-      }); //경유지 마커 생성
-  }
-
 }
 
 function destinationFn(lat, lng) {
   d_mk_lat = lat;
   d_mk_lng = lng;
-  marker_d = new Tmapv2.Marker(
-    {
-      position: new Tmapv2.LatLng(lat, lng),
-      icon: "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/blue_b.png",
-      iconSize: new Tmapv2.Size(40, 45),
-      map: map
-    }); //도착 마커 생성
+  marker_d = new Tmapv2.Marker({
+    position: new Tmapv2.LatLng(lat, lng),
+    icon: 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/blue_b.png',
+    iconSize: new Tmapv2.Size(40, 45),
+    map: map,
+  }); //도착 마커 생성
 }
 
 //작은 동그라미 제거해야됨
 function optiondelete() {
-  roadcount = 1
-  console.log(roadcount);  //
+  roadcount = 1;
+  console.log(roadcount); //
   marker_s.setMap(null);
   marker_d.setMap(null);
   if (count == 1) {
@@ -215,7 +203,6 @@ function optiondelete() {
     marker_pass5.setMap(null);
   }
 
-
   if (resultdrawArr.length > 0) {
     for (var i = 0; i < resultdrawArr.length; i++) {
       resultdrawArr[i].setMap(null);
@@ -232,13 +219,17 @@ function optiondelete() {
   drawInfoArr = [];
   resultdrawArr = [];
   resultMarkerArr = [];
+
   let s_mk_lat = '';
   let s_mk_lng = '';
   let d_mk_lat = '';
   let d_mk_lng = '';
   let Pass = '';
-  let passList = []
-  console.log(`s_y:${s_mk_lat}, s_x:${s_mk_lng}, d_y:${d_mk_lat}, d_x:${d_mk_lng} ,Pass:${Pass}, passList:${passList}`)
+  let passList = [];
+
+  console.log(
+    `s_y:${s_mk_lat}, s_x:${s_mk_lng}, d_y:${d_mk_lat}, d_x:${d_mk_lng} ,Pass:${Pass}, passList:${passList}`
+  );
 }
 
 function onClose(popup) {
@@ -370,18 +361,31 @@ function initTmap() {
         );
 
         if (roadcount == 1) {
-          let content = "<div class='info_container' style='position: static; display: flex; flex-direction: column; font-size: 18px; box-shadow: 5px 5px 5px #00000040; border-radius: 10px; top: 410px; left : 800px; width : 170px; background: #FFFFFF 0% 0% no-repeat padding-box;'>" +
+          let content =
+            "<div class='info_container' style='position: static; display: flex; flex-direction: column; font-size: 18px; box-shadow: 5px 5px 5px #00000040; border-radius: 10px; top: 410px; left : 800px; width : 170px; background: #FFFFFF 0% 0% no-repeat padding-box;'>" +
             "<a class='btn-close' style='position: absolute; top: 5px; right: 5px; display: block; width: 15px; height: 15px; background: url(static/img/x.png) center;' href='javascript:void(0)' onclick='onClose()' ></a>" +
             "<div class='info-box'>" +
-            "<p style='display: block;height: 20px;padding-right:20px;padding-top:5px; padding-left: 15px;font-size: 13px; color: #444;' ><a href='javascript:void(0);' onclick='startFn(" + marker._marker_data.options.position._lat + "," + marker._marker_data.options.position._lng + "); onClose();'>여기를 출발지로 지정</a></p>" +
-            "<p style='display: block;height: 20px;padding-right:20px; padding-left: 15px;font-size: 13px; color: #444;' ><a href='javascript:void(0);' onclick='passFn(" + marker._marker_data.options.position._lat + "," + marker._marker_data.options.position._lng + "); onClose();'>여기를 경유지로 지정</a></p>" +
-            "<p style='display: block;height: 20px;padding-right:20px; padding-left: 15px;font-size: 13px; color: #444;' ><a href='javascript:void(0);' onclick='destinationFn(" + marker._marker_data.options.position._lat + "," + marker._marker_data.options.position._lng + "); onClose();'>여기를 목적지로 지정</a></p>" +
-            "</div>" +
+            "<p style='display: block;height: 20px;padding-right:20px;padding-top:5px; padding-left: 15px;font-size: 13px; color: #444;' ><a href='javascript:void(0);' onclick='startFn(" +
+            marker._marker_data.options.position._lat +
+            ',' +
+            marker._marker_data.options.position._lng +
+            "); onClose();'>여기를 출발지로 지정</a></p>" +
+            "<p style='display: block;height: 20px;padding-right:20px; padding-left: 15px;font-size: 13px; color: #444;' ><a href='javascript:void(0);' onclick='passFn(" +
+            marker._marker_data.options.position._lat +
+            ',' +
+            marker._marker_data.options.position._lng +
+            "); onClose();'>여기를 경유지로 지정</a></p>" +
+            "<p style='display: block;height: 20px;padding-right:20px; padding-left: 15px;font-size: 13px; color: #444;' ><a href='javascript:void(0);' onclick='destinationFn(" +
+            marker._marker_data.options.position._lat +
+            ',' +
+            marker._marker_data.options.position._lng +
+            "); onClose();'>여기를 목적지로 지정</a></p>" +
+            '</div>' +
             "<a href='javascript:void(0)' onclick='onClose()' class='btn-close' style='position: absolute; top: 10px; right: 10px; display: block; width: 15px; height: 15px; background: url(resources/images/sample/btn-close-w.svg) no-repeat center;'></a>" +
-            "</div>" +
-            "</div>";
+            '</div>' +
+            '</div>';
 
-          //JS에서 받아온거가 html에서 못알아먹을수도 있다! 긍까 반드시 개발자모드로 가서 element에서 html에서 잘 인식하는지 확인을 하고 아니다 하면 저기 "+ㅇㅇ+"처럼하기       
+          //JS에서 받아온거가 html에서 못알아먹을수도 있다! 긍까 반드시 개발자모드로 가서 element에서 html에서 잘 인식하는지 확인을 하고 아니다 하면 저기 "+ㅇㅇ+"처럼하기
           //Popup 객체 생성.
 
           infoWindow = new Tmapv2.InfoWindow({
@@ -581,7 +585,7 @@ function initTmap() {
   //               let polyline_;
   //               if (geometry.type == "LineString") {
   //                 for (let j in geometry.coordinates) {
-  //                   // 경로들의 결과값(구간)들을 포인트 객체로 변환 
+  //                   // 경로들의 결과값(구간)들을 포인트 객체로 변환
   //                   let latlng = new Tmapv2.Point(
   //                     geometry.coordinates[j][0],
   //                     geometry.coordinates[j][1],
@@ -614,7 +618,7 @@ function initTmap() {
   //                   pType = "P";
   //                   size = new Tmapv2.Size(8, 8);
   //                 }
-  //                 // 경로들의 결과값들을 포인트 객체로 변환 
+  //                 // 경로들의 결과값들을 포인트 객체로 변환
   //                 let latlon = new Tmapv2.Point(
   //                   geometry.coordinates[0],
   //                   geometry.coordinates[1],
@@ -648,7 +652,7 @@ function initTmap() {
   //               + "message:" + request.responseText + "\n"
   //               + "error:" + error);
   //           }
-  //         } 
+  //         }
   //         else {
   //           let markerImg = '';
   //           let pType = '';
@@ -713,128 +717,141 @@ function initTmap() {
   //   });
   // });
 
-  $("#btn_select").click(function () {
+  $('#btn_select').click(function () {
     //기존 맵에 있던 정보들 초기화
     roadcount += 1;
     console.log(roadcount);
     bottomSheet.style.display = 'none';
     searchBox.style.display = 'none';
     reloadBtn.style.display = 'none';
-    btndelete.style.display = 'block';
+    btndeleteContainer.style.display = 'block';
 
     $.ajax({
-      method: "POST",
-      url: "https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&format=json&callback=result",
+      method: 'POST',
+      url: 'https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&format=json&callback=result',
       async: false,
       data: {
-        "appKey": "l7xx277bb41e41d345caae019ce5a6c7b6cb",
+        appKey: 'l7xx277bb41e41d345caae019ce5a6c7b6cb',
         //  "startX" : "126.97871544",
         //  "startY" : "37.56689860",
-        "startX": s_mk_lng,
-        "startY": s_mk_lat,
-        "endX": d_mk_lng,
-        "endY": d_mk_lat,
+        startX: s_mk_lng,
+        startY: s_mk_lat,
+        endX: d_mk_lng,
+        endY: d_mk_lat,
         //  "passList" : `${p_mk_lng},${p_mk_lat}_`,
-        "passList": Pass,
-        "reqCoordType": "WGS84GEO",
-        "resCoordType": "EPSG3857",
-        "startName": "출발지",
-        "endName": "도착지"
+        passList: Pass,
+        reqCoordType: 'WGS84GEO',
+        resCoordType: 'EPSG3857',
+        startName: '출발지',
+        endName: '도착지',
       },
       success: function (response) {
         let resultData = response.features;
         //결과 출력
-        let tDistance = "총 거리 : "
-          + ((resultData[0].properties.totalDistance) / 1000)
-            .toFixed(1) + "km,";
-        let tTime = " 총 시간 : "
-          + ((resultData[0].properties.totalTime) / 60)
-            .toFixed(0) + "분";
-        $("#result").text(tDistance + tTime);
+        let tDistance =
+          '총 거리 : ' +
+          (resultData[0].properties.totalDistance / 1000).toFixed(1) +
+          'km,';
+        let tTime =
+          ' 총 시간 : ' +
+          (resultData[0].properties.totalTime / 60).toFixed(0) +
+          '분';
+        $('#result').text(tDistance + tTime);
 
         //기존 그려진 라인 & 마커가 있다면 초기화
         if (resultdrawArr.length > 0) {
           for (let i in resultdrawArr) {
-            resultdrawArr[i]
-              .setMap(null);
+            resultdrawArr[i].setMap(null);
           }
           resultdrawArr = [];
         }
 
         drawInfoArr = [];
-        for (let i in resultData) { //for문 [S]
+        for (let i in resultData) {
+          //for문 [S]
           let geometry = resultData[i].geometry;
           let properties = resultData[i].properties;
           let polyline_;
-          if (geometry.type == "LineString") {
+          if (geometry.type == 'LineString') {
             for (let j in geometry.coordinates) {
-              // 경로들의 결과값(구간)들을 포인트 객체로 변환 
+              // 경로들의 결과값(구간)들을 포인트 객체로 변환
               let latlng = new Tmapv2.Point(
                 geometry.coordinates[j][0],
                 geometry.coordinates[j][1],
-                geometry.coordinates[j][2],
+                geometry.coordinates[j][2]
               );
               // 포인트 객체를 받아 좌표값으로 변환
-              let convertPoint = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(
-                latlng);
+              let convertPoint =
+                new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(latlng);
               // 포인트객체의 정보로 좌표값 변환 객체로 저장
               let convertChange = new Tmapv2.LatLng(
                 convertPoint._lat,
-                convertPoint._lng);
+                convertPoint._lng
+              );
               // 배열에 담기
               drawInfoArr.push(convertChange);
             }
           } else {
-            let markerImg = "";
-            let pType = "";
+            let markerImg = '';
+            let pType = '';
             let size;
-            if (properties.pointType == "S") { //출발지 마커
-              markerImg = "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png";
-              pType = "S";
+            if (properties.pointType == 'S') {
+              //출발지 마커
+              markerImg =
+                'http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png';
+              pType = 'S';
               size = new Tmapv2.Size(24, 38);
-            } else if (properties.pointType == "E") { //도착지 마커
-              markerImg = "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_e.png";
-              pType = "E";
+            } else if (properties.pointType == 'E') {
+              //도착지 마커
+              markerImg =
+                'http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_e.png';
+              pType = 'E';
               size = new Tmapv2.Size(24, 38);
-            } else { //각 포인트 마커
-              markerImg = "http://topopen.tmap.co.kr/imgs/point.png";
-              pType = "P";
+            } else {
+              //각 포인트 마커
+              markerImg = 'http://topopen.tmap.co.kr/imgs/point.png';
+              pType = 'P';
               size = new Tmapv2.Size(8, 8);
             }
-            // 경로들의 결과값들을 포인트 객체로 변환 
+            // 경로들의 결과값들을 포인트 객체로 변환
             let latlon = new Tmapv2.Point(
               geometry.coordinates[0],
               geometry.coordinates[1],
-              geometry.coordinates[2],
+              geometry.coordinates[2]
             );
             // 포인트 객체를 받아 좌표값으로 다시 변환
             let convertPoint = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(
-              latlon);
+              latlon
+            );
             let routeInfoObj = {
               markerImage: markerImg,
               lng: convertPoint._lng,
               lat: convertPoint._lat,
-              pointType: pType
+              pointType: pType,
             };
             // Marker 추가
-            marker_p = new Tmapv2.Marker(
-              {
-                position: new Tmapv2.LatLng(
-                  routeInfoObj.lat,
-                  routeInfoObj.lng),
-                icon: routeInfoObj.markerImage,
-                iconSize: size,
-                map: map
-              });
+            marker_p = new Tmapv2.Marker({
+              position: new Tmapv2.LatLng(routeInfoObj.lat, routeInfoObj.lng),
+              icon: routeInfoObj.markerImage,
+              iconSize: size,
+              map: map,
+            });
           }
-        }//for문 [E]
+        } //for문 [E]
         drawLine(drawInfoArr);
       },
       error: function (request, status, error) {
-        console.log("code:" + request.status + "\n"
-          + "message:" + request.responseText + "\n"
-          + "error:" + error);
-      }
+        console.log(
+          'code:' +
+            request.status +
+            '\n' +
+            'message:' +
+            request.responseText +
+            '\n' +
+            'error:' +
+            error
+        );
+      },
     });
   });
 
@@ -906,5 +923,5 @@ function fun1() {
 
   reloadBtnAddress.innerText = `${address} ${jibunAdd}`;
 }
-function fun2() { }
-function fun3() { }
+function fun2() {}
+function fun3() {}
