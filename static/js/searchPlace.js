@@ -15,14 +15,14 @@ searchKeyword.addEventListener('keyup', searchPlace);
 // });
 document.addEventListener('click', hideSearchResult);
 
-var count = 1;
+var resultCnt = 1;
 var markerArr = [];
 
 function searchPlace() {
-  // if (count == 1) {
+  // if (resultCnt == 1) {
   //   searchResult.style.display = 'block';
   // }
-  // else if(count == 0){
+  // else if(resultCnt == 0){
   //   searchResult.style.display = 'none';
 
   $(".searchKeyword").on("propertychange keydown paste input", function(){
@@ -38,7 +38,7 @@ function searchPlace() {
       "searchKeyword": searchKeyword.value,
       "resCoordType": "EPSG3857",
       "reqCoordType": "WGS84GEO",
-      "count": 10
+      "resultCnt": 10
     },
     success: function (response) {
       if (response != undefined) {
@@ -73,8 +73,8 @@ function searchPlace() {
 function enterKey(){
       var searchText = document.querySelector('.searchKeyword').value;
       searchPOI(searchText);
-      --count;
-      console.log(count);
+      --resultCnt;
+      console.log(resultCnt);
       // console.log(text);
 }
 
