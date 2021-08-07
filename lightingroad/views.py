@@ -13,7 +13,7 @@ import requests
 def main(request):
   if request.is_ajax and request.method == 'POST':
     code = request.POST['code']
-    api_data = (requests.get('http://127.0.0.1:8000/'+code)).json()
+    api_data = (requests.get('https://lightingroad-api.herokuapp.com/'+code)).json()
     return HttpResponse(str(api_data))
   return render(request, 'main.html')
 
@@ -22,5 +22,5 @@ def saveAvg(request):
   print(id)
   avgSum = request.POST['avgSum']
   avgCount = request.POST['avgCount']
-  requests.get('http://127.0.0.1:8000/avg/' + id + '/' + avgSum + '/' + avgCount + '/')
+  requests.get('https://lightingroad-api.herokuapp.com/avg/' + id + '/' + avgSum + '/' + avgCount + '/')
   return HttpResponse("success")
