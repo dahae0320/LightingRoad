@@ -86,7 +86,7 @@ let drawInfoArr = [];
 let resultdrawArr = [];
 let resultMarkerArr = [];
 let chktraffic = [];
-let count = 0;
+let removecount = 0;
 
 let infoWindows1 = [];
 let infoWindows2 = [];
@@ -123,7 +123,7 @@ function passFn(lat, lng) {
 
   console.log(passList);
 
-  if (passList.length == 11) {
+  if (passList.length > 12) {
     Pass = '';
     passList = [];
   } else {
@@ -176,10 +176,8 @@ function passFn(lat, lng) {
       map: map,
     }); //경유지 마커 생성
     passArr.push(marker_pass5);
+    alert("마지막 경유지 선택입니다.(5곳만 경유 가능합니다.)");
   }
-  else{//경유지 5개 이상 사용자에게 알림
-      alert('경유지는 5개만 선택 가능합니다.😥');
-    }
 }
 
 function destinationFn(lat, lng) {
@@ -206,7 +204,13 @@ function destinationFn(lat, lng) {
 function optiondelete() {
   roadcount = 0;
   removeMarkers();
-  infoWindows1[count].setVisible(false);
+
+  // if(removecount == 1){
+  //   infoWindows1[count].setVisible(false);
+  // }
+  // else{
+  //   infoWindows2[count].setVisible(false);
+  // }
 
   if (passList.length > 0) {
     passList = [];
@@ -320,7 +324,8 @@ function onClick(e) {
             map: map, //Popup이 표시될 맵 객체
             });
           markers2.push(marker);
-          count++;     
+          count++;   
+          removecount = 1;  
         }
       }
     }
@@ -718,6 +723,7 @@ function initTmap() {
       },
     });
   });
+
 
   function drawLine(arrPoint) {
     let polyline_;
