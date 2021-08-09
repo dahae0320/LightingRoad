@@ -93,7 +93,12 @@ function startFn(lat, lng) {
   s_mk_lat = lat;
   s_mk_lng = lng;
 
-  Pass = '';
+  if (startArr.length > 0) {
+    for (var i in startArr) {
+      startArr[i].setMap(null);
+    }
+    startArr = [];
+  }
 
   marker_s = new Tmapv2.Marker({
     position: new Tmapv2.LatLng(lat, lng),
@@ -105,9 +110,11 @@ function startFn(lat, lng) {
 }
 
 function passFn(lat, lng) {
-  count += 1;
   passList.push(lat);
   passList.push(lng);
+
+
+  console.log(passList);
 
   if (passList.length == 11) {
     Pass = '';
@@ -121,7 +128,7 @@ function passFn(lat, lng) {
       }
     }
   }
-
+  console.log(passList.length);
   if (passList.length == 2) {
     marker_pass1 = new Tmapv2.Marker({
       position: new Tmapv2.LatLng(lat, lng),
@@ -154,7 +161,7 @@ function passFn(lat, lng) {
       map: map,
     }); //경유지 마커 생성
     passArr.push(marker_pass4);
-  } else {
+  } else if (passList.length == 10){
     marker_pass5 = new Tmapv2.Marker({
       position: new Tmapv2.LatLng(lat, lng),
       icon: 'http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_5.png',
@@ -163,11 +170,22 @@ function passFn(lat, lng) {
     }); //경유지 마커 생성
     passArr.push(marker_pass5);
   }
+  else{//경유지 5개 이상 사용자에게 알림
+      alert('경유지는 5개만 선택 가능합니다.😥');
+    }
 }
 
 function destinationFn(lat, lng) {
   d_mk_lat = lat;
   d_mk_lng = lng;
+
+  if (destinationArr.length > 0) {
+    for (var i in destinationArr) {
+      destinationArr[i].setMap(null);
+    }
+    destinationArr = [];
+  }
+
   marker_d = new Tmapv2.Marker({
     position: new Tmapv2.LatLng(lat, lng),
     icon: 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/blue_b.png',
@@ -213,11 +231,11 @@ function optiondelete() {
     resultdrawArr = [];
   }
 
-  let s_mk_lat = '';
-  let s_mk_lng = '';
-  let d_mk_lat = '';
-  let d_mk_lng = '';
-  let Pass = '';
+  s_mk_lat = '';
+  s_mk_lng = '';
+  d_mk_lat = '';
+  d_mk_lng = '';
+  Pass = '';
 
   console.log(
     `s_y:${s_mk_lat}, s_x:${s_mk_lng}, d_y:${d_mk_lat}, d_x:${d_mk_lng} ,Pass:${Pass}, passList:${passList}`
