@@ -18,7 +18,7 @@ const managementInfo = document.querySelector(
 );
 const btndeleteContainer = document.querySelector('.delete_container');
 
-let roadcount = 0; //길찾기 on/off 전환
+let roadcount = 0; //길찾기 on/off 전환..
 
 const lightbulb = document.querySelectorAll('.icons > .fa-lightbulb');
 
