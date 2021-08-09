@@ -8,8 +8,11 @@ from urllib.parse import urlencode, quote_plus, unquote
 import json
 import requests
 
+from django.views.decorators.csrf import csrf_exempt
+
 # Create your views here.
 
+@csrf_exempt
 def main(request):  
   if request.is_ajax and request.method == 'POST':
     code = request.POST['code']
@@ -17,6 +20,7 @@ def main(request):
     return HttpResponse(str(api_data))
   return render(request, 'main.html')
 
+@csrf_exempt
 def saveAvg(request):
   id = request.POST['id']
   print(id)
