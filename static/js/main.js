@@ -603,16 +603,7 @@ function initTmap() {
       },
       success: function (response) {
         let resultData = response.features;
-        //결과 출력
-        let tDistance =
-          '총 거리 : ' +
-          (resultData[0].properties.totalDistance / 1000).toFixed(1) +
-          'km,';
-        let tTime =
-          ' 총 시간 : ' +
-          (resultData[0].properties.totalTime / 60).toFixed(0) +
-          '분';
-        $('#result').text(tDistance + tTime);
+        
 
         //기존 그려진 라인 & 마커가 있다면 초기화
         if (resultdrawArr.length > 0) {
