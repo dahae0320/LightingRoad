@@ -176,7 +176,7 @@ function destinationFn(lat, lng) {
     icon: 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/blue_b.png',
     iconSize: new Tmapv2.Size(40, 45),
     map: map,
-  }); //도착 마커 생성
+  }); //도착 마커 생성.
   destinationArr.push(marker_d);
 }
 
