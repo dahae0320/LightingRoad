@@ -149,13 +149,14 @@ body {
 
 .navi {
   display: flex;
+  justify-content: center;
   z-index: 100;
 }
 
 .navi_start {
-  position: fixed;
-  top: 230px;
-  right: 5px;
+  display: block;
+  position: absolute;
+  bottom: 240px;
   border-radius: 10px;
   cursor: pointer;
   border: 0;
@@ -164,6 +165,7 @@ body {
 }
 
 #btn_select {
+  display: none;
   position: fixed;
   top: 165px;
   right: 5px;
