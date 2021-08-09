@@ -40,6 +40,9 @@ const bulb5 = document.querySelector(
 
 const bulbArr = [bulb1, bulb2, bulb3, bulb4, bulb5];
 
+const navibtn = document.querySelector('.navi_start');
+const selectbtn = document.querySelector('#btn_select');
+
 function setBulbRate(bulb, id, avgSum, avgCount) {
   let num = parseInt(bulb.getAttribute('name'));
 
@@ -173,7 +176,7 @@ function destinationFn(lat, lng) {
     icon: 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/blue_b.png',
     iconSize: new Tmapv2.Size(40, 45),
     map: map,
-  }); //도착 마커 생성
+  }); //도착 마커 생성.
   destinationArr.push(marker_d);
 }
 
@@ -230,7 +233,9 @@ function optiondelete() {
   searchBox.style.display = 'flex';
   reloadBtn.style.display = 'flex';
   btndeleteContainer.style.display = 'none';
-  // roadcount = 1;
+
+  navibtn.style.display = 'block';
+  selectbtn.style.display = 'none';
 }
 
 function naviStart() {
@@ -241,6 +246,8 @@ function naviStart() {
   searchBox.style.display = 'none';
   reloadBtn.style.display = 'none';
   btndeleteContainer.style.display = 'block';
+  navibtn.style.display = 'none';
+  selectbtn.style.display = 'block';
 }
 
 function onClick(e) {
@@ -358,6 +365,7 @@ function bottomSheetEvent() {
   report.classList.remove('init');
   report.classList.toggle('down');
   report.classList.toggle('up');
+  
 }
 
 infoSummary.addEventListener('click', () => {
