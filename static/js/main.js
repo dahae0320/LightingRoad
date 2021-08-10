@@ -517,7 +517,6 @@ function initTmap() {
         }
       )
     );
-
     // Marker에 터치이벤트 등록.
     markers.forEach((marker) =>
       marker.addListener('touchstart', (evt) => {
