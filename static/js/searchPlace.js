@@ -9,6 +9,7 @@ document.addEventListener('click', hideSearchResult);
 
 let markerArr = [];
 
+
 function searchPlace(event) {
   if (event.key == 'Enter') {
     searchPOI(searchKeyword.value);
