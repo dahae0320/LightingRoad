@@ -40,8 +40,10 @@ const bulb5 = document.querySelector(
 
 const bulbArr = [bulb1, bulb2, bulb3, bulb4, bulb5];
 
-const navibtn = document.querySelector('.navi_start');
-const selectbtn = document.querySelector('#btn_select');
+const sideBtns = document.querySelector('.side-btns');
+const naviModeBtn = document.querySelector('.side-btns .navi-mode-btn');
+const naviStartBtn = document.querySelector('.side-btns .navi-start-btn');
+const naviExitBtn = document.querySelector('.side-btns .navi-exit-btn');
 
 function setBulbRate(bulb, id, avgSum, avgCount) {
   let num = parseInt(bulb.getAttribute('name'));
@@ -119,7 +121,6 @@ function startFn(lat, lng) {
 function passFn(lat, lng) {
   passList.push(lat);
   passList.push(lng);
-  console.log(passList);
 
   if (passList.length > 12) {
     Pass = '';
@@ -133,11 +134,10 @@ function passFn(lat, lng) {
       }
     }
   }
-  console.log(passList.length);
   if (passList.length == 2) {
     marker_pass1 = new Tmapv2.Marker({
       position: new Tmapv2.LatLng(lat, lng),
-      icon: 'http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_1.png',
+      icon: "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_1.png",
       iconSize: new Tmapv2.Size(24, 38),
       map: map,
     }); //경유지 마커 생성
@@ -145,7 +145,7 @@ function passFn(lat, lng) {
   } else if (passList.length == 4) {
     marker_pass2 = new Tmapv2.Marker({
       position: new Tmapv2.LatLng(lat, lng),
-      icon: 'http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_2.png',
+      icon: "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_2.png",
       iconSize: new Tmapv2.Size(24, 38),
       map: map,
     }); //경유지 마커 생성
@@ -153,7 +153,7 @@ function passFn(lat, lng) {
   } else if (passList.length == 6) {
     marker_pass3 = new Tmapv2.Marker({
       position: new Tmapv2.LatLng(lat, lng),
-      icon: 'http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_3.png',
+      icon: "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_3.png",
       iconSize: new Tmapv2.Size(24, 38),
       map: map,
     }); //경유지 마커 생성
@@ -161,20 +161,23 @@ function passFn(lat, lng) {
   } else if (passList.length == 8) {
     marker_pass4 = new Tmapv2.Marker({
       position: new Tmapv2.LatLng(lat, lng),
-      icon: 'http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_4.png',
+      icon: 'http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_4.png',
       iconSize: new Tmapv2.Size(24, 38),
       map: map,
     }); //경유지 마커 생성
     passArr.push(marker_pass4);
-  } else if (passList.length == 10){
+  } else if (passList.length == 10) {
     marker_pass5 = new Tmapv2.Marker({
       position: new Tmapv2.LatLng(lat, lng),
-      icon: 'http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_5.png',
+      icon: 'http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_5.png',
       iconSize: new Tmapv2.Size(24, 38),
       map: map,
     }); //경유지 마커 생성
     passArr.push(marker_pass5);
+
     alert("마지막 경유지 선택입니다.(5곳만 경유 가능합니다.)");
+  } else{ 
+    alert("❌길찾기 종료 후 다시 경로를 입력바랍니다.❌")
   }
 }
 
@@ -260,69 +263,81 @@ function optiondelete() {
   reloadBtn.style.display = 'flex';
   btndeleteContainer.style.display = 'none';
 
-  navibtn.style.display = 'block';
-  selectbtn.style.display = 'none';
+  sideBtns.style.top = '100px';
+  naviModeBtn.style.display = 'block';
+  naviStartBtn.style.display = 'none';
+  naviExitBtn.style.display = 'none';
 }
 
 function naviStart() {
   roadcount = 1;
-  console.log(roadcount);
   map.addListener('contextmenu', onClick);
   bottomSheet.style.display = 'none';
   searchBox.style.display = 'none';
   reloadBtn.style.display = 'none';
+
+  sideBtns.style.top = '30px';
   btndeleteContainer.style.display = 'block';
-  navibtn.style.display = 'none';
-  selectbtn.style.display = 'block';
+  naviModeBtn.style.display = 'none';
+  naviStartBtn.style.display = 'block';
+  naviExitBtn.style.display = 'block';
 }
 
 function onClick(e) {
-  if(roadcount != 0){
+  if (roadcount != 0) {
     // 클릭한 위치에 새로 마커를 찍기 위해 이전에 있던 마커들을 제거
     removeMarkers();
 
     lonlat = e.latLng;
-    
+
     var count = 0;
-	  for (var i = 0; i < 1; i++) {
-		  for (var j = 0; j < 1; j++) {
+    for (var i = 0; i < 1; i++) {
+      for (var j = 0; j < 1; j++) {
         marker = new Tmapv2.Marker({
-        position: new Tmapv2.LatLng(lonlat.lat(), lonlat.lng()), //Marker의 중심좌표 설정.
-        map: map, //Marker가 표시될 Map 설정.
-      });
-      infoWindows1.push(infoWindow);
-      if(infoWindows1[count] != null){
-        infoWindows1[count].setVisible(false);
-      }
-      if (roadcount != 0) {
-        let content =
-          "<div class='info_container' style='position: static; display: flex; flex-direction: column; font-size: 18px; box-shadow: 5px 5px 5px #00000040; border-radius: 10px; top: 410px; left : 800px; width : 170px; background: #FFFFFF 0% 0% no-repeat padding-box;'>" +
-          "<a class='btn-close' style='position: absolute; top: 5px; right: 5px; display: block; width: 15px; height: 15px; background: url(static/img/x.png) center;' href='javascript:void(0)' onclick='onClose("+count+")' ></a>" +
-          "<div class='info-box'>" +
-          "<p style='display: block;height: 20px;padding-right:20px;padding-top:5px; padding-left: 15px;font-size: 13px; color: #444;' ><a href='javascript:void(0);' onclick='startFn(" +
-          lonlat.lat()+
-          ',' +
-          lonlat.lng() +
-          "); onClose("+count+");'>여기를 출발지로 지정</a></p>" +
-          "<p style='display: block;height: 20px;padding-right:20px; padding-left: 15px;font-size: 13px; color: #444;' ><a href='javascript:void(0);' onclick='destinationFn(" +
-          lonlat.lat() +
-          ',' +
-          lonlat.lng() +
-          "); onClose("+count+");'>여기를 목적지로 지정</a></p>" +
-          '</div>' +
-          "<a href='javascript:void(0)' onclick='onClose("+count+")' class='btn-close' style='position: absolute; top: 10px; right: 10px; display: block; width: 15px; height: 15px; background: url(resources/images/sample/btn-close-w.svg) no-repeat center;'></a>" +
-          '</div>' +
-          '</div>';
+          position: new Tmapv2.LatLng(lonlat.lat(), lonlat.lng()), //Marker의 중심좌표 설정.
+          map: map, //Marker가 표시될 Map 설정.
+        });
+        infoWindows1.push(infoWindow);
+        if (infoWindows1[count] != null) {
+          infoWindows1[count].setVisible(false);
+        }
+        if (roadcount != 0) {
+          let content =
+            "<div class='info_container' style='position: static; display: flex; flex-direction: column; font-size: 18px; box-shadow: 5px 5px 5px #00000040; border-radius: 10px; top: 410px; left : 800px; width : 170px; background: #FFFFFF 0% 0% no-repeat padding-box;'>" +
+            "<a class='btn-close' style='position: absolute; top: 5px; right: 5px; display: block; width: 15px; height: 15px; background: url(static/img/x.png) center;' href='javascript:void(0)' onclick='onClose(" +
+            count +
+            ")' ></a>" +
+            "<div class='info-box'>" +
+            "<p style='display: block;height: 20px;padding-right:20px;padding-top:5px; padding-left: 15px;font-size: 13px; color: #444;' ><a href='javascript:void(0);' onclick='startFn(" +
+            lonlat.lat() +
+            ',' +
+            lonlat.lng() +
+            '); onClose(' +
+            count +
+            ");'>여기를 출발지로 지정</a></p>" +
+            "<p style='display: block;height: 20px;padding-right:20px; padding-left: 15px;font-size: 13px; color: #444;' ><a href='javascript:void(0);' onclick='destinationFn(" +
+            lonlat.lat() +
+            ',' +
+            lonlat.lng() +
+            '); onClose(' +
+            count +
+            ");'>여기를 목적지로 지정</a></p>" +
+            '</div>' +
+            "<a href='javascript:void(0)' onclick='onClose(" +
+            count +
+            ")' class='btn-close' style='position: absolute; top: 10px; right: 10px; display: block; width: 15px; height: 15px; background: url(resources/images/sample/btn-close-w.svg) no-repeat center;'></a>" +
+            '</div>' +
+            '</div>';
           infoWindows1[count] = new Tmapv2.InfoWindow({
             position: lonlat, //Popup 이 표출될 맵 좌표
             content: content, //Popup 표시될 text
             type: 2, //Popup의 type 설정.
             border: '0px solid #FF0000',
             map: map, //Popup이 표시될 맵 객체
-            });
+          });
           markers2.push(marker);
-          count++;   
-          removecount = 1;  
+          count++;
+          removecount = 1;
         }
       }
     }
@@ -337,12 +352,10 @@ function removeMarkers() {
 }
 
 function onClose(count) {
-  console.log(count);
   infoWindows1[count].setVisible(false);
 }
 
 function onClose2(count) {
-  console.log(count);
   infoWindows2[count].setVisible(false);
 }
 
@@ -398,7 +411,6 @@ function bottomSheetEvent() {
   report.classList.remove('init');
   report.classList.toggle('down');
   report.classList.toggle('up');
-  
 }
 
 infoSummary.addEventListener('click', () => {
@@ -474,33 +486,40 @@ function initTmap() {
 
         var count = 0;
         infoWindows2.push(infoWindow);
-        if(infoWindows2[count] != null){
+        if (infoWindows2[count] != null) {
           infoWindows2[count].setVisible(false);
         }
         if (roadcount != 0) {
           let content =
             "<div class='info_container' style='position: static; display: flex; flex-direction: column; font-size: 18px; box-shadow: 5px 5px 5px #00000040; border-radius: 10px; top: 410px; left : 800px; width : 170px; background: #FFFFFF 0% 0% no-repeat padding-box;'>" +
-            "<a class='btn-close' style='position: absolute; top: 5px; right: 5px; display: block; width: 15px; height: 15px; background: url(static/img/x.png) center;' href='javascript:void(0)' onclick='onClose2("+count+")' ></a>" +
+            "<a class='btn-close' style='position: absolute; top: 5px; right: 5px; display: block; width: 15px; height: 15px; background: url(static/img/x.png) center;' href='javascript:void(0)' onclick='onClose2(" +
+            count +
+            ")' ></a>" +
             "<div class='info-box'>" +
             "<p style='display: block;height: 20px;padding-right:20px;padding-top:5px; padding-left: 15px;font-size: 13px; color: #444;' ><a href='javascript:void(0);' onclick='startFn(" +
-            marker._marker_data.options.position._lat+
+            marker._marker_data.options.position._lat +
             ',' +
             marker._marker_data.options.position._lng+
             "); onClose2("+count+");'>여기를 출발지로 지정</a></p>" +
-            "<p style='display: block;height: 20px;padding-right:20px; padding-left: 15px;font-size: 13px; color: #444;' ><a href='javascript:void(0);' onclick='passFn(" +
+            "<p style='display: block;height: 20px;padding-right:20px; padding-left: 15px;font-size: 13px; color: #444;' ><a href='javascript:void(0);' onclick='if(passList.length < 12){passFn(" +
               marker._marker_data.options.position._lat +
               ',' +
               marker._marker_data.options.position._lng +
-              "); onClose2("+count+");'>여기를 경유지로 지정</a></p>" +
+              ");} onClose2("+count+");'>여기를 경유지로 지정</a></p>" +
             "<p style='display: block;height: 20px;padding-right:20px; padding-left: 15px;font-size: 13px; color: #444;' ><a href='javascript:void(0);' onclick='destinationFn(" +
             marker._marker_data.options.position._lat +
             ',' +
             marker._marker_data.options.position._lng +
-            "); onClose2("+count+");'>여기를 목적지로 지정</a></p>" +
+            '); onClose2(' +
+            count +
+            ");'>여기를 목적지로 지정</a></p>" +
             '</div>' +
-            "<a href='javascript:void(0)' onclick='onClose2("+count+")' class='btn-close' style='position: absolute; top: 10px; right: 10px; display: block; width: 15px; height: 15px; background: url(resources/images/sample/btn-close-w.svg) no-repeat center;'></a>" +
+            "<a href='javascript:void(0)' onclick='onClose2(" +
+            count +
+            ")' class='btn-close' style='position: absolute; top: 10px; right: 10px; display: block; width: 15px; height: 15px; background: url(resources/images/sample/btn-close-w.svg) no-repeat center;'></a>" +
             '</div>' +
             '</div>';
+          
             infoWindows2[count] = new Tmapv2.InfoWindow({
               position: new Tmapv2.LatLng(
                 marker._marker_data.options.position._lat,
@@ -512,10 +531,7 @@ function initTmap() {
               });
             count++;     
         }
-          //Popup 객체 생성.
-
-        }
-      )
+      })
     );
     // Marker에 터치이벤트 등록.
     markers.forEach((marker) =>
@@ -722,7 +738,7 @@ function initTmap() {
     alert('onError');
   }
 
-  $('#btn_select').click(function () {
+  $(naviStartBtn).click(function () {
     $.ajax({
       method: 'POST',
       url: 'https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&format=json&callback=result',
@@ -741,7 +757,6 @@ function initTmap() {
       },
       success: function (response) {
         let resultData = response.features;
-        
 
         //기존 그려진 라인 & 마커가 있다면 초기화
         if (resultdrawArr.length > 0) {
@@ -830,7 +845,6 @@ function initTmap() {
       },
     });
   });
-
 
   function drawLine(arrPoint) {
     let polyline_;
