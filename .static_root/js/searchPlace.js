@@ -7,7 +7,7 @@ searchKeyword.addEventListener('keyup', searchPlace);
 // 검색어 부분이 아닌 다른 외부의 모든 것(document)을 눌렀을 때, 검색 결과창이 사라지도록...
 document.addEventListener('click', hideSearchResult);
 
-// let resultCnt = 1;
+let resultCnt = 1;
 let markerArr = [];
 
 function searchPlace() {
@@ -56,6 +56,7 @@ function searchPlace() {
 function enterKey() {
   let searchText = document.querySelector('.searchKeyword').value;
   searchPOI(searchText);
+  --resultCnt;
 }
 
 

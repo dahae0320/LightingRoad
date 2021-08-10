@@ -117,8 +117,12 @@ function startFn(lat, lng) {
 }
 
 function passFn(lat, lng) {
-    passList.push(lat);
-    passList.push(lng);
+  passList.push(lat);
+  passList.push(lng);
+
+
+  console.log(passList);
+
   if (passList.length > 12) {
     Pass = '';
     passList = [];
@@ -131,10 +135,11 @@ function passFn(lat, lng) {
       }
     }
   }
+  console.log(passList.length);
   if (passList.length == 2) {
     marker_pass1 = new Tmapv2.Marker({
       position: new Tmapv2.LatLng(lat, lng),
-      icon: "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_1.png",
+      icon: 'http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_1.png',
       iconSize: new Tmapv2.Size(24, 38),
       map: map,
     }); //경유지 마커 생성
@@ -142,7 +147,7 @@ function passFn(lat, lng) {
   } else if (passList.length == 4) {
     marker_pass2 = new Tmapv2.Marker({
       position: new Tmapv2.LatLng(lat, lng),
-      icon: "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_2.png",
+      icon: 'http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_2.png',
       iconSize: new Tmapv2.Size(24, 38),
       map: map,
     }); //경유지 마커 생성
@@ -150,7 +155,7 @@ function passFn(lat, lng) {
   } else if (passList.length == 6) {
     marker_pass3 = new Tmapv2.Marker({
       position: new Tmapv2.LatLng(lat, lng),
-      icon: "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_3.png",
+      icon: 'http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_3.png',
       iconSize: new Tmapv2.Size(24, 38),
       map: map,
     }); //경유지 마커 생성
@@ -158,7 +163,7 @@ function passFn(lat, lng) {
   } else if (passList.length == 8) {
     marker_pass4 = new Tmapv2.Marker({
       position: new Tmapv2.LatLng(lat, lng),
-      icon: 'http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_4.png',
+      icon: 'http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_4.png',
       iconSize: new Tmapv2.Size(24, 38),
       map: map,
     }); //경유지 마커 생성
@@ -166,14 +171,12 @@ function passFn(lat, lng) {
   } else if (passList.length == 10){
     marker_pass5 = new Tmapv2.Marker({
       position: new Tmapv2.LatLng(lat, lng),
-      icon: 'http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_5.png',
+      icon: 'http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_5.png',
       iconSize: new Tmapv2.Size(24, 38),
       map: map,
     }); //경유지 마커 생성
     passArr.push(marker_pass5);
     alert("마지막 경유지 선택입니다.(5곳만 경유 가능합니다.)");
-  } else{ 
-    alert("❌길찾기 종료 후 다시 경로를 입력바랍니다.❌")
   }
 }
 
@@ -265,6 +268,7 @@ function optiondelete() {
 
 function naviStart() {
   roadcount = 1;
+  console.log(roadcount);
   map.addListener('contextmenu', onClick);
   bottomSheet.style.display = 'none';
   searchBox.style.display = 'none';
@@ -336,10 +340,12 @@ function removeMarkers() {
 }
 
 function onClose(count) {
+  console.log(count);
   infoWindows1[count].setVisible(false);
 }
 
 function onClose2(count) {
+  console.log(count);
   infoWindows2[count].setVisible(false);
 }
 
@@ -482,11 +488,11 @@ function initTmap() {
             ',' +
             marker._marker_data.options.position._lng+
             "); onClose2("+count+");'>여기를 출발지로 지정</a></p>" +
-            "<p style='display: block;height: 20px;padding-right:20px; padding-left: 15px;font-size: 13px; color: #444;' ><a href='javascript:void(0);' onclick='if(passList.length < 12){passFn(" +
+            "<p style='display: block;height: 20px;padding-right:20px; padding-left: 15px;font-size: 13px; color: #444;' ><a href='javascript:void(0);' onclick='passFn(" +
               marker._marker_data.options.position._lat +
               ',' +
               marker._marker_data.options.position._lng +
-              ");} onClose2("+count+");'>여기를 경유지로 지정</a></p>" +
+              "); onClose2("+count+");'>여기를 경유지로 지정</a></p>" +
             "<p style='display: block;height: 20px;padding-right:20px; padding-left: 15px;font-size: 13px; color: #444;' ><a href='javascript:void(0);' onclick='destinationFn(" +
             marker._marker_data.options.position._lat +
             ',' +
@@ -509,7 +515,16 @@ function initTmap() {
         }
           //Popup 객체 생성.
 
-         
+          infoWindow = new Tmapv2.InfoWindow({
+            position: new Tmapv2.LatLng(
+              marker._marker_data.options.position._lat,
+              marker._marker_data.options.position._lng
+            ), //Popup 이 표출될 맵 좌표
+            content: content, //Popup 표시될 text
+            type: 2, //Popup의 type 설정.
+            border: '0px solid #FF0000',
+            map: map, //Popup이 표시될 맵 객체
+          });
         }
       )
     );
