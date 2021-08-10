@@ -32,14 +32,20 @@ body {
   z-index: 1;
 }
 
+.search-box .search {
+  width: 100%;
+}
+
 .search-box .search i {
   margin-right: 8px;
   color: #2539a0;
 }
 
 .search-box .search input.searchKeyword {
+  width: calc(100% - 40px);
   border: none;
-  /* font-size: 18px; */
+  font-size: 18px;
+  outline: none;
 }
 
 .search-box .search input::placeholder {
