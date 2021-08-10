@@ -1,16 +1,19 @@
 const searchKeyword = document.querySelector('.searchKeyword');
 const searchResult = document.querySelector('.searchResult');
 
-searchKeyword.addEventListener('keypress', enterKey);
 searchKeyword.addEventListener('keyup', searchPlace);
 
 // 검색어 부분이 아닌 다른 외부의 모든 것(document)을 눌렀을 때, 검색 결과창이 사라지도록...
 document.addEventListener('click', hideSearchResult);
 
-// let resultCnt = 1;
+
 let markerArr = [];
 
-function searchPlace() {
+function searchPlace(event) {
+  if (event.key == 'Enter') {
+    searchPOI(searchKeyword.value);
+    return;
+  }
 
   $(".searchKeyword").on("propertychange keydown paste input", function () {
     searchResult.style.display = 'block';
@@ -25,7 +28,7 @@ function searchPlace() {
       "searchKeyword": searchKeyword.value,
       "resCoordType": "EPSG3857",
       "reqCoordType": "WGS84GEO",
-      "resultCnt": 10
+      "count": 10,
     },
     success: function (response) {
       if (response != undefined) {
@@ -47,17 +50,16 @@ function searchPlace() {
       }
     },
     error: function (request, status, error) {
-      console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+      // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
     }
   });
 }
 
 
-function enterKey() {
-  let searchText = document.querySelector('.searchKeyword').value;
-  searchPOI(searchText);
-}
 
+function pressEnter() {
+  searchPOI(searchKeyword.value);
+}
 
 function hideSearchResult() {
   searchResult.style.display = "none";
@@ -71,6 +73,7 @@ function moveToSearchPlace(lat, lng) {
 //특정 장소를 검색하는 함수입니다.
 function searchPOI(search) {
   hideSearchResult();
+
   let optionObj = {
     reqCoordType: "WGS84GEO", //요청 좌표계 옵션 설정입니다.
     resCoordType: "WGS84GEO",  //응답 좌표계 옵션 설정입니다.
@@ -99,12 +102,8 @@ function onComplete() {
   markerArr.push(marker);
   map.setZoom(16);
 }
-
-//데이터 로드중 실행하는 함수입니다.
 function onProgress() {
 }
-
-//데이터 로드 중 에러가 발생시 실행하는 함수입니다.
 function onError() {
   alert("onError");
 }

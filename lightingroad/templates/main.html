@@ -30,17 +30,14 @@
   <div class="search-box">
     <div class="search">
       <i class="fas fa-map-marked-alt"></i>
-      <input class="searchKeyword" type="search" style="width: 250px;" autocapitalize="off"
-        onkeyup="if(event.key == '13'){enterKey()}" placeholder="장소, 주소 검색">
+      <input class="searchKeyword" type="search" style="width: 250px; outline: none;" autocapitalize="off" placeholder="장소, 주소 검색">
     </div>
-    <i class="fas fa-search" onclick="enterKey()"></i>
+    <i class="fas fa-search" onclick="pressEnter()"></i>
   </div>
-
 
   <div class="search-result-box">
     <ul class="searchResult" name="searchResult" style="display: none;"></ul>
   </div>
-
 
   <div class="reload">
     <button class="reload-btn">
@@ -52,18 +49,15 @@
     </button>
   </div>
 
-  <div class="side">
-    <a href="javascript:void(0);" onclick="tonowposition();">
-      <img class="now" src="{% static 'img/nowposition.png' %}" alt="now position">
-    </a>
+  <div class="side-btns">
+    <img class="current-location-btn" src="{% static 'img/current-location.png' %}" alt="now position"
+      href="javascript:void(0);" onclick="tonowposition();">
+    <img class="navi-mode-btn" src="{% static 'img/navi-mode.png' %}" alt="" onclick="naviStart()">
+    <img class="navi-start-btn" src="{% static 'img/navi-start.png' %}" alt="" onclick="naviStart()">
+    <img class="navi-exit-btn" src="{% static 'img/navi-exit.png' %}" alt="" onclick="optiondelete()">
   </div>
 
-  
-
   <div class="delete_container">
-    <div class="delete_con">
-      <button class="btn_delete" onclick="optiondelete()"><img src="{% static 'img/marker_x.png' %}" alt=""></button>
-    </div>
     <a href="tel:112">
       <img class="police" src="{% static 'img/police.png' %}" alt="police image">
     </a>
@@ -73,11 +67,6 @@
     <a href="tel:112">
       <img class="report init down" src="{% static 'img/police.png' %}" alt="police image">
     </a>
-    <div class="navi">
-      <button class="navi_start" onclick="naviStart()">
-        <img src="{% static 'img/navi_start.png' %}" alt="">
-      </button>
-    </div>
     <div class="info-summary">
       <span class="loca">마커를 클릭해보세요😀</span>
       <div class="eval-avg">
@@ -106,8 +95,5 @@
     </div>
   </footer>
 </body>
-<div class="map_act_btn_wrap clear_box"></div>
-<button id="btn_select"><img src="{% static 'img/navi.png' %}" alt=""></button>
-<p id="result"></p>
 
 </html>
