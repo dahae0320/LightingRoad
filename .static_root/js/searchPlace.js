@@ -11,6 +11,7 @@ let resultCnt = 1;
 let markerArr = [];
 
 function searchPlace() {
+
   $(".searchKeyword").on("propertychange keydown paste input", function () {
     searchResult.style.display = 'block';
   });
@@ -46,7 +47,7 @@ function searchPlace() {
       }
     },
     error: function (request, status, error) {
-      // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+      console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
     }
   });
 }
