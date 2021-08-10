@@ -57,7 +57,7 @@ body {
   color: #2539a0;
 }
 
-.search-box .search input {
+.search-box .search input.searchKeyword {
   border: none;
   /* font-size: 18px; */
 }
