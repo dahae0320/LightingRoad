@@ -1,21 +1,17 @@
 const searchKeyword = document.querySelector('.searchKeyword');
 const searchResult = document.querySelector('.searchResult');
 
-// searchKeyword.addEventListener('keypress', pressEnter);
-searchKeyword.addEventListener('keyup', function() { searchPlace(e) });
+searchKeyword.addEventListener('keyup', searchPlace);
 
 // 검색어 부분이 아닌 다른 외부의 모든 것(document)을 눌렀을 때, 검색 결과창이 사라지도록...
 document.addEventListener('click', hideSearchResult);
 
-// let resultCnt = 1;
 let markerArr = [];
 
-function searchPlace(e) {
-  // onkeyup="if(event.key == '13'){pressEnter()}" 
-  if (e.key == '13') {
-    // pressEnter();
+function searchPlace(event) {
+  if (event.key == 'Enter') {
     searchPOI(searchKeyword.value);
-    break;
+    return;
   }
 
   $(".searchKeyword").on("propertychange keydown paste input", function () {
@@ -31,7 +27,7 @@ function searchPlace(e) {
       "searchKeyword": searchKeyword.value,
       "resCoordType": "EPSG3857",
       "reqCoordType": "WGS84GEO",
-      "resultCnt": 10
+      "count": 10,
     },
     success: function (response) {
       if (response != undefined) {
@@ -72,7 +68,7 @@ function moveToSearchPlace(lat, lng) {
   map.panTo(latLng);
 }
 
-//특정 장소를 검색하는 함수
+//특정 장소를 검색하는 함수입니다.
 function searchPOI(search) {
   hideSearchResult();
 
