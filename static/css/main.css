@@ -13,26 +13,6 @@ body {
   height: 100vh;
 }
 
-/* 거리표시 팝업*/
-.mPop {
-  border: 1px;
-  background-color: #fff;
-  font-size: 12px;
-  border-color: #ff0000;
-  border-style: solid;
-  text-align: center;
-}
-
-/*공통사용 클래스*/
-.mPopStyle {
-  border: 1px;
-  background-color: #fff;
-  font-size: 12px;
-  border-color: #ff0000;
-  border-style: solid;
-  text-align: left;
-}
-
 .search-box {
   box-sizing: border-box;
   display: flex;
@@ -52,14 +32,20 @@ body {
   z-index: 1;
 }
 
+.search-box .search {
+  width: 100%;
+}
+
 .search-box .search i {
   margin-right: 8px;
   color: #2539a0;
 }
 
-.search-box .search input {
+.search-box .search input.searchKeyword {
+  width: calc(100% - 40px);
   border: none;
-  /* font-size: 18px; */
+  font-size: 18px;
+  outline: none;
 }
 
 .search-box .search input::placeholder {
@@ -102,6 +88,7 @@ body {
   display: flex !important;
   justify-content: center !important;
 }
+
 .reload-btn {
   box-sizing: border-box;
   display: flex;
@@ -138,67 +125,41 @@ body {
   font-weight: 700;
 }
 
-.now {
+.side-btns {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
   position: fixed;
   top: 100px;
-  right: 8px;
-  width: 60px;
-  border-radius: 10px;
+  right: 5%;
+  margin: 0 auto;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.side-btns .current-location-btn,
+.side-btns .navi-mode-btn,
+.side-btns .navi-start-btn,
+.side-btns .navi-exit-btn {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 12px;
+  border-radius: 100px;
+  box-shadow: 8px 8px 8px 0px rgba(1, 0, 0, 0.25);
   cursor: pointer;
 }
 
-.navi {
-  display: flex;
-  justify-content: center;
-  z-index: 100;
-}
-
-.navi_start {
-  display: block;
-  position: absolute;
-  bottom: 240px;
-  border-radius: 10px;
-  cursor: pointer;
-  border: 0;
-  outline: 0;
-  background-color: transparent;
-}
-
-#btn_select {
+.side-btns .navi-start-btn,
+.side-btns .navi-exit-btn {
   display: none;
-  position: fixed;
-  top: 165px;
-  right: 5px;
-  border-radius: 10px;
-  cursor: pointer;
-  border: 0;
-  outline: 0;
-  background-color: transparent;
 }
 
 .delete_container {
   display: none;
 }
 
-.delete_con {
-  display: flex;
-  justify-content: center;
-  z-index: 100;
-}
-
-.btn_delete {
-  position: fixed;
-  bottom: 60px;
-  border-radius: 10px;
-  cursor: pointer;
-  border: 0;
-  outline: 0;
-  background-color: transparent;
-}
-
 .police {
   position: fixed;
-  bottom: 100px;
+  bottom: 16px;
   right: 8px;
   width: 60px;
   border-radius: 10px;
