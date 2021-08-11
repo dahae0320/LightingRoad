@@ -554,7 +554,7 @@ function initTmap() {
         if (roadcount != 0) {
           let content =
             "<div class='info_container' style='position: static; display: flex; flex-direction: column; font-size: 18px; box-shadow: 5px 5px 5px #00000040; border-radius: 10px; top: 410px; left : 800px; width : 170px; background: #FFFFFF 0% 0% no-repeat padding-box;'>" +
-            "<a class='btn-close' style='position: absolute; top: 5px; right: 5px; display: block; width: 15px; height: 15px; background: url(static/img/x.png) center;' href='javascript:void(0)' onclick='onClose2(" +
+            "<a class='btn-close' style='position: absolute; top: 5px; right: 5px; display: block; width: 15px; height: 15px; background: url(static/img/x.png) center;' href='javascript:void(0)' ontouchstart='onClose2(" +
             count +
             ")' ></a>" +
             "<div class='info-box'>" +
