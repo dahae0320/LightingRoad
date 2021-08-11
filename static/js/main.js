@@ -443,7 +443,6 @@ function initTmap() {
   var touchduration = 1000; //length of time we want the user to touch before we do something
 
   function touchstart() {
-    alert('test1');
     timer = setTimeout(onlongtouch, touchduration);
   }
 
@@ -455,7 +454,7 @@ function initTmap() {
   }
 
   function onlongtouch(e) {
-    alert('test2');
+    alert('test');
     //롱터치 실행 시 기능들
     if (roadcount != 0) {
       // 클릭한 위치에 새로 마커를 찍기 위해 이전에 있던 마커들을 제거
