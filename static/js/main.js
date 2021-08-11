@@ -859,7 +859,19 @@ function initTmap() {
   }
 
   // gps가져오는 부분
-  navigator.geolocation.getCurrentPosition(function (position) {
+  // navigator.geolocation.getCurrentPosition(function (position) {
+  //   var gpslat = position.coords.latitude;
+  //   var gpslng = position.coords.longitude;
+  //   marker = new Tmapv2.Marker({
+  //     position: new Tmapv2.LatLng(gpslat, gpslng), //Marker의 중심좌표 설정.
+  //     icon: '/static/img/GPS-sm.png',
+  //     map: map, //Marker가 표시될 Map 설정.
+  //   });
+  //   markers2.push(marker);
+    
+  // });
+
+  navigator.geolocation.watchPosition(function (position) {
     var gpslat = position.coords.latitude;
     var gpslng = position.coords.longitude;
     marker = new Tmapv2.Marker({
@@ -871,8 +883,18 @@ function initTmap() {
   });
 }
 
+// function tonowposition() {
+//   navigator.geolocation.getCurrentPosition(function (position) {
+//     var lonlat = new Tmapv2.LatLng(
+//       position.coords.latitude,
+//       position.coords.longitude
+//     );
+//     map.setCenter(lonlat); // 지도의 중심 좌표를 설정합니다.
+//   });
+// }
+
 function tonowposition() {
-  navigator.geolocation.getCurrentPosition(function (position) {
+  navigator.geolocation.watchPosition(function (position) {
     var lonlat = new Tmapv2.LatLng(
       position.coords.latitude,
       position.coords.longitude
