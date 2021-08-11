@@ -435,25 +435,24 @@ function initTmap() {
 
   map.addListener('dragend', onDragend);
   map.addListener('touchend', onTouchend);
-  map.addListener('touchstart', onlongtouch);
-  // map.addListener('touchstart', touchstart);
-  // map.addListener('touchend', touchend);
+  map.addListener('touchstart', touchstart);
+  map.addListener('touchend', touchend);
 
-  // var onlongtouch;
-  // var timer;
-  // var touchduration = 1000; //length of time we want the user to touch before we do something
+  var onlongtouch; 
+  var timer;
+  var touchduration = 1000; //length of time we want the user to touch before we do something
 
-  // touchstart() {
-  //   timer = setTimeout(onlongtouch, touchduration);
-  // }
+  touchstart() {
+    timer = setTimeout(onlongtouch, touchduration); 
+  }
 
-  // touchend() {
-  //   //stops short touches from firing the event
-  //   if (timer)
-  //     clearTimeout(timer); // clearTimeout, not cleartimeout..
-  // }
+  touchend() {
+    //stops short touches from firing the event
+    if (timer)
+      clearTimeout(timer); // clearTimeout, not cleartimeout..
+  }
 
-  function onlongtouch(e) {
+  onlongtouch = function (e) {
     //롱터치 실행 시 기능들
     if (roadcount != 0) {
       // 클릭한 위치에 새로 마커를 찍기 위해 이전에 있던 마커들을 제거
@@ -514,7 +513,7 @@ function initTmap() {
         }
       }
     }
-  }
+  };
 
   let markers = [];
   let markers2 = [];
