@@ -443,7 +443,7 @@ function initTmap() {
   var touchduration = 1000; //length of time we want the user to touch before we do something
 
   function touchstart() {
-    timer = setTimeout(onlongtouch, touchduration);
+    timer = setTimeout(onClick, touchduration);
   }
 
   function touchend() {
@@ -453,69 +453,10 @@ function initTmap() {
     }
   }
 
-  function onlongtouch(e) {
-    alert('test');
-    //롱터치 실행 시 기능들
-    if (roadcount != 0) {
-      // 클릭한 위치에 새로 마커를 찍기 위해 이전에 있던 마커들을 제거
-      removeMarkers();
-
-      lonlat = e.latLng;
-
-      var count = 0;
-      for (var i = 0; i < 1; i++) {
-        for (var j = 0; j < 1; j++) {
-          marker = new Tmapv2.Marker({
-            position: new Tmapv2.LatLng(lonlat.lat(), lonlat.lng()), //Marker의 중심좌표 설정.
-            map: map, //Marker가 표시될 Map 설정.
-          });
-          infoWindows1.push(infoWindow);
-          if (infoWindows1[count] != null) {
-            infoWindows1[count].setVisible(false);
-          }
-          if (roadcount != 0) {
-            let content =
-              "<div class='info_container' style='position: static; display: flex; flex-direction: column; font-size: 18px; box-shadow: 5px 5px 5px #00000040; border-radius: 10px; top: 410px; left : 800px; width : 170px; background: #FFFFFF 0% 0% no-repeat padding-box;'>" +
-              "<a class='btn-close' style='position: absolute; top: 5px; right: 5px; display: block; width: 15px; height: 15px; background: url(static/img/x.png) center;' href='javascript:void(0)' onclick='onClose(" +
-              count +
-              ")' ></a>" +
-              "<div class='info-box'>" +
-              "<p style='display: block;height: 20px;padding-right:20px;padding-top:5px; padding-left: 15px;font-size: 13px; color: #444;' ><a href='javascript:void(0);' onclick='startFn(" +
-              lonlat.lat() +
-              ',' +
-              lonlat.lng() +
-              '); onClose(' +
-              count +
-              ");'>여기를 출발지로 지정</a></p>" +
-              "<p style='display: block;height: 20px;padding-right:20px; padding-left: 15px;font-size: 13px; color: #444;' ><a href='javascript:void(0);' onclick='destinationFn(" +
-              lonlat.lat() +
-              ',' +
-              lonlat.lng() +
-              '); onClose(' +
-              count +
-              ");'>여기를 목적지로 지정</a></p>" +
-              '</div>' +
-              "<a href='javascript:void(0)' onclick='onClose(" +
-              count +
-              ")' class='btn-close' style='position: absolute; top: 10px; right: 10px; display: block; width: 15px; height: 15px; background: url(resources/images/sample/btn-close-w.svg) no-repeat center;'></a>" +
-              '</div>' +
-              '</div>';
-            infoWindows1[count] = new Tmapv2.InfoWindow({
-              position: lonlat, //Popup 이 표출될 맵 좌표
-              content: content, //Popup 표시될 text
-              type: 2, //Popup의 type 설정.
-              border: '0px solid #FF0000',
-              map: map, //Popup이 표시될 맵 객체
-              setVisible: true,
-            });
-            markers2.push(marker);
-            count++;
-            removecount = 1;
-          }
-        }
-      }
-    }
-  }
+  // function onlongtouch(e) {
+  //   alert('test');
+  //   onClick();
+  // }
 
   let markers = [];
   let markers2 = [];
