@@ -443,19 +443,17 @@ function initTmap() {
   var touchduration = 1000; //length of time we want the user to touch before we do something
 
   function touchstart() {
-    onClick();
-    // timer = setTimeout(onClick, touchduration);
+    timer = setTimeout(onClick(), touchduration);
   }
 
-  // function touchend() {
-  //   //stops short touches from firing the event
-  //   if (timer) {
-  //     clearTimeout(timer); // clearTimeout, not cleartimeout..
-  //   }
-  // }
+  function touchend() {
+    //stops short touches from firing the event
+    if (timer) {
+      clearTimeout(timer); // clearTimeout, not cleartimeout..
+    }
+  }
 
   // function onlongtouch(e) {
-  //   alert('test');
   //   onClick();
   // }
 
