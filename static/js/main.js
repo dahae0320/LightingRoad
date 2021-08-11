@@ -438,21 +438,24 @@ function initTmap() {
   map.addListener('touchstart', touchstart);
   map.addListener('touchend', touchend);
 
-  var onlongtouch; 
+  var onlongtouch;
   var timer;
   var touchduration = 1000; //length of time we want the user to touch before we do something
 
-  touchstart() {
-    timer = setTimeout(onlongtouch, touchduration); 
+  function touchstart() {
+    alert('test1');
+    timer = setTimeout(onlongtouch, touchduration);
   }
 
-  touchend() {
+  function touchend() {
     //stops short touches from firing the event
-    if (timer)
+    if (timer) {
       clearTimeout(timer); // clearTimeout, not cleartimeout..
+    }
   }
 
-  onlongtouch = function (e) {
+  function onlongtouch(e) {
+    alert('test2');
     //롱터치 실행 시 기능들
     if (roadcount != 0) {
       // 클릭한 위치에 새로 마커를 찍기 위해 이전에 있던 마커들을 제거
@@ -513,7 +516,7 @@ function initTmap() {
         }
       }
     }
-  };
+  }
 
   let markers = [];
   let markers2 = [];
